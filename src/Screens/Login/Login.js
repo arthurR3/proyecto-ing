@@ -54,7 +54,7 @@ const Login = () => {
   }
 
   return (
-    <div className='wrapper d-flex align-items-center justify-content-center w-200 mt-4'>
+    <div className='wrapper d-flex align-items-center justify-content-center w-100 mt-4'>
       <div className='login rounded align-text-center'>
         <h2 className='mb-3 text-center'>Inicio de Sesión</h2>
         <form className='needs-validation'>

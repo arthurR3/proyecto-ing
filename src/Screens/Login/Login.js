@@ -2,6 +2,7 @@ import React from 'react';
 import '../../CSS/NavBar.css';
 import '../../CSS/Login.css';
 import { Link } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 
 const Login = () => {
@@ -38,7 +39,6 @@ const Login = () => {
 
   function handleBlur() {
     const emailHasError = !emailRegexp.test(credentials.email.value);
-    const passwordHasError = credentials.password.value.length < minPassword;
 
     setCredentials((prevCredentials) => ({
       ...prevCredentials,
@@ -48,9 +48,12 @@ const Login = () => {
       },
       password: {
         ...prevCredentials.password,
-        hasError: passwordHasError,
       },
     }));
+  }
+
+  const handleSubmit = ()=>{
+      
   }
 
   return (
@@ -88,24 +91,20 @@ const Login = () => {
             </label>
             <input
               id='password'
-              className={`form-control ${credentials.password.hasError ? 'is-invalid' : ''}`}
+              className={`form-control`}
               type='password'
               name='password'
               value={credentials.password.value}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {credentials.password.hasError && (
-              <div className='invalid-feedback'>
-                La contraseña debe tener al menos {minPassword} caracteres.
-              </div>
-            )}
           </div>
           <div>
             <button type='button ' className='btn btn-success mt-2'>
               Iniciar sesión
             </button>
-            <Link to='Recuperacion' className='fw-bold p-3 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
+            <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM"  className='pt-2'/>
+            <Link to='/login/recuperacion' className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
             <div className='mt-3'>
               <p className='mb-0 text-align-center'>¿Aun no tienes cuenta?
                 <Link to='/register' className='fw-bold p-2 text-decoration-none'>Crear Cuenta</Link>

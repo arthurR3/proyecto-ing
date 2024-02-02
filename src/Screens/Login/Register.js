@@ -3,8 +3,6 @@ import '../../CSS/NavBar.css';
 import '../../CSS/Login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import bcrypt from'bcrypt';
-const saltRounds = 10;
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 const minPassword = 8;
 
@@ -180,7 +178,7 @@ const Register = () => {
             last_name2: ApMaterno,
             phone: telefono,
             email: credentials.email.value,
-            password: bcrypt.hash(credentials.password.value, saltRounds),
+            password:credentials.password.value,
             cp: codigoPostal,
             address: colonia,
 

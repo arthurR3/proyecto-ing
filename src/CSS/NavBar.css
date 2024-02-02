@@ -4,6 +4,15 @@
     font-size: 18px;
     font-weight: 600;
 }
+.fondo{
+    margin-top: auto;
+    margin: auto;
+    height: auto;
+    background:linear-gradient(90deg, rgb(26, 17, 73) 0%, rgb(28,27,27) 100%);
+}
+.h5{
+    color:#FFBF00;
+}
 .calendr-btn{
     display: inline-block;
     padding: 10px 20px;

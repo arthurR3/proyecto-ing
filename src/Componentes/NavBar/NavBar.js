@@ -7,7 +7,11 @@ import { Link } from 'react-router-dom';
 import { FormControl } from 'react-bootstrap';
 
 
-const NavBar = () => {
+const NavBar = ({ onSearch }) => {
+    const hadleSearch = (e) => {
+        const term = e.target.value;
+        onSearch(term);
+    };
     return (
         <div>
             <Navbar expand='lg' className='NavbarItems fixed-top'>
@@ -23,6 +27,7 @@ const NavBar = () => {
                             type='text'
                             placeholder='Buscar...'
                             className='mr-sm-5'
+                            onChange={hadleSearch}
                         />
                         <Nav className=' nav-menu active'>
                             {MenuItems.map((item, index) => {

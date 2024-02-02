@@ -1,50 +1,60 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import '../../CSS/productos.css'
-import Tinte1 from '../../Image/tinte1.jpg'
-import Tinte2 from '../../Image/tinte2.png'
-import Tinte3 from '../../Image/tinte3.jpeg'
+import { Card } from 'react-bootstrap';
+import { productos } from '../../Componentes/dataProduct';
+import axios from 'axios';
 
-function Productos() {
-    return (
-        <div className='wrapper d-flex align-items-center justify-content-center'>
-            <div class="containerProds">
-                <div class="products-section">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="product-card">
-                                <div class="card-body">
-                                <img src={Tinte1} alt="Producto 1" class="img"/>
-                                    <h5 class="card-title">Tinte 1</h5>
-                                    <p class="card-text">Categoría: Tintes para Cabello</p>
-                                    <p class="card-text">Precio: $5.00</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="product-card">
-                                <div class="card-body">
-                                <img src={Tinte2} alt="Producto 2" class="img"/>
-                                    <h5 class="card-title">Tinte 2</h5>
-                                    <p class="card-text">Categoría: Tintes para Cabello</p>
-                                    <p class="card-text">Precio: $5.00</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="product-card">
-                                <div class="card-body">
-                                <img src={Tinte3} alt="Producto 3" class="card-img-top"/>
-                                    <h5 class="card-title">Tinte 3</h5>
-                                    <p class="card-text">Categoría: Tintes para Cabello</p>
-                                    <p class="card-text">Precio: $5.00</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+function Productos({ searchTerm }) {
+  const [filterProducts, setfilterProducts] = useState([]);
+
+ 
+  useEffect(() => {
+    const fetchData = async () =>{
+      try {
+        const response = await axios.get('http://localhost:5000/api/v1/products');
+        const productos = response.data;
+        console.log(productos);
+        setfilterProducts(productos)
+      } catch (error) {
+        console.log('Error fetching products: ', error);
+      }
+    }
+    fetchData();
+  }, [searchTerm, productos]);
+
+ 
+
+  return (
+    <div className='wrapper d-flex align-items-center justify-content-center'>
+      <div className="containerProds">
+        <div className="products-section">
+          <div className="row">
+            {filterProducts.length === 0 ? (
+              <div className="home-page">
+                <div className="container m-1">
+                  <h4 className="mb-5 text-black fs-1">El producto no se encuentra</h4>
                 </div>
-            </div>
+              </div>
+            ) : (
+              filterProducts.map(producto => (
+                <div className="col-md-4 mb-4">
+                  <Card className=' loging text-white card-container'>
+                    <Card.Img variant='top' src={producto.image} className='card-image' />
+                    <Card.Body>
+                      <Card.Title>{producto.name}</Card.Title>
+                      <Card.Footer>
+                        <small className='text-white'>Precio: ${producto.price}</small>
+                        <small className='text-white d-flex'>{producto.description}</small>
+                      </Card.Footer>
+                    </Card.Body>
+                  </Card>
+                </div>
+              ))
+            )}
+          </div>
         </div>
-    )
+      </div>
+    </div>
+  );
 }
-
-export default Productos
+export default Productos;

@@ -52,24 +52,42 @@
 
 .headerProds {
     margin-bottom: 15px;
-    background-color: #41A4AB;
+    background:linear-gradient(90deg, rgb(28,27,27) 0%, rgb(26, 17, 73) 100%);
     padding: 20px;
     border-radius: 5px;
-    color: white;
+    color: #ffff;
     margin-bottom: 5px;
 }
 
 .product-cards {
     position: relative;
     display: flex;
-    flex-wrap: nowrap;
+        flex-wrap: nowrap;
     overflow-x: auto;
-    gap: 20px;
-    padding: 20px 0;
+    gap: 2px;
+    padding: 5px 0;
     white-space: nowrap;
     justify-content: space-between;
 }
 
+
+.card-image {
+    height: 20rem;
+    width: 60rem;
+    object-fit: cover
+  }
+  .wrapper {
+    margin-top:auto;
+    background-color: #f4f4f4;
+}
+  
+  .card-container {
+    background:linear-gradient(90deg, rgb(28,27,27) 0%, rgb(26, 17, 73) 100%);
+    width: 20rem;
+    height: 20rem;
+    border-radius: 5px;
+    text-decoration: none;
+  }
 /* Estilos para el contenedor de las tarjetas de productos */
 /* .product-cards {
     position: relative;

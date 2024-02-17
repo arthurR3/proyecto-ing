@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import '../../CSS/NavBar.css';
 import '../../CSS/Login.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+import codigosPostal from '../../Componentes/Api/apiCodigoP';
+import PasswordStrengthBar from 'react-password-strength-bar';
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 const minPassword = 8;
-
-
 
 const Register = () => {
     const navigation = useNavigate();
@@ -16,8 +17,10 @@ const Register = () => {
     const [telefono, setTelefono] = useState('')
     const [codigoPostal, setCodigoPostal] = useState('')
     const [municipio, setMunicipio] = useState('')
-    const [colonia, setColonia] = useState('')
+    const [selectedColonia, setSelectedColonia] = useState('');
+    const [colonia, setColonia] = useState([])
     const [calle, setCalle] = useState('')
+    const [formData, setFormData] = useState('')
     const [state, setState] = useState({
         paso: 1
     })
@@ -80,15 +83,46 @@ const Register = () => {
         }
     });
 
-    const handleChange = (e, setterFunction) => {
+    const handleChange = async (e, setterFunction) => {
         // Elimina espacios en blanco antes y al final
-        const value = e.target.value.trim();
+        const value = e.target.value;
+
         if (/^[a-zA-Z\u00C0-\u017F\s']*$/u.test(value)) {
             setterFunction(value);
         } else if (value.length < 2) {
             console.log('Mínimo 3 letras');
         }
     }
+
+    // Función que maneja el cambio del código postal
+    const handleCodigoP = async (e) => {
+        const codePostal = e.target.value;
+        console.log('Código Postal:', codePostal);
+
+        if (codePostal.length === 5) {
+            try {
+                const response = await codigosPostal(codePostal);
+                if (response && response.length > 0) {
+                    setMunicipio(response[0].D_mnpio);
+                    setColonia(response.map((entry) => entry.d_asenta));
+                    console.log(response.map((entry) => entry.d_asenta));
+                } else {
+                    toast.error('Código postal no válido. Verifica e intenta de nuevo.');
+                }
+            } catch (error) {
+                console.error('Error al obtener información del código postal', error);
+                toast.error('Error al obtener información del código postal. Inténtalo de nuevo.');
+            }
+        } else {
+            setMunicipio('');
+            setColonia([]);
+        }
+
+        // Actualizar el estado del código postal
+        setCodigoPostal(codePostal);
+    };
+
+    // ...
 
     const validationPhone = (e) => {
         const value = e.target.value.trim();
@@ -107,13 +141,13 @@ const Register = () => {
                     hasError: value.length < minPassword,
                 },
             }));
-    
+
             const hasMinLength = value.length >= minPassword;
             const hasUppercase = /[A-Z]/.test(value);
             const hasLowercase = /[a-z]/.test(value);
             const hasNumber = /\d/.test(value);
             const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value);
-    
+
             setPasswordRequirements({
                 minLength: hasMinLength,
                 uppercase: hasUppercase,
@@ -135,7 +169,6 @@ const Register = () => {
     De manera síncrona valuó si el valor del campo no es un correo valido y evita
     que el usuario reciba un error sin haber terminado de poner el valor.
   */
-
     function handleBlur() {
         const emailHasError = !emailRegexp.test(credentials.email.value);
         const passwordHasError = credentials.password.value.length < minPassword;
@@ -160,8 +193,11 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const currentDate = new Date();
+        const selectedDate = new Date(formData);
+
         if (!nombre || !ApPaterno || !ApMaterno || !telefono || !credentials.email.value || !credentials.password.value || !credentials.repeatPassword.value || !question) {
-            alert('Por favor, completa todos los campos antes de enviar el formulario.');
+            toast.info('1 Por favor, completa todos los campos antes de enviar el formulario.');
             return;
         }
         if (credentials.email.value === '' || credentials.password.value === '' || credentials.repeatPassword.value === '' || customAnswer === '') {
@@ -172,23 +208,36 @@ const Register = () => {
             alert('Las contraseñas no coinciden, favor de intentar de nuevo')
             return;
         }
+        if ((currentDate - selectedDate) / (365.24 * 24 * 60 * 60 * 1000) < 18) {
+            /* alert('Eres menor de edad. No puedes registrarte') */
+            toast.error('Eres menor de edad. No puedes registrarte!', {
+                position: "top-center",
+                className: 'foo-bar mt-5'
+            })
+            return;
+        }
         const userInfo = {
             name: nombre,
             last_name1: ApPaterno,
             last_name2: ApMaterno,
             phone: telefono,
             email: credentials.email.value,
-            password:credentials.password.value,
+            password: credentials.password.value,
             cp: codigoPostal,
-            address: colonia,
-
+            address: selectedColonia + ', ' + calle,
+            birthday: formData,
+            question: selectedQuestion.value,
+            answers: customAnswer
         }
 
         axios.post("http://localhost:5000/api/v1/users/", userInfo)
             .then(response => {
                 console.log("Response:", response.data);
                 if (response.data.success) {
-                    alert("Registro exitoso");
+                    toast.success("Registro exitoso", {
+                        position: 'top-right',
+                        className: 'mt-5'
+                    });
                     navigation('/login');
                 } else {
                     const errorMessage = response.data.message ? response.data.message : 'Error desconocido';
@@ -212,10 +261,11 @@ const Register = () => {
                 } else {
                     // Otro tipo de error que no es del servidor (puede ser local)
                     console.log('Error:', error.message);
-                        alert('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
-                    }
+                    alert('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
+                }
             })
-        
+        /* console.log(userInfo) */
+
     }
 
     const handleSiguiente = (e) => {
@@ -238,12 +288,13 @@ const Register = () => {
     return (
         <div className='wrapper d-flex align-items-center justify-content-center'>
             <div className='record rounded align-text-center row'>
-                {state.paso === 2 && (<div className='col-12 text-left mt-2'>
-                    <i className='fa-solid fa-arrow-left'></i>
-                    <span onClick={() => setState((prevState) => ({ ...prevState, paso: prevState.paso - 1 }))} className='back-link'>
-                        Regresar
-                    </span>
-                </div>)}
+                {state.paso === 2 && (
+                    <div className='col-12 text-left mt-2'>
+                        <i className='fa-solid fa-arrow-left'></i>
+                        <span onClick={() => setState((prevState) => ({ ...prevState, paso: prevState.paso - 1 }))} className='back-link hover'>
+                            Regresar
+                        </span>
+                    </div>)}
                 <h2 className='mb-2 text-center fw-bold fs-12'>Crear una Cuenta</h2>
 
                 <form className='needs-validation'>
@@ -311,7 +362,7 @@ const Register = () => {
                                         type='text'
                                         name='codigoPostal'
                                         value={codigoPostal}
-                                        onChange={(e) => setCodigoPostal(e.target.value)}
+                                        onChange={(e) => handleCodigoP(e)}
                                     />
                                 </div>
                                 <div className='form-group mb-2'>
@@ -322,23 +373,30 @@ const Register = () => {
                                         type='text'
                                         name='municipio'
                                         value={municipio}
-                                        onChange={(e) => setMunicipio(e.target.value)}
+                                        disabled={municipio.length === 0}
+                                        readOnly
                                     />
                                 </div>
                                 <div className='form-group mb-2'>
                                     <label htmlFor='colonia' className='form-label fw-bold'>Colonia :</label>
-                                    <input
+                                    <select
                                         className='form-control'
                                         id='colonia'
-                                        type='text'
                                         name='colonia'
-                                        value={colonia}
-                                        onChange={(e) => setColonia(e.target.value)}
-                                    />
-                                    {/* 
-                            {state.errores.colonia && (
-                                <p className='small text-danger'>{state.errores.colonia}</p>
-                            )} */}
+                                        value={selectedColonia}
+                                        onChange={(e) => setSelectedColonia(e.target.value)}
+                                        disabled={colonia.length === 0}
+                                    >
+
+                                        {colonia.length === 0 && (
+                                            <option value={''}>Selecciona una colonia</option>
+                                        )}
+                                        {colonia.map((coloniaOption, index) => (
+                                            <option key={index} value={coloniaOption}>
+                                                {coloniaOption}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className='form-group mb-2'>
                                     <label htmlFor='calle' className='form-label fw-bold'>Calle :</label>
@@ -354,16 +412,15 @@ const Register = () => {
                                 {/* {state.errores.calle && (
                                 <p className='small text-danger'>{state.errores.calle}</p>
                             )} */}
-                                <div className='col-12 text-center mt-2'>
-                                    {/* Fila adicional para centrar el botón */}
-                                    <div className='row justify-content-center'>
-                                        <div className='col-6'>
-                                            <button type='submit' onClick={handleSiguiente} className='btn btn-success align-items-center mt-2 fs-5'>
-                                                Siguiente
-                                            </button>
-                                        </div>
-                                    </div>
+                                <div className='d-flex justify-content-center mt-2'>
+                                    <button type='submit' onClick={handleSiguiente} className='btn btn-success me-2 fs-5'>
+                                        Siguiente
+                                    </button>
+                                    <Link to="/login" className='btn btn-secondary'>
+                                        Cancelar
+                                    </Link>
                                 </div>
+
                             </div>
                         </div>
                     )}
@@ -371,6 +428,18 @@ const Register = () => {
 
                         <div className='row'>
                             <div className='col-6 pt-3 ml-5'>
+                                <div className='form-group mb-2'>
+                                    <label htmlFor='fechaNac' className='form-label fw-bold'>Fecha de Nacimiento :</label>
+                                    <input
+                                        className='form-control'
+                                        id='fechaNac'
+                                        type='date'
+                                        name='fechaNac'
+                                        value={formData}
+                                        onChange={(e) => setFormData(e.target.value)}
+                                        required
+                                    />
+                                </div>
                                 <div className='form-group mb-2'>
                                     <label htmlFor='email' className='form-label fw-bold'>Correo :</label>
                                     <input
@@ -415,6 +484,7 @@ const Register = () => {
                                         onBlur={handleBlur}
                                         required
                                     />
+                                    <PasswordStrengthBar password={credentials.password.value} />
                                     {credentials.password.hasError && (
                                         <div className='invalid-feedback'>
                                             La contraseña debe tener al menos {minPassword} caracteres.
@@ -477,7 +547,7 @@ const Register = () => {
                                         </select>
                                     </div>
                                     {selectedQuestion && (
-                                        <div className='input-field'>
+                                        <div className='input-field pt-4'>
                                             <input
                                                 type='text'
                                                 className='form-control mt-2'

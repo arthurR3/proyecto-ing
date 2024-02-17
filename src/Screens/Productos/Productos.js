@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import '../../CSS/productos.css'
 import { Card } from 'react-bootstrap';
-import { productos } from '../../Componentes/dataProduct';
 import axios from 'axios';
 
 function Productos({ searchTerm }) {
   const [filterProducts, setfilterProducts] = useState([]);
-
+  const productos = useState([])
  
   useEffect(() => {
     const fetchData = async () =>{
       try {
         const response = await axios.get('http://localhost:5000/api/v1/products');
-        const productos = response.data;
+        productos = response.data;
         console.log(productos);
         setfilterProducts(productos)
       } catch (error) {

@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../CSS/NavBar.css';
 import '../../CSS/Login.css';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import axios from 'axios';
+import SessionStorage from '../../Componentes/sessionStorage';
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 
 const Login = () => {
+  const navigation = useNavigate();
   const minPassword = 8;
-
-  const [credentials, setCredentials] = React.useState({
+  const [isRecaptcha, setRecaptcha] = useState(false);
+  const [credentials, setCredentials] = useState({
     email: {
       value: '',
       hasError: false,
@@ -19,7 +22,9 @@ const Login = () => {
       hasError: false,
     },
   });
-
+  const handleRecaptcha = (value) => {
+    setRecaptcha(true)
+  }
   function handleChange(evt) {
     const { name, value } = evt.target;
 
@@ -56,44 +61,68 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!credentials.email.value || !credentials.password.value) {
-      alert('No deje ningun campo en blanco');
+      toast.error('No deje ningun campo vacio', {
+        position: 'bottom-center',
+        className: 'p-2'
+      })
       return;
     }
-      axios.post("http://localhost:5000/api/v1/users/login", {
-        email: credentials.email.value,
-        password: credentials.password.value
-      })
-      .then(response =>{
-        console.log("Response ", response.data);
-        if(response.data.success){
-          alert('Inicio exitoso')
-          console.log("Registro exitoso")
-        }else {
+    if (!isRecaptcha) {
+      toast.info('Por favor, resuelve el reCAPTCHA antes de inciar sesión');
+      return;
+    }
+    axios.post("http://localhost:5000/api/v1/users/login", {
+      email: credentials.email.value,
+      password: credentials.password.value
+    })
+      .then(response => {
+        const data = response.data.data;
+        console.log("Response ", data);
+        if (response.data.success) {
+          toast.success(`Inicio exitoso ${data.name}`, {
+            position: 'top-center',
+            className: 'mt-5'
+          })
+          setTimeout(() => {
+            SessionStorage.saveSession(data);
+            window.location.reload()
+          }, 1000)
+          navigation('/');
+
+          /* console.log("Inicio exitoso") */
+
+        } else {
           const errorMessage = response.data.message ? response.data.message : 'Error desconocido';
-          alert('Registro fallido. ' + errorMessage);
-      }
+          alert('Ingreso fallido. ' + errorMessage);
+        }
       })
-      .catch(error =>{
+      .catch(error => {
         if (error.response) {
           // El servidor respondió con un error
           if (error.response.status === 401) {
-              // Error específico de registro existente
-              alert('El correo ya está registrado. Favor de utilizar otro correo.');
+            // Error específico de registro existente
+            toast.warn(error.response.data.message, {
+              position: 'top-center',
+              className: 'mt-5'
+            });
+          } if (error.response.status === 403) {
+            toast.error(error.response.data.message, {
+              position: 'top-center',
+              className: 'mt-5'
+            });
+          }
+        } else {
+          if (error.message.toLowerCase() === 'network error') {
+            // Error de red, no hay conexión al servidor
+            alert('Error de red. Por favor, verifica tu conexión a Internet.', error.message);
           } else {
-              // Otro tipo de error del servidor
-              alert('Error del servidor: ' + error.response.message);
+            // Otro tipo de error que no es del servidor (puede ser local)
+            console.log('Error:', error.message);
+            alert('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
           }
-      } else if (error.message.toLowerCase() === 'network error') {
-          // Error de red, no hay conexión al servidor
-          console.warn(error.message);
-          alert('Error de red. Por favor, verifica tu conexión a Internet.',error.message);
-      } else {
-          // Otro tipo de error que no es del servidor (puede ser local)
-          console.log('Error:', error.message);
-              alert('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
-          }
+        }
       })
-    
+
   }
 
   return (
@@ -143,8 +172,8 @@ const Login = () => {
             <button type='submit' onClick={handleSubmit} className='btn btn-success mt-2'>
               Iniciar sesión
             </button>
-            <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" className='pt-2' />
-            <Link to='/login/recuperacion' className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
+            <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2' />
+            <Link to='/recover-password' className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
             <div className='mt-3'>
               <p className='mb-0 text-align-center'>¿Aun no tienes cuenta?
                 <Link to='/register' className='fw-bold p-2 text-decoration-none'>Crear Cuenta</Link>

@@ -48,7 +48,7 @@ function Recuperacion() {
             return;
         };
 
-        axios.post("http://localhost:5000/api/v1/users/recover-password", {
+        axios.post("https://back-estetica.up.railway.app/api/v1/users/recover-password", {
             email: credentials.email.value
         })
             .then(response => {

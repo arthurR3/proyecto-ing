@@ -47,7 +47,7 @@ function ChangePassword() {
             const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value);
 
             setPasswordRequirements({
-                minLength: hasMinLength,
+                minLength: hasMinLength,    
                 uppercase: hasUppercase,
                 lowercase: hasLowercase,
                 number: hasNumber,
@@ -87,7 +87,7 @@ function ChangePassword() {
             return
         }
         try {
-            axios.post("http://localhost:5000/api/v1/users/change-password", {
+            axios.post("https://back-estetica.up.railway.app/api/v1/users/change-password", {
                 email: correo,
                 newPassword: credentials.password.value
             })
@@ -128,21 +128,6 @@ function ChangePassword() {
 
                     }
                 })
-            /* const response = await axios.get(`http://localhost:5000/api/v1/users/`);
-            const user = response.data.find(user => user.email === correo);
-            console.log(user)
-            console.log(credentials.password.value)
-            const updatePassword = await axios.put(`http://localhost:5000/api/v1/users/${user.id}`, {
-                password: credentials.password.value
-            })
-            if (updatePassword.data.success) {
-                toast.success('Contraseña actualizada correctamente', {
-                    position: 'top-right'
-                });
-
-            } else {
-                toast.error('Error al actualizar la contraseña: ' + updatePassword.data.message);
-            } */
         } catch (error) {
             console.error('Error al actualizar la contraseña:', error.message);
             alert('Error al actualizar la contraseña. Por favor, inténtalo de nuevo más tarde.');

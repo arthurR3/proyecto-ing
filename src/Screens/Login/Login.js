@@ -11,6 +11,7 @@ const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 const Login = () => {
   const navigation = useNavigate();
   const minPassword = 8;
+  const [showPassword, setShowPassword] = useState('')
   const [isRecaptcha, setRecaptcha] = useState(false);
   const [credentials, setCredentials] = useState({
     email: {
@@ -71,7 +72,7 @@ const Login = () => {
       toast.info('Por favor, resuelve el reCAPTCHA antes de inciar sesión');
       return;
     }
-    axios.post("http://localhost:5000/api/v1/users/login", {
+    axios.post("https://back-estetica.up.railway.app/api/v1/users/login", {
       email: credentials.email.value,
       password: credentials.password.value
     })
@@ -158,16 +159,29 @@ const Login = () => {
             <label htmlFor='contrasena' className='form-label fw-bold'>
               Contraseña
             </label>
-            <input
-              id='password'
-              className={`form-control`}
-              type='password'
-              name='password'
-              value={credentials.password.value}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
+            <div className="input-group">
+              <input
+                id='password'
+                className={`form-control`}
+                type={showPassword ? 'text' : 'password'}
+                name='password'
+                value={credentials.password.value}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <div className="input-group-append">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                </button>
+              </div>
+            </div>
           </div>
+
+
           <div>
             <button type='submit' onClick={handleSubmit} className='btn btn-success mt-2'>
               Iniciar sesión

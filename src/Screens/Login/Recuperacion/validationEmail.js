@@ -35,7 +35,7 @@ function ValidationEmail() {
         }
         if (verificationCode.length === 5) {
 
-            axios.post("http://localhost:5000/api/v1/users/verification-password", {
+            axios.post("https://back-estetica.up.railway.app/api/v1/users/verification-password", {
                 email: correo,
                 resetCode: parseInt(verificationCode)
             })

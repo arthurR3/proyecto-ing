@@ -3,7 +3,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import '../../CSS/NavBar.css'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FormControl } from 'react-bootstrap';
 import SessionStorage from '../sessionStorage.js';
 import React, { useEffect, useState } from 'react';
@@ -11,7 +11,6 @@ import { toast } from 'react-toastify';
 
 
 const NavBar = ({ onSearch }) => {
-    const navigation = useNavigate();
     const hadleSearch = (e) => {
         const term = e.target.value;
         onSearch(term);

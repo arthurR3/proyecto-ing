@@ -5,6 +5,9 @@ import Container from 'react-bootstrap/Container'
 import '../../CSS/NavBar.css'
 import { Link } from 'react-router-dom';
 import { FormControl } from 'react-bootstrap';
+import SessionStorage from '../sessionStorage.js';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 const NavBar = ({ onSearch }) => {
@@ -12,6 +15,19 @@ const NavBar = ({ onSearch }) => {
         const term = e.target.value;
         onSearch(term);
     };
+    const [isLoggedIn, setIsLoggedIn] = useState(SessionStorage.hasSession());
+
+    const logoutUser = () => {
+        SessionStorage.clearSession();
+        setIsLoggedIn(false);
+        toast.success('Sesión cerrada correctamente!')
+        setTimeout(()=>{
+            window.location.reload()
+        },2000)
+    }
+    useEffect(() => {
+        setIsLoggedIn(SessionStorage.hasSession());
+    }, []);
     return (
         <div>
             <Navbar expand='lg' className='NavbarItems fixed-top'>
@@ -31,9 +47,19 @@ const NavBar = ({ onSearch }) => {
                         />
                         <Nav className=' nav-menu active'>
                             {MenuItems.map((item, index) => {
-                                return (
-                                    <Link to={item.url} className='links nav-links'>{item.title}</Link>
-                                );
+                                if (isLoggedIn && item.title === 'Login') {
+                                    return (
+                                        <Link  className='links nav-links' onClick={logoutUser}>Cerrar Sesión</Link>
+                                    );
+                                } else if (!isLoggedIn && item.title === 'Login') {
+                                    return (
+                                        <Link to={item.url} className='links nav-links' >{item.title}</Link>
+                                    );
+                                } else {
+                                    return (
+                                        <Link to={item.url} className='links nav-links' >{item.title}</Link>
+                                    );
+                                }
                             })}
                         </Nav>
                     </Navbar.Collapse>

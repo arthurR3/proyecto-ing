@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import '../../CSS/productos.css'
 import { Card } from 'react-bootstrap';
-import { productos } from '../../Componentes/dataProduct';
 import axios from 'axios';
 
 function Productos({ searchTerm }) {
-  const [filterProducts, setfilterProducts] = useState([]);
-
- 
+  const [filterProducts, setFilterProducts] = useState([]);
   useEffect(() => {
-    const fetchData = async () =>{
+    const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/products');
-        const productos = response.data;
-        console.log(productos);
-        setfilterProducts(productos)
+        const response = await axios.get('https://back-estetica.up.railway.app/api/v1/products');
+        setFilterProducts(response.data);
       } catch (error) {
         console.log('Error fetching products: ', error);
       }
     }
     fetchData();
-  }, [searchTerm, productos]);
-
- 
+  }, [searchTerm]);
 
   return (
     <div className='wrapper d-flex align-items-center justify-content-center'>
@@ -37,7 +30,7 @@ function Productos({ searchTerm }) {
               </div>
             ) : (
               filterProducts.map(producto => (
-                <div className="col-md-4 mb-4">
+                <div className="col-md-4 mb-4" key={producto.id}>
                   <Card className=' loging text-white card-container'>
                     <Card.Img variant='top' src={producto.image} className='card-image' />
                     <Card.Body>
@@ -57,4 +50,5 @@ function Productos({ searchTerm }) {
     </div>
   );
 }
+
 export default Productos;

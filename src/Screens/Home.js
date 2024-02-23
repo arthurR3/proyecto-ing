@@ -1,7 +1,6 @@
 import React from "react";
 import '../CSS/NavBar.css'
 import { CitaBtn } from "../Componentes/NavBar/MenuItems";
-import Portada from '../Image/portada.png'
 //import Portada from '../Image/portada.png'
 const Home = () => {
     return (

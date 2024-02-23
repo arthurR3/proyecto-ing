@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import '../../CSS/NavBar.css'
+
 export const MenuItems = [
     {
         title: 'Inicio',    
@@ -17,11 +18,6 @@ export const MenuItems = [
         cName: 'nav-links'
     },
     {
-        title: 'Citas',
-        url: '/citas',
-        cName: 'nav-links'
-    },
-    {
         title: 'Contacto',
         url: '/contacto',
         cName: 'nav-links'
@@ -32,6 +28,8 @@ export const MenuItems = [
         cName: 'nav-links'
     },
 ];
+
+
 
 export function CitaBtn() {
     return (

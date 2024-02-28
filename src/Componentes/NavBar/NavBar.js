@@ -11,12 +11,14 @@ import { toast } from 'react-toastify';
 
 
 const NavBar = ({ onSearch }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(SessionStorage.hasSession());
+    const [showMenu, setShowMenu] = useState(false)
+
     const hadleSearch = (e) => {
         const term = e.target.value;
         onSearch(term);
     };
-    const [isLoggedIn, setIsLoggedIn] = useState(SessionStorage.hasSession());
-
+    
     const logoutUser = () => {
         SessionStorage.clearSession();
         setIsLoggedIn(false);
@@ -24,6 +26,13 @@ const NavBar = ({ onSearch }) => {
         setTimeout(()=>{
             window.location.reload()
         },2000)
+    }
+
+    const handleMouseEnter = () =>{
+        setShowMenu(true)
+    }
+    const handleMouseLeave = () =>{
+        setShowMenu(false)
     }
     useEffect(() => {
         setIsLoggedIn(SessionStorage.hasSession());
@@ -42,7 +51,7 @@ const NavBar = ({ onSearch }) => {
                         <FormControl
                             type='text'
                             placeholder='Buscar...'
-                            className='mr-sm-5'
+                            className='mr-sm-5 search-input w-50'
                             onChange={hadleSearch}
                         />
                         <Nav className=' nav-menu active'>

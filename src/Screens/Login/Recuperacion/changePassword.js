@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
 function ChangePassword() {
-    const { correo } = useParams();
+    const { correo } = useParams(); 
     const navigation = useNavigate();
     const minPassword = 8;
     const [credentials, setCredentials] = React.useState({

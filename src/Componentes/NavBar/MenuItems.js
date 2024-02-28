@@ -18,6 +18,11 @@ export const MenuItems = [
         cName: 'nav-links'
     },
     {
+        title: 'Citas',
+        url: '/agendamiento-citas',
+        cName: 'nav-links'
+    },
+    {
         title: 'Contacto',
         url: '/contacto',
         cName: 'nav-links'
@@ -34,7 +39,7 @@ export const MenuItems = [
 export function CitaBtn() {
     return (
         <div>
-            <Link to='/citas' className="text-decoration-none"> 
+            <Link to='/agendamiento-cita' className="text-decoration-none"> 
                 <button className="calendr-btn">
                     <i className="fas fa-calendar-alt me-2"></i>
                     Agendar Cita

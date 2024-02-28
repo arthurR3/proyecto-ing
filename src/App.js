@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.css'
 import NavBar from './Componentes/NavBar/NavBar';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -15,6 +15,7 @@ import Error404 from './Screens/Error/404.js';
 import Productos from './Screens/Productos/Productos.js';
 import { Breadcrumb } from 'react-bootstrap';
 import Error500 from './Screens/Error/500.js';
+import AgendarCita from './Screens/Citas/agendarCita.js';
 
 function App() {
   // App.js
@@ -32,12 +33,14 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='App'>
       <NavBar onSearch={handleSearch} />
+      <div className='content'>
       <Breadcrumb />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/productos' element={<Productos searchTerm={searchTerm} />} />
+        <Route path='/agendamiento-cita' element={<AgendarCita/>}/>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/recover-password' element={<Recuperacion />} />
@@ -48,6 +51,7 @@ function App() {
       </Routes>
       <Footer/>
       <ToastContainer/>
+      </div>
     </div>
   );
 }

@@ -1,8 +1,12 @@
 import React from "react";
 import '../CSS/NavBar.css'
 import { CitaBtn } from "../Componentes/NavBar/MenuItems";
-//import Portada from '../Image/portada.png'
+import Portada from '../Image/portada.png'
 const Home = () => {
+    const handleStalled = (event) => {
+        alert('Carga de imagen detenida:', event);
+        // Mostrar un mensaje de carga o intentar volver a cargar la imagen
+    };
     return (
         <div className="home-page">
             <header className="h-100 min-vh-100 d-flex align-items-center text-light mt-5 shadow">
@@ -16,8 +20,8 @@ const Home = () => {
                             <CitaBtn />
                         </div>
                         <div className="col-sm-6">
-                            <img src="https://i0.wp.com/foodandpleasure.com/wp-content/uploads/2022/03/boticanatural.jpg?w=1080&ssl=1" alt='portada' className="h-auto w-100" />
-                            {/* <img src={Portada} alt='portada' className="h-auto w-100" /> */}
+                            {/* <img src="https://i0.wp.com/foodandpleasure.com/wp-content/uploads/2022/03/boticanatural.jpg?w=1080&ssl=1" alt='portada' className="h-auto w-100" onStalled={handleStalled}/> */}
+                            <img src={Portada} alt='portada' className="h-auto w-100" />
                         </div>
                     </div>
                 </div>

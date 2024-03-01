@@ -19,7 +19,7 @@ export const MenuItems = [
     },
     {
         title: 'Citas',
-        url: '/agendamiento-citas',
+        url: '/agendamiento-cita',
         cName: 'nav-links'
     },
     {

@@ -103,12 +103,12 @@ const Login = () => {
           if (error.response.status === 401) {
             // Error específico de registro existente
             toast.warn(error.response.data.message, {
-              position: 'top-center',
+              position: 'top-right',
               className: 'mt-5'
             });
           } if (error.response.status === 403) {
             toast.error(error.response.data.message, {
-              position: 'top-center',
+              position: 'top-right',
               className: 'mt-5'
             });
           }

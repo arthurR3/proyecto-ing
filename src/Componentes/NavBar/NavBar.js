@@ -12,7 +12,6 @@ import { toast } from 'react-toastify';
 
 const NavBar = ({ onSearch }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(SessionStorage.hasSession());
-    const [showMenu, setShowMenu] = useState(false)
 
     const hadleSearch = (e) => {
         const term = e.target.value;
@@ -26,13 +25,6 @@ const NavBar = ({ onSearch }) => {
         setTimeout(()=>{
             window.location.reload()
         },2000)
-    }
-
-    const handleMouseEnter = () =>{
-        setShowMenu(true)
-    }
-    const handleMouseLeave = () =>{
-        setShowMenu(false)
     }
     useEffect(() => {
         setIsLoggedIn(SessionStorage.hasSession());

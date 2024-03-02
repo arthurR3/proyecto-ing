@@ -23,7 +23,7 @@ const ZoomImage = ({ src, onDoubleClick }) => {
                 src={src}
                 alt="Zoomable"
                 style={{
-                    width: isZoomed ? '120%' : '100%',
+                    width: isZoomed ? '100%' : '100%',
                     height: isZoomed ? '120%' : '100%',
                     objectFit: 'cover',
                     transition: 'width 0.25s, height 0.25s',

@@ -1,7 +1,11 @@
 import React from "react";
 import '../CSS/NavBar.css'
+import '../CSS/Carrusel.css'
 import { CitaBtn } from "../Componentes/NavBar/MenuItems";
 import Portada from '../Image/portada.png'
+
+import CarouselC from "../Componentes/Carrusel/CarouselC";
+
 const Home = () => {
     const handleStalled = (event) => {
         alert('Carga de imagen detenida:', event);
@@ -26,10 +30,15 @@ const Home = () => {
                     </div>
                 </div>
             </header>
-            {/* Productos mas vendidos */}
-            <div className="p-20 br-5 bg-blue">
-                <h3>Productos mas vendidos</h3>
 
+            {/* Productos mas vendidos */}
+
+            <div className="ContCarr">
+                <div className="Category">
+                    <h3>Productos mas vendidos</h3>
+                </div>
+
+                <CarouselC />
             </div>
         </div>
     )

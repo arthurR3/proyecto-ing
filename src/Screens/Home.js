@@ -7,10 +7,7 @@ import Portada from '../Image/portada.png'
 import CarouselC from "../Componentes/Carrusel/CarouselC";
 
 const Home = () => {
-    const handleStalled = (event) => {
-        alert('Carga de imagen detenida:', event);
-        // Mostrar un mensaje de carga o intentar volver a cargar la imagen
-    };
+ 
     return (
         <div className="home-page">
             <header className="h-100 min-vh-100 d-flex align-items-center text-light mt-5 shadow">
@@ -34,8 +31,15 @@ const Home = () => {
             {/* Productos mas vendidos */}
 
             <div className="ContCarr">
-                <div className="Category">
-                    <h3>Productos mas vendidos</h3>
+                <div className="Category bg-black">
+                    <h3 className="fs-1 text-center text-white">Productos más vendidos</h3>
+                </div>
+
+                <CarouselC />
+            </div>
+            <div className="ContCarr">
+                <div className="Category bg-black">
+                    <h3 className="fs-1 text-center text-white">Servicios Ofrecidos</h3>
                 </div>
 
                 <CarouselC />

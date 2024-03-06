@@ -23,7 +23,7 @@ const Login = () => {
       hasError: false,
     },
   });
-  const handleRecaptcha = (value) => {
+  const handleRecaptcha = () => {
     setRecaptcha(true)
   }
   function handleChange(evt) {
@@ -81,13 +81,20 @@ const Login = () => {
         console.log("Response ", data);
         if (response.data.success) {
           toast.success(`Inicio exitoso ${data.name}`, {
-            position: 'top-center',
-            className: 'mt-5'
+            position: "top-right",
+            className:"mt-5",
+            autoClose: 300,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: 0,
+            toastId: "my_toast",
           })
           setTimeout(() => {
-            SessionStorage.saveSession(data);
             window.location.reload()
-          }, 1000)
+          }, 100)
+          SessionStorage.saveSession(data);
           navigation('/');
 
           /* console.log("Inicio exitoso") */
@@ -129,8 +136,8 @@ const Login = () => {
   return (
     <div className='wrapper d-flex align-items-center justify-content-center w-100 mt-4'>
       <div className='login rounded align-text-center'>
-        <h2 className='mb-3 text-center'>Inicio de Sesión</h2>
-        <form className='needs-validation' onSubmit={handleSubmit}>
+        <h2 className='mb-3 text-center  fw-bold'>Inicio de Sesión</h2>
+        <form className='needs-validation'>
           <div className='form-group mb-2'>
             <label htmlFor='email' className='form-label fw-bold'>
               Correo

@@ -54,11 +54,13 @@ function Productos({ searchTerm }) {
                     <div className="row">
                         {filterProducts.map(producto => (
                             <div className="col-md-4 mb-4" key={producto.id}>
+                                
                                 <div
                                     className="card-container"
                                     onMouseEnter={() => handleMouseEnter(producto.id)}
                                     onMouseLeave={handleMouseLeave}
                                 >
+                                   
                                     <Card>
                                         <Card.Img
                                             variant="top"
@@ -71,7 +73,7 @@ function Productos({ searchTerm }) {
                                             <Card.Title>{producto.name}</Card.Title>
                                             {selectedProductId === producto.id && (
                                                 <Card.Footer>
-                                                    <small>Precio: ${producto.price}</small>
+                                                    <h4>Precio: ${producto.price}</h4>
                                                     <small>{producto.description}</small>
                                                 </Card.Footer>
                                             )}

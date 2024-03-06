@@ -34,6 +34,38 @@ export const MenuItems = [
     },
 ];
 
+export const MenuItemsPrivate = [
+    {
+        title: 'Inicio',    
+        url: '/',
+        cName: 'nav-links'
+    },
+    {
+        title: 'Productos',
+        url: '/productos',
+        cName: 'nav-links'
+    },
+    {
+        title: 'Servicios',
+        url: '/Servicios',
+        cName: 'nav-links'
+    },
+    {
+        title: 'Mis Citas',
+        url: '/agendamiento-cita',
+        cName: 'nav-links'
+    },
+    {
+        title: 'Mis Compras',
+        url: '/mis-compras',
+        cName: 'nav-links'
+    },
+    {
+        title: 'Cerrar Sesion',
+        url: '/',
+        cName: 'nav-links',
+    },
+];
 
 
 export function CitaBtn() {

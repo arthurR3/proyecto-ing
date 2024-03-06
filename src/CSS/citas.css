@@ -1,5 +1,25 @@
-.citas-container{
-    margin-top: 100%;
+.citas-container {
+    margin-top: 20vh;
+    height: 600px; /* Ajusta este valor según sea necesario */
+    background-color: #fff;
     justify-content: center;
-    margin: auto;
-}
+    align-self: center;
+    flex-direction: column;
+  }
+  
+  .img-cita {
+    height: 500px;
+    width: 500px;
+    margin-left: 40px;
+    border-radius: 20px;
+    box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75);
+    border-radius:8px ;
+
+  }
+  
+  .formulario-cita {
+    box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75);
+    border-radius:8px ;
+    color: blueviolet;
+  }
+  

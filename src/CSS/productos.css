@@ -20,7 +20,8 @@
     width: 20rem;
     height: 20rem;
     border-radius: 5px;
-    text-decoration: none;
+    margin-left: 20%;
+    border-color: red;
 }
 
 /* Estilos para el contenedor de las tarjetas de productos */

@@ -17,14 +17,11 @@ const NavBar = ({ onSearch }) => {
         const term = e.target.value;
         onSearch(term);
     };
-    
+
     const logoutUser = () => {
         SessionStorage.clearSession();
         setIsLoggedIn(false);
         toast.success('Sesión cerrada correctamente!')
-        setTimeout(()=>{
-            window.location.reload()
-        },2000)
     }
     useEffect(() => {
         setIsLoggedIn(SessionStorage.hasSession());

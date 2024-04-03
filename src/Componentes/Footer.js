@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import '../CSS/NavBar.css'
 function Footer() {
+    
     return (
         <footer className='fondo text-dark pt-5 pb-4'>
             <div className='container h-100 text-center text-md-start'>
@@ -20,7 +21,7 @@ function Footer() {
                             <Link to='/register'  className='text-white'>Registrarme</Link>
                         </p>
                         <p>
-                            <Link to='/register'  className='text-white'>Ir a mi cuenta</Link>
+                            <Link to='/Login'  className='text-white'>Ir a mi cuenta</Link>
                         </p>
                         <p>
                             <Link to='/register' className='text-white'>Contacto</Link>
@@ -45,7 +46,7 @@ function Footer() {
                     </div>
                 </div>
             </div>
-            <p>©Camps 2023 && Estética Principal, Inc.</p>
+            <p className='text-white'>©Camps 2023 && Estética Principal, Inc.</p>
         </footer>
     )
 }

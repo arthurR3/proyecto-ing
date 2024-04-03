@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import '../../CSS/NavBar.css';
-import '../../CSS/Login.css';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
-import axios from 'axios';
 import SessionStorage from '../../Componentes/sessionStorage';
+import ApiConnection from '../../Componentes/Api/ApiConfig';
+import '../../CSS/NavBar.css';
+import '../../CSS/Login.css';
+import CustomModal from '../../Componentes/Modal';
+const URLConnection = ApiConnection();
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 
 const Login = () => {
   const navigation = useNavigate();
   const minPassword = 8;
+  const [showRecoveryModal, setShowRecoveryModal] = useState(false);
+  const [recoveryMethod, setRecoveryMethod] = useState('');
   const [showPassword, setShowPassword] = useState('')
   const [isRecaptcha, setRecaptcha] = useState(false);
   const [credentials, setCredentials] = useState({
@@ -26,6 +31,21 @@ const Login = () => {
   const handleRecaptcha = () => {
     setRecaptcha(true)
   }
+
+  const handleOpenRecoveryModal = () => {
+    setShowRecoveryModal(true);
+  };
+
+  const handleCloseRecoveryModal = () => {
+    setShowRecoveryModal(false);
+  };
+
+  const handleRecoverPassword = (method) => {
+    handleCloseRecoveryModal();
+    navigation(`/Login/recuperacion/recover-password/${method}`);
+  };
+
+
   function handleChange(evt) {
     const { name, value } = evt.target;
 
@@ -72,17 +92,16 @@ const Login = () => {
       toast.info('Por favor, resuelve el reCAPTCHA antes de inciar sesión');
       return;
     }
-    axios.post("https://back-estetica.up.railway.app/api/v1/users/login", {
+    axios.post(`${URLConnection}/users/login`, {
       email: credentials.email.value,
       password: credentials.password.value
     })
       .then(response => {
         const data = response.data.data;
-        console.log("Response ", data);
         if (response.data.success) {
-          toast.success(`Inicio exitoso ${data.name}`, {
+          toast.success(`Inicio exitoso`, {
             position: "top-right",
-            className:"mt-5",
+            className: "mt-5",
             autoClose: 300,
             hideProgressBar: true,
             closeOnClick: true,
@@ -126,7 +145,8 @@ const Login = () => {
           } else {
             // Otro tipo de error que no es del servidor (puede ser local)
             console.log('Error:', error.message);
-            alert('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
+            toast.error('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
+            navigation('/Error-500');
           }
         }
       })
@@ -194,15 +214,28 @@ const Login = () => {
               Iniciar sesión
             </button>
             <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2' />
-            <Link to='/recover-password' className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
+            <Link onClick={handleOpenRecoveryModal} className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
             <div className='mt-3'>
               <p className='mb-0 text-align-center'>¿Aun no tienes cuenta?
-                <Link to='/register' className='fw-bold p-2 text-decoration-none'>Crear Cuenta</Link>
+                <Link to='/Login/register' className='fw-bold p-2 text-decoration-none'>Crear Cuenta</Link>
               </p>
             </div>
           </div>
         </form>
       </div>
+      <CustomModal
+        show={showRecoveryModal}
+        onHide={handleCloseRecoveryModal}
+        title="Recuperar Contraseña"
+      >
+        <div>
+          <h5>Selecciona el método de recuperación</h5>
+          <div className='d-flex justify-center-between'>
+            <button className='btn btn-primary me-2' onClick={() => handleRecoverPassword('code')}>Código de Verificación</button>
+            <button className="btn btn-primary" onClick={() => handleRecoverPassword('secret')}>Pregunta Secreta</button>
+          </div>
+        </div>
+      </CustomModal>
     </div>
   );
 };

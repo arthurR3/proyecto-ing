@@ -18,8 +18,8 @@ export const MenuItems = [
         cName: 'nav-links'
     },
     {
-        title: 'Citas',
-        url: '/agendamiento-cita',
+        title: 'Agendar Cita',
+        url: '/book-appointments',
         cName: 'nav-links'
     },
     {
@@ -36,9 +36,9 @@ export const MenuItems = [
 
 export const MenuItemsPrivate = [
     {
-        title: 'Inicio',    
         url: '/',
-        cName: 'nav-links'
+        cName: 'nav-links',
+        icons: <i class="fa-solid fa-house-laptop"></i>
     },
     {
         title: 'Productos',
@@ -52,18 +52,26 @@ export const MenuItemsPrivate = [
     },
     {
         title: 'Mis Citas',
-        url: '/agendamiento-cita',
+        url: '/book-appointments',
         cName: 'nav-links'
     },
-    {
+    /* {
         title: 'Mis Compras',
         url: '/mis-compras',
         cName: 'nav-links'
+    }, */
+    {
+        icons: <i class="fa-solid fa-cart-arrow-down"></i>,
+        url: '/shop-cart',
+        cName: 'nav-links'
     },
     {
-        title: 'Cerrar Sesion',
-        url: '/',
-        cName: 'nav-links',
+        title: 'Cerrar Sesión',
+        cName: 'nav-links'
+    },
+    {
+        icons:<i class="fa-solid fa-user-gear"></i>,
+        cName: 'nav-links'
     },
 ];
 
@@ -71,7 +79,7 @@ export const MenuItemsPrivate = [
 export function CitaBtn() {
     return (
         <div>
-            <Link to='/agendamiento-cita' className="text-decoration-none"> 
+            <Link to='/book-appointments' className="text-decoration-none"> 
                 <button className="calendr-btn">
                     <i className="fas fa-calendar-alt me-2"></i>
                     Agendar Cita

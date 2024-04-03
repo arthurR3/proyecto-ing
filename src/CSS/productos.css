@@ -3,16 +3,25 @@
 .productos-container {
     margin-top: 100px;
     justify-content: center;
+    background: #faf8f8;
+}
+
+.banner {
+  background: #a770ef;
+  background: -webkit-linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b);
+  background: linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b);
+}
+.card{
+
+	background-color: #fff;
+	border:none;
+	border-radius: 10px;
+	width: 19px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
 
 
-.card-image {
-    width: 10px;
-    max-height: 100%;
-    /* Establece aquí la altura deseada */
-    object-fit: cover;
-    /* Ajusta la imagen para llenar el contenedor sin distorsionarla */
-}
 
 
 .card-container {
@@ -53,4 +62,16 @@
 
 .productos-wrapper .card-container .card-footer .text-white:first-child {
     margin-right: 10px;
+}
+.btnCart {
+    color: #000dc4;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: none;
+    border: 1px solid #001dc4;
+    padding: 6px 14px;
+    margin-top: 5px;
+    line-height: 16px;
+    border-radius: 20px;
 }

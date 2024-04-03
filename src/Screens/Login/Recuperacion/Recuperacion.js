@@ -1,13 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import ReCAPTCHA from 'react-google-recaptcha';
-
+import ApiConnection from '../../../Componentes/Api/ApiConfig';
+import CustomModal from '../../../Componentes/Modal';
+const URLConnection = ApiConnection();
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 
 function Recuperacion() {
     const navigation = useNavigate();
+    const {method}  = useParams();
     const [isRecaptcha, setRecaptcha] = useState(false);
 
     const handleRecaptcha = () => {
@@ -60,7 +63,7 @@ function Recuperacion() {
             return;
           }
 
-        axios.post("https://back-estetica.up.railway.app/api/v1/users/recover-password", {
+        axios.post(`${URLConnection}/users/recover-password`, {
             email: credentials.email.value
         })
             .then(response => {
@@ -69,7 +72,7 @@ function Recuperacion() {
                         position: 'top-right',
                         className: 'mt-5'
                     })
-                    navigation(`/verify-email/${credentials.email.value}`);
+                    navigation(`/Login/verificacion/verify-email/${method}/${credentials.email.value}`);
                 }
                 else {
                     const errorMessage = response.data.message ? response.data.message : 'Error desconocido';
@@ -150,6 +153,9 @@ return (
 
             </form>
         </div>
+        <CustomModal >
+
+        </CustomModal>
     </div>
 )}
 export default Recuperacion

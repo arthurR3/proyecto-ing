@@ -1,18 +1,20 @@
-import React from 'react'
-import '../../CSS/NavBar.css'
-import '../../CSS/Login.css'
+import React from 'react';
 import imgError from '../../Image/error404.png';
+import { Link } from 'react-router-dom';
 
 function Error404() {
     return (
         <div className="home-page">
-            <header className="h-100 min-vh-100 d-flex align-items-center text-light mt-5 shadow">
+            <header className="min-vh-100 d-flex align-items-center justify-content-center text-light mt-5 shadow">
                 <div className="">
-                    <img src={imgError} alt="Mi imagen" />
+                    <img src={imgError} alt="Mi imagen" style={{ width: '100%', height: '100%' }} />
                 </div>
             </header>
+            <Link to="/" className='btn btn-secondary'>
+                Regresar al Inicio
+            </Link>
         </div>
     )
 }
 
-export default Error404
+export default Error404;

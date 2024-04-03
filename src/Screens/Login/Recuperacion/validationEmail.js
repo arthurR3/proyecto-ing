@@ -2,17 +2,19 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import ApiConnection from '../../../Componentes/Api/ApiConfig';
+const URLConnection = ApiConnection();
 
 function ValidationEmail() {
     const navigation = useNavigate();
-    let { correo } = useParams();
+    let { method, correo } = useParams();
     const [verificationCode, setVerificationCode] = useState('');
 
     const handleChange = (event) => {
         setVerificationCode(event.target.value);
     };
-
-    const resetEmail = async (e) =>{
+    
+    const resetEmail = async (e) => {
         axios.post("https://back-estetica.up.railway.app/api/v1/users/recover-password", {
             email: correo
         })
@@ -33,9 +35,16 @@ function ValidationEmail() {
             toast.error('Ingrese un código de verificación válido');
             return;
         }
+        let endPoint;
         if (verificationCode.length === 5) {
+            /* /users/verification-password */
+            if(method === 'code') {
+                endPoint = `/Login/change/change-password/${correo}`;
+            }else if(method === 'secret'){
+                endPoint = `/Login/recuperacion/recuperacion/secret-question/${correo}`;
+            }
 
-            axios.post("https://back-estetica.up.railway.app/api/v1/users/verification-password", {
+            axios.post(`${URLConnection}/users/verification-password`, {
                 email: correo,
                 resetCode: parseInt(verificationCode)
             })
@@ -46,7 +55,7 @@ function ValidationEmail() {
                             position: 'top-right',
                             className: 'mt-5',
                         })
-                        navigation(`/change-password/${correo}`)
+                        navigation(endPoint)
                     } else {
                         const errorMessage = response.data.message ? response.data.message : 'Error desconocido';
                         toast.error('Ingreso fallido. ' + errorMessage, {
@@ -56,7 +65,7 @@ function ValidationEmail() {
                     }
                 })
                 .catch(error => {
-                    
+
                     if (error.response) {
                         if (error.response.status === 403) {
                             // Error específico de registro existente
@@ -104,10 +113,12 @@ function ValidationEmail() {
                         />
                     </div>
                     <div className="d-flex">
-
                         <button type='submit' className='btn btn-success me-2'>
                             Enviar
                         </button>
+                        <Link to="/login" className='btn btn-secondary'>
+                            Cancelar
+                        </Link>
                         <Link className='fw-bold p-2 d-block text-decoration-none ' onClick={resetEmail}>Reenviar codigo</Link>
                     </div>
                 </form>

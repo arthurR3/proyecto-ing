@@ -31,7 +31,7 @@
 .navbar-logo{
     color: #ffff;
     justify-self: start;
-    margin-left: 20px;
+    margin-left: 10px;
     cursor: pointer;
     font-family: cursive;
 }
@@ -47,12 +47,11 @@
     text-align: center;
     width: 70vw;
     justify-content: end;
-    margin-right: 2rem;
 }
 .links{
     color: white;
     text-decoration: none;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.5rem;
 }
 .nav-links:hover{
     background-color: #FFBF00;

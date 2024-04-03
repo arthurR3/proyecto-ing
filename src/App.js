@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './App.css'
+import React from 'react';
+import './App.css';
 import NavBar from './Componentes/NavBar/NavBar';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -16,41 +16,40 @@ import Productos from './Screens/Productos/Productos.js';
 import { Breadcrumb } from 'react-bootstrap';
 import Error500 from './Screens/Error/500.js';
 import AgendarCita from './Screens/Citas/agendarCita.js';
+import Carrito from './Screens/Productos/Compras/Carrito.js';
+import { AuthProvider } from './Componentes/Context/AuthContext.js';
+import { CartProvider } from './Componentes/Context/CarritoContext.js';
+import PrivateRoute from './Componentes/Context/PrivateRoute.js';
+import PreguntaSecreta from './Screens/Login/Recuperacion/PreguntaSecreta.js';
+import AddressScreen from './Screens/Productos/Compras/AddressScreen.js';
 
 function App() {
-  // App.js
-  /* const routes = [
-    { path: '/', breadcrumb: 'Inicio', component: Home },
-    { path: '/productos', breadcrumb: 'Productos', component: Productos },
-    { path: '/login', breadcrumb: 'Login', component: Login },
-    { path: '/register', breadcrumb: 'Registro', component: Register },
-  ];
- */
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-  };
-
   return (
     <div className='App'>
-      <NavBar onSearch={handleSearch} />
+      <NavBar />
       <div className='content'>
-      <Breadcrumb />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/productos' element={<Productos searchTerm={searchTerm} />} />
-        <Route path='/agendamiento-cita' element={<AgendarCita/>}/>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/recover-password' element={<Recuperacion />} />
-        <Route path='/verify-email/:correo' element={<ValidationEmail/>}/>
-        <Route path='/change-password/:correo' element={<ChangePassword/>}/>
-        <Route path='*' element={<Error404 />} />
-        <Route path='/Error-500' element={<Error500/>}/>
-      </Routes>
-      <Footer/>
-      <ToastContainer/>
+        <Breadcrumb />
+        <AuthProvider>
+          <CartProvider>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/productos' element={<Productos />} />
+              <Route path='/Login' element={<Login />} />
+              <Route path='/Login/register' element={<Register />} />
+              <Route path='/Login/recuperacion/recover-password/:method' element={<Recuperacion />} />
+              <Route path='/Login/verificacion/verify-email/:method/:correo' element={<ValidationEmail />} />
+              <Route path='/Login/recuperacion/recuperacion/secret-question/:correo' element={<PreguntaSecreta />} />
+              <Route path='/Login/change/change-password/:correo' element={<ChangePassword />} />
+              <Route path='/shop-cart' element={<PrivateRoute><Carrito /></PrivateRoute>} />
+              <Route path='/shop-cart/select-address' element={<PrivateRoute><AddressScreen /></PrivateRoute>} />
+              <Route path='/book-appointments' element={<AgendarCita />} />
+              <Route path='*' element={<Error404 />} />
+              <Route path='/Error-500' element={<Error500 />} />
+            </Routes>
+          </CartProvider>
+        </AuthProvider>
+        <Footer />
+        <ToastContainer />
       </div>
     </div>
   );

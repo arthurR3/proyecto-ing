@@ -4,7 +4,9 @@
   padding: 0;
   font-family: sans-serif;
   height: auto;
-}.App {
+  
+}
+.App {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Establece el alto mínimo de la aplicación para que el footer se mantenga en la parte inferior */

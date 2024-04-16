@@ -42,7 +42,7 @@ const AddressScreen = ({ handleAddressSelection, onBackToCart, totalQuantity, su
                                     Enviar a mi domicilio :
                                 </label>
                             </div>
-                            <div className='row text-muted'>{address}</div>
+                            <div className='row text-muted'>{address.muncipio}, {address.cp} - {address.colonia} {address.calle}</div>
                         </div>
                         <div className='col-3'>
                             <div className="col pt-4"> $ 35.00 </div>

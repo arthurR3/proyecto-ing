@@ -8,6 +8,7 @@ import ApiConnection from '../../Componentes/Api/ApiConfig';
 import '../../CSS/NavBar.css';
 import '../../CSS/Login.css';
 import CustomModal from '../../Componentes/Modal';
+import { GoogleLogin } from '@react-oauth/google';
 const URLConnection = ApiConnection();
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 
@@ -57,7 +58,13 @@ const Login = () => {
       },
     }));
   }
+  function handleError() {
+    console.log('Login failed');
+  }
 
+  function handleSuccess(credentialsResponse) {
+    console.log(credentialsResponse)
+  }
 
   /*
       De manera síncrona valuó si el valor del campo no es un correo valido y evita
@@ -159,6 +166,9 @@ const Login = () => {
         <h2 className='mb-3 text-center  fw-bold'>Inicio de Sesión</h2>
         <form className='needs-validation'>
           <div className='form-group mb-2'>
+            <div>
+              <GoogleLogin useOneTap onError={handleError} onSuccess={handleSuccess} />
+            </div>
             <label htmlFor='email' className='form-label fw-bold'>
               Correo
             </label>

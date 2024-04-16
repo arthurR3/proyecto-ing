@@ -8,7 +8,7 @@ import CustomModal from '../../Componentes/Modal';
 import { useAuth } from '../../Componentes/Context/AuthContext';
 
 function Productos() {
-    const {addToCart} = useCart();
+    const { addToCart } = useCart();
     const [filterProducts, setFilterProducts] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -19,19 +19,19 @@ function Productos() {
 
     // Usando el context del carrito
     const { token } = useAuth();
-const isAuthenticated = token ? true : false;
-const handleAddToCart = async (product) => {
-    if (isAuthenticated) {
-        try {
-            addToCart(product);
-        } catch (error) {
-            console.error('Error al agregar al carrito:', error);
+    const isAuthenticated = token ? true : false;
+    const handleAddToCart = async (product) => {
+        if (isAuthenticated) {
+            try {
+                addToCart(product);
+            } catch (error) {
+                console.error('Error al agregar al carrito:', error);
+            }
+        } else {
+            // Aquí puedes mostrar un mensaje al usuario indicando que debe iniciar sesión
+            console.log('Debes iniciar sesión para agregar productos al carrito');
         }
-    } else {
-        // Aquí puedes mostrar un mensaje al usuario indicando que debe iniciar sesión
-        console.log('Debes iniciar sesión para agregar productos al carrito');
-    }
-};
+    };
     /* const handleMouseEnter = (productId) => {
         setSelectedProductId(productId);
     };
@@ -130,10 +130,7 @@ const handleAddToCart = async (product) => {
                 <div className="row py-5">
                     {filterProducts.map(producto => (
                         <div className="col-xl-3 col-lg-4 col-md-6 mb-4" key={producto.id}>
-                            <div className='bg-white rounded shadow-sm'
-                            /* onMouseEnter={() => handleMouseEnter(producto.id)}
-                            onMouseLeave={handleMouseLeave} */
-                            >
+                            <div className='bg-white rounded shadow-sm'>
                                 <img className='img-fluid card-img-top'
                                     as={ZoomImage}
                                     src={producto.image}
@@ -147,38 +144,16 @@ const handleAddToCart = async (product) => {
                                             <div className='badge badge-danger px-3 rounded-pill'>{producto.description}</div>
                                         </Card.Footer>
                                     )}
-                                    <button className='btnCart btn-primary p-2 align-self-center' onClick={() => handleAddToCart(producto)}> Agregar al carrito</button>
-
+                                    {producto.amount === 0 ? (
+                                        <p className="text-danger">Stock sin disposición</p>
+                                    ) : (
+                                        <button className='btnCart btn-primary p-2 align-self-center' onClick={() => handleAddToCart(producto)} disabled={producto.stock === 0}>Agregar al carrito</button>
+                                    )}
                                 </div>
                             </div>
-
-                            {/* <div
-                                    className="card-container"
-                                    onMouseEnter={() => handleMouseEnter(producto.id)}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                   
-                                    <Card>
-                                        <Card.Img
-                                            variant="top"
-                                            as={ZoomImage}
-                                            src={producto.image}
-                                            className="card-image"
-                                            onDoubleClick={() => openModal(producto)}
-                                        />
-                                        <Card.Body>
-                                            <Card.Title>{producto.name}</Card.Title>
-                                            {selectedProductId === producto.id && (
-                                                <Card.Footer>
-                                                    <h4>Precio: ${producto.price}</h4>
-                                                    <small>{producto.description}</small>
-                                                </Card.Footer>
-                                            )}
-                                        </Card.Body>
-                                    </Card>
-                                </div> */}
                         </div>
                     ))}
+
                 </div>
             )}
             <CustomModal

@@ -51,26 +51,27 @@ export const MenuItemsPrivate = [
         cName: 'nav-links'
     },
     {
-        title: 'Mis Citas',
+        title: 'Agendar Cita',
         url: '/book-appointments',
         cName: 'nav-links'
     },
-    /* {
+    {
         title: 'Mis Compras',
-        url: '/mis-compras',
+        url: '/shop-cart/details',
         cName: 'nav-links'
-    }, */
+    },
     {
         icons: <i class="fa-solid fa-cart-arrow-down"></i>,
         url: '/shop-cart',
         cName: 'nav-links'
     },
     {
-        title: 'Cerrar Sesión',
+        icons:<i class="fa-solid fa-user-gear"></i>,
+        url: '/User-info/',
         cName: 'nav-links'
     },
     {
-        icons:<i class="fa-solid fa-user-gear"></i>,
+        title: 'Cerrar Sesión',
         cName: 'nav-links'
     },
 ];

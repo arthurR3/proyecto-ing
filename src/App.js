@@ -17,11 +17,20 @@ import { Breadcrumb } from 'react-bootstrap';
 import Error500 from './Screens/Error/500.js';
 import AgendarCita from './Screens/Citas/agendarCita.js';
 import Carrito from './Screens/Productos/Compras/Carrito.js';
-import { AuthProvider } from './Componentes/Context/AuthContext.js';
+import { AuthProvider, useAuth } from './Componentes/Context/AuthContext.js';
 import { CartProvider } from './Componentes/Context/CarritoContext.js';
 import PrivateRoute from './Componentes/Context/PrivateRoute.js';
 import PreguntaSecreta from './Screens/Login/Recuperacion/PreguntaSecreta.js';
 import AddressScreen from './Screens/Productos/Compras/AddressScreen.js';
+import DetailsOrder from './Screens/Productos/Compras/DetailsCart.js';
+import DemandaEstetica from './Screens/Mate/DemandaServicios.js';
+import InfoUser from './Screens/Users/InfoUser.js';
+import DatosPersonales from './Screens/Users/DatosPersonales.js';
+import Service from './Screens/Mate/Service.js';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import DomicilioUser from './Screens/Users/Domicilio.js';
+import SecurityScreen from './Screens/Users/Security.js';
+import CitasAgendadas from './Screens/Users/MisCitas.js';
 
 function App() {
   return (
@@ -29,25 +38,35 @@ function App() {
       <NavBar />
       <div className='content'>
         <Breadcrumb />
-        <AuthProvider>
-          <CartProvider>
-            <Routes>
-              <Route path='/' element={<Home />} />
-              <Route path='/productos' element={<Productos />} />
-              <Route path='/Login' element={<Login />} />
-              <Route path='/Login/register' element={<Register />} />
-              <Route path='/Login/recuperacion/recover-password/:method' element={<Recuperacion />} />
-              <Route path='/Login/verificacion/verify-email/:method/:correo' element={<ValidationEmail />} />
-              <Route path='/Login/recuperacion/recuperacion/secret-question/:correo' element={<PreguntaSecreta />} />
-              <Route path='/Login/change/change-password/:correo' element={<ChangePassword />} />
-              <Route path='/shop-cart' element={<PrivateRoute><Carrito /></PrivateRoute>} />
-              <Route path='/shop-cart/select-address' element={<PrivateRoute><AddressScreen /></PrivateRoute>} />
-              <Route path='/book-appointments' element={<AgendarCita />} />
-              <Route path='*' element={<Error404 />} />
-              <Route path='/Error-500' element={<Error500 />} />
-            </Routes>
-          </CartProvider>
-        </AuthProvider>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
+          <AuthProvider>
+            <CartProvider>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/productos' element={<Productos />} />
+                <Route path='/Login' element={<Login />} />
+                <Route path='/Login/register' element={<Register />} />
+                <Route path='/Login/recuperacion/recover-password/:method' element={<Recuperacion />} />
+                <Route path='/Login/verificacion/verify-email/:method/:correo' element={<ValidationEmail />} />
+                <Route path='/Login/recuperacion/recuperacion/secret-question/:correo' element={<PreguntaSecreta />} />
+                <Route path='/Login/change/change-password/:correo' element={<ChangePassword />} />
+                <Route path='/User-info/' element={<PrivateRoute><InfoUser /> </PrivateRoute>} />
+                <Route path='/shop-cart' element={<PrivateRoute><Carrito /></PrivateRoute>} />
+                <Route path='/shop-cart/select-address' element={<PrivateRoute><AddressScreen /></PrivateRoute>} />
+                <Route path='/shop-cart/details' element={<PrivateRoute><DetailsOrder /></PrivateRoute>} />
+                <Route path='/book-appointments' element={<AgendarCita />} />
+                <Route path='*' element={<Error404 />} />
+                <Route path='/Error-500' element={<Error500 />} />
+                <Route path='/user-info/datosPersonal' element={<PrivateRoute><DatosPersonales /></PrivateRoute>}></Route>
+                <Route path='/user-info/Personal-security' element={<PrivateRoute><SecurityScreen /></PrivateRoute>}></Route>
+                <Route path='/user-info/direccion' element={<PrivateRoute><DomicilioUser /></PrivateRoute>}></Route>
+                <Route path='/user-info/citas-agendadas' element={<PrivateRoute><CitasAgendadas /></PrivateRoute>}></Route>
+                <Route path='/admin/servicios' element={<Service />} />
+                <Route path='/demandas-servicios/:serviceName/:numCitas' element={<DemandaEstetica />} />
+              </Routes>
+            </CartProvider>
+          </AuthProvider>
+        </GoogleOAuthProvider>
         <Footer />
         <ToastContainer />
       </div>

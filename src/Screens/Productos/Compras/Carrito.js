@@ -10,6 +10,7 @@ import { useCart } from '../../../Componentes/useCart'
 
 import { cartReducer, CART_ACTION_TYPES, cartInitialState } from '../../../Componentes/Context/Reducers/Cart'
 import { updateCart } from '../../../Componentes/Api/apiCart'
+import { toast } from 'react-toastify'
 
 const URLConnection = ApiConnection();
 function CartItem({ image, price, name, categoria, quantify, addToCart, removeFromCart }) {
@@ -36,7 +37,7 @@ function CartItem({ image, price, name, categoria, quantify, addToCart, removeFr
 
 const Carrito = () => {
     // Obtener el usuario por el token guardado en el AuthContext 
-    const { token } = useAuth();
+    const { token, isAuthenticed } = useAuth();
     const data = jwtDecode(token);
     const idUser = data.user.idUser
     const [state, dispatch] = useReducer(cartReducer, cartInitialState)
@@ -71,11 +72,16 @@ const Carrito = () => {
 
     useEffect(() => {
         getDetailsCart(idUser);
-    }, [])
+    })
 
     useEffect(() => {
         if (cart.length > 0) {
-            updateCart(cart, idUser);
+            try {
+                updateCart(cart, idUser);
+            } catch (error) {
+                // Mostrar el mensaje de error como una alerta
+                toast.warn(error.message);
+            }
         }
     }, [cart]);
     const handleAddressSelection = () => {
@@ -102,6 +108,7 @@ const Carrito = () => {
             const response = await axios.post(`${URLConnection}/sales/createOrder`, pedido);
             const init_point = response.data.data.body.init_point;
             window.location.href = init_point;
+            localStorage.removeItem('Cart')
         } catch (error) {
             console.error('Error al confirmar pedido:', error);
         }
@@ -171,11 +178,6 @@ const Carrito = () => {
                                 className='btnPay'
                                 onClick={() => {
                                     setStep('address');
-                                    setShowModal(true);
-                                    setModalContent('preparing');
-                                    setTimeout(() => {
-                                        setModalContent('user');
-                                    }, 2000);
                                 }}
                                 disabled={cart.length === 0}
                             >
@@ -190,7 +192,7 @@ const Carrito = () => {
                         totalQuantity={totalQuantity}
                         subTotal={subTotal}
                         total={total}
-                        address={data.user.direccion}
+                        address={data.user.address}
                         deliveryOption={deliveryOption}
                         setDeliveryOption={setDeliveryOption}
                         handleAddressSelection={handleAddressSelection}
@@ -243,7 +245,7 @@ const Carrito = () => {
                                         <span className="font-weight-bold theme-color">$ {total.toFixed(2)}</span>
                                     </div>
                                     <div className="text-center mt-5">
-                                        <button className="btn btn-primary" onClick={confirmarPedido(pedido)}>Confirmar pedido</button>
+                                        <button className="btn btn-primary" onClick={() => confirmarPedido(pedido)}>Confirmar pedido</button>
                                     </div>
                                 </div>
                             </>

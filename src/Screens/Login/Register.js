@@ -39,6 +39,7 @@ const Register = () => {
         { id: 'peet-favorite', value: '¿Nombre de tu mascota?' },
 
     ])
+    console.log(selectedColonia)
     axios.interceptors.response.use(
         (response) => {
             return response;
@@ -106,15 +107,17 @@ const Register = () => {
     // Función que maneja el cambio del código postal
     const handleCodigoP = async (e) => {
         const codePostal = e.target.value;
-        console.log('Código Postal:', codePostal);
+        //console.log('Código Postal:', codePostal);
 
         if (codePostal.length === 5) {
             try {
                 const response = await codigosPostal(codePostal);
+                //console.log(response)
                 if (response && response.length > 0) {
-                    setMunicipio(response[0].D_mnpio);
-                    setColonia(response.map((entry) => entry.d_asenta));
-                    console.log(response.map((entry) => entry.d_asenta));
+                    const firstEntry = response[0]; // Tomar el primer elemento de la respuesta
+                    setMunicipio(firstEntry.municipio.nombre);
+                    const colonias = response.map((entry) => entry.colonia);
+                    setColonia(colonias);
                 } else {
                     toast.error('Código postal no válido. Verifica e intenta de nuevo.');
                 }
@@ -125,6 +128,8 @@ const Register = () => {
         } else {
             setMunicipio('');
             setColonia([]);
+            setSelectedColonia(''); // Limpiar la colonia seleccionada
+
         }
 
         // Actualizar el estado del código postal
@@ -230,19 +235,26 @@ const Register = () => {
             return;
         }
         const userInfo = {
-            name: nombre,
-            last_name1: ApPaterno,
-            last_name2: ApMaterno,
-            phone: telefono,
-            email: credentials.email.value,
-            password: credentials.password.value,
-            cp: codigoPostal,
-            address: 'Colonia '  + selectedColonia + ', Calle ' + calle + ', ' + municipio,
-            birthday: formData,
-            question: selectedQuestion.value,
-            answers: customAnswer,
-            id_rol : 1,
-            id_frecuencia: 1,
+            user: {
+                id_role: 1,
+                id_frequency: 1,
+                name: nombre,
+                last_name1: ApPaterno,
+                last_name2: ApMaterno,
+                email: credentials.email.value,
+                password: credentials.password.value,
+                phone: telefono,
+                birthday: formData,
+                question: selectedQuestion.value,
+                answers: customAnswer,
+                
+            },
+            address: {
+                municipality: municipio,
+                cologne: selectedColonia,
+                street: calle,
+                cp: codigoPostal
+            },
         }
 
         axios.post(`${URLConnection}/users/`, userInfo)

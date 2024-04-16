@@ -1,14 +1,15 @@
 import axios from "axios";
 
 const codigosPostal = async (codigoPostal) => {
+    //console.log(process.env.REACT_APP_RapiKey)
     const options = {
         method: 'GET',
-        url: `https://mexico-zip-codes3.p.rapidapi.com/${codigoPostal}`,
+        url: `https://codigos-postales-mx.p.rapidapi.com/cp/${codigoPostal}`,
         headers: {
-            'X-RapidAPI-Key': 'd4431c3458mshfe98d909d8dbd37p15b919jsn93d80fe070d3',
-            'X-RapidAPI-Host': 'mexico-zip-codes3.p.rapidapi.com'
-          }
-    };
+          'X-RapidAPI-Key': process.env.REACT_APP_RapiKey,
+          'X-RapidAPI-Host': 'codigos-postales-mx.p.rapidapi.com'
+        }
+      };
 
     try {
         const response = await axios.request(options);

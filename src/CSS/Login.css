@@ -67,3 +67,17 @@
     transform: translateY(-50%);
     cursor: pointer;
 }
+.formulario{
+  justify-content: center;
+  width: 80vh;
+  margin-bottom: 10vh;
+  margin-top: 15vh;
+  border-radius: 5px;
+  color: blueviolet;
+  padding: 30px;
+  border-radius:8px ;
+}
+.formulario input{
+  font-size: 18px;
+  width: 90%;
+}

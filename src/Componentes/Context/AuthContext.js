@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import SessionStorage from '../sessionStorage';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const AuthContext = createContext();
 
@@ -7,13 +8,13 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(SessionStorage.getSession()?.userData)
   const [isAuthenticated, setIsAuthenticated] = useState(SessionStorage.hasSession())
 
-  useEffect(()=> {
+  useEffect(() => {
     setIsAuthenticated(SessionStorage.hasSession());
     setToken(SessionStorage.getSession()?.userData)
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, token}}>
+    <AuthContext.Provider value={{ isAuthenticated, token }}>
       {children}
     </AuthContext.Provider>
   );

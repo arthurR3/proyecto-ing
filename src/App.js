@@ -61,7 +61,7 @@ function App() {
                 <Route path='/user-info/Personal-security' element={<PrivateRoute><SecurityScreen /></PrivateRoute>}></Route>
                 <Route path='/user-info/direccion' element={<PrivateRoute><DomicilioUser /></PrivateRoute>}></Route>
                 <Route path='/user-info/citas-agendadas' element={<PrivateRoute><CitasAgendadas /></PrivateRoute>}></Route>
-                <Route path='/admin/servicios' element={<Service />} />
+                <Route path='/servicios' element={<Service />} />
                 <Route path='/demandas-servicios/:serviceName/:numCitas' element={<DemandaEstetica />} />
               </Routes>
             </CartProvider>

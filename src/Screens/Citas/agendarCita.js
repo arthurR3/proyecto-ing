@@ -25,18 +25,20 @@ function AgendarCita() {
   const [showModal, setShowModal] = useState(false)
   const [showModalC, setShowModalC] = useState(false)
   const [step, setStep] = useState('agendar')
+  const [timeSlot, setTimeSlot] = useState({ start: '', end: '' });
 
   const data = jwtDecode(token)// Obtén la información del usuario autenticado
   const [formData, setFormData] = useState({
-    name: data.user.nombre || '',
-    last_name1: data.user.lastName || '',
-    last_name2: data.user.lastName2 || '',
-    phone: data.user.telefono || '',
+    name: '',
+    last_name1: '',
+    last_name2: '',
+    phone: '',
   });
 
+  // Estado inicial para el correo electrónico con validación
   const [credentials, setCredentials] = useState({
     email: {
-      value: data.user.email || '',
+      value: '',
       hasError: false,
     },
   });
@@ -67,14 +69,24 @@ function AgendarCita() {
     }));
   }
 
-  useEffect(() => {
-    setFormData({
-      name: data.user.nombre || '',
-      last_name1: data.user.lastName || '',
-      last_name2: data.user.lastName2 || '',
-      phone: data.user.telefono || '',
-    });
-  }, [data.user]);
+ useEffect(() => {
+    // Si hay autenticación, actualizar los campos con la información del usuario
+    if (token) {
+      const data = jwtDecode(token);
+      setFormData({
+        name: data.user.nombre || '',
+        last_name1: data.user.lastName || '',
+        last_name2: data.user.lastName2 || '',
+        phone: data.user.telefono || '',
+      });
+      setCredentials({
+        email: {
+          value: data.user.email || '',
+          hasError: false,
+        },
+      });
+    }
+  }, [token]);
 
   useEffect(() => {
     // Llamar a la API para obtener la lista de servicios
@@ -233,7 +245,7 @@ function AgendarCita() {
       ...formData,
       service: selectedService,
       date: date,
-      time:`${timeSlot.start} - ${timeSlot.end}`
+      time: `${timeSlot.start} - ${timeSlot.end}`
     }
     console.log(info)
 
@@ -243,7 +255,7 @@ function AgendarCita() {
       <div className='row'>
         <div className='col-md-6'>
           <img className='img-cita'
-            src='https://jarturoonline.000webhostapp.com/maq-estetica/img/Cita.png' alt='foto'
+            src='https://jx|arturoonline.000webhostapp.com/maq-estetica/img/Cita.png' alt='foto'
           />
         </div>
         {step === 'agendar' && (

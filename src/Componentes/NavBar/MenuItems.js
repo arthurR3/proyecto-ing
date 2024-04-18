@@ -14,7 +14,7 @@ export const MenuItems = [
     },
     {
         title: 'Servicios',
-        url: '/Servicios',
+        url: '/servicios',
         cName: 'nav-links'
     },
     {
@@ -47,7 +47,7 @@ export const MenuItemsPrivate = [
     },
     {
         title: 'Servicios',
-        url: '/Servicios',
+        url: '/servicios',
         cName: 'nav-links'
     },
     {

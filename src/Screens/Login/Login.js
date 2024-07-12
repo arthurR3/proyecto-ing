@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
-import '../../CSS/NavBar.css';
-import '../../CSS/Login.css';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
-import axios from 'axios';
 import SessionStorage from '../../Componentes/sessionStorage';
+import ApiConnection from '../../Componentes/Api/ApiConfig';
+import '../../CSS/NavBar.css';
+import '../../CSS/Login.css';
+import CustomModal from '../../Componentes/Modal';
+import { GoogleLogin } from '@react-oauth/google';
+const URLConnection = ApiConnection();
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 
 const Login = () => {
   const navigation = useNavigate();
   const minPassword = 8;
+  const [showRecoveryModal, setShowRecoveryModal] = useState(false);
+  const [recoveryMethod, setRecoveryMethod] = useState('');
   const [showPassword, setShowPassword] = useState('')
   const [isRecaptcha, setRecaptcha] = useState(false);
   const [credentials, setCredentials] = useState({
@@ -23,9 +29,24 @@ const Login = () => {
       hasError: false,
     },
   });
-  const handleRecaptcha = (value) => {
+  const handleRecaptcha = () => {
     setRecaptcha(true)
   }
+
+  const handleOpenRecoveryModal = () => {
+    setShowRecoveryModal(true);
+  };
+
+  const handleCloseRecoveryModal = () => {
+    setShowRecoveryModal(false);
+  };
+
+  const handleRecoverPassword = (method) => {
+    handleCloseRecoveryModal();
+    navigation(`/Login/recuperacion/recover-password/${method}`);
+  };
+
+
   function handleChange(evt) {
     const { name, value } = evt.target;
 
@@ -37,7 +58,13 @@ const Login = () => {
       },
     }));
   }
+  function handleError() {
+    console.log('Login failed');
+  }
 
+  function handleSuccess(credentialsResponse) {
+    console.log(credentialsResponse)
+  }
 
   /*
       De manera síncrona valuó si el valor del campo no es un correo valido y evita
@@ -72,22 +99,28 @@ const Login = () => {
       toast.info('Por favor, resuelve el reCAPTCHA antes de inciar sesión');
       return;
     }
-    axios.post("https://back-estetica.up.railway.app/api/v1/users/login", {
+    axios.post(`${URLConnection}/users/login`, {
       email: credentials.email.value,
       password: credentials.password.value
     })
       .then(response => {
         const data = response.data.data;
-        console.log("Response ", data);
         if (response.data.success) {
-          toast.success(`Inicio exitoso ${data.name}`, {
-            position: 'top-center',
-            className: 'mt-5'
+          toast.success(`Inicio exitoso`, {
+            position: "top-right",
+            className: "mt-5",
+            autoClose: 300,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: 0,
+            toastId: "my_toast",
           })
           setTimeout(() => {
-            SessionStorage.saveSession(data);
             window.location.reload()
-          }, 1000)
+          }, 100)
+          SessionStorage.saveSession(data);
           navigation('/');
 
           /* console.log("Inicio exitoso") */
@@ -119,7 +152,8 @@ const Login = () => {
           } else {
             // Otro tipo de error que no es del servidor (puede ser local)
             console.log('Error:', error.message);
-            alert('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
+            toast.error('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
+            navigation('/Error-500');
           }
         }
       })
@@ -129,9 +163,12 @@ const Login = () => {
   return (
     <div className='wrapper d-flex align-items-center justify-content-center w-100 mt-4'>
       <div className='login rounded align-text-center'>
-        <h2 className='mb-3 text-center'>Inicio de Sesión</h2>
-        <form className='needs-validation' onSubmit={handleSubmit}>
+        <h2 className='mb-3 text-center  fw-bold'>Inicio de Sesión</h2>
+        <form className='needs-validation'>
           <div className='form-group mb-2'>
+            <div>
+              <GoogleLogin useOneTap onError={handleError} onSuccess={handleSuccess} />
+            </div>
             <label htmlFor='email' className='form-label fw-bold'>
               Correo
             </label>
@@ -183,19 +220,32 @@ const Login = () => {
 
 
           <div>
+            <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2' />
             <button type='submit' onClick={handleSubmit} className='btn btn-success mt-2'>
               Iniciar sesión
             </button>
-            <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2' />
-            <Link to='/recover-password' className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
+            <Link onClick={handleOpenRecoveryModal} className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
             <div className='mt-3'>
               <p className='mb-0 text-align-center'>¿Aun no tienes cuenta?
-                <Link to='/register' className='fw-bold p-2 text-decoration-none'>Crear Cuenta</Link>
+                <Link to='/Login/register' className='fw-bold p-2 text-decoration-none'>Crear Cuenta</Link>
               </p>
             </div>
           </div>
         </form>
       </div>
+      <CustomModal
+        show={showRecoveryModal}
+        onHide={handleCloseRecoveryModal}
+        title="Recuperar Contraseña"
+      >
+        <div>
+          <h5>Selecciona el método de recuperación</h5>
+          <div className='d-flex justify-center-between'>
+            <button className='btn btn-primary me-2' onClick={() => handleRecoverPassword('code')}>Código de Verificación</button>
+            <button className="btn btn-primary" onClick={() => handleRecoverPassword('secret')}>Pregunta Secreta</button>
+          </div>
+        </div>
+      </CustomModal>
     </div>
   );
 };

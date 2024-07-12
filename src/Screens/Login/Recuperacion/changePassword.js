@@ -3,9 +3,13 @@ import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import PasswordStrengthBar from 'react-password-strength-bar';
+import ApiConnection from '../../../Componentes/Api/ApiConfig';
+const URLConnection = ApiConnection();
 
 function ChangePassword() {
-    const { correo } = useParams(); 
+    const { correo } = useParams();
+    const [showPassword, setShowPassword] = useState('');
+    const [showPasswordR, setShowPasswordR] = useState('')
     const navigation = useNavigate();
     const minPassword = 8;
     const [credentials, setCredentials] = React.useState({
@@ -47,7 +51,7 @@ function ChangePassword() {
             const hasSpecialChar = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/.test(value);
 
             setPasswordRequirements({
-                minLength: hasMinLength,    
+                minLength: hasMinLength,
                 uppercase: hasUppercase,
                 lowercase: hasLowercase,
                 number: hasNumber,
@@ -87,7 +91,7 @@ function ChangePassword() {
             return
         }
         try {
-            axios.post("https://back-estetica.up.railway.app/api/v1/users/change-password", {
+            axios.post(`${URLConnection}/users/change-password`, {
                 email: correo,
                 newPassword: credentials.password.value
             })
@@ -143,23 +147,34 @@ function ChangePassword() {
                         <label htmlFor='password' className='form-label fw-bold'>
                             Contraseña :
                         </label>
-                        <input
-                            className={`form-control ${credentials.password.hasError ? 'is-invalid' : ''
-                                } ${passwordRequirements.minLength &&
-                                    passwordRequirements.uppercase &&
-                                    passwordRequirements.lowercase &&
-                                    passwordRequirements.number &&
-                                    passwordRequirements.specialChar
-                                    ? 'password-valid'
-                                    : ''}`}
-                            id='password'
-                            type='password'
-                            name='password'
-                            value={credentials.password.value}
-                            onChange={validationPassword}
-                            onBlur={handleBlur}
-                            required
-                        />
+                        <div className='input-group'>
+                            <input
+                                className={`form-control ${credentials.password.hasError ? 'is-invalid' : ''
+                                    } ${passwordRequirements.minLength &&
+                                        passwordRequirements.uppercase &&
+                                        passwordRequirements.lowercase &&
+                                        passwordRequirements.number &&
+                                        passwordRequirements.specialChar
+                                        ? 'password-valid'
+                                        : ''}`}
+                                id='password'
+                                type={showPassword ? 'text' : 'password'}
+                                name='password'
+                                value={credentials.password.value}
+                                onChange={validationPassword}
+                                onBlur={handleBlur}
+                                required
+                            />
+                            <div className="input-group-append">
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    <i className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                            </div>
+                        </div>
                         <PasswordStrengthBar password={credentials.password.value} />
                         {credentials.password.hasError && (
                             <div className='invalid-feedback'>
@@ -181,16 +196,27 @@ function ChangePassword() {
                     </div>
                     <div className='form-group mb-2'>
                         <label htmlFor='repeatPassword' className='form-label fw-bold'>Repetir Contraseña :</label>
-                        <input
-                            className={`form-control was-validated ${credentials.repeatPassword.hasError ? 'is-invalid' : ''}`}
-                            id='repeatPassword'
-                            type='password'
-                            name='repeatPassword'
-                            value={credentials.repeatPassword.value}
-                            onChange={validationPassword}
-                            onBlur={handleBlur}
-                            required
-                        />
+                        <div className='input-group'>
+                            <input
+                                className={`form-control was-validated ${credentials.repeatPassword.hasError ? 'is-invalid' : ''}`}
+                                id='repeatPassword'
+                                type={showPasswordR ? 'text' : 'password'}
+                                name='repeatPassword'
+                                value={credentials.repeatPassword.value}
+                                onChange={validationPassword}
+                                onBlur={handleBlur}
+                                required
+                            />
+                            <div className="input-group-append">
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={() => setShowPasswordR(!showPasswordR)}
+                                >
+                                    <i className={`fa ${showPasswordR ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                </button>
+                            </div>
+                        </div>
                         {credentials.password.value !== credentials.repeatPassword.value && (
                             <div className='invalid-feedback'>
                                 Las contraseñas no coinciden

@@ -1,45 +1,73 @@
-.NavbarItems{
-    background:linear-gradient(90deg, rgb(28,27,27) 0%, rgb(26, 17, 73) 100%);
+.NavbarItems {
+    /* background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 17, 73) 100%); */
+    background-color: rgb(62, 7, 114);
+
     height: 80px;
     font-size: 18px;
     font-weight: 600;
 }
-.fondo{
+
+.titulo-menu {
+    padding: 10px 20px;
+    margin-top: 14px;
+    margin-right: 25px;
+    cursor: pointer;
+    box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75);
+    border-radius: 8px;
+    font-size: 20px;
+  }
+  
+  .titulo-menu:hover {
+    transform: translateY(-2px);
+    box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75), 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+  .seleccionado {
+    background-color: #ffbf00ce; /* Color de fondo para la sección seleccionada */
+    color: black;
+    font-weight: 200;
+  }
+
+.fondo {
     margin-top: auto;
     margin: auto;
     height: auto;
-    background:linear-gradient(90deg, rgb(26, 17, 73) 0%, rgb(28,27,27) 100%);
+    background: linear-gradient(90deg, rgb(26, 17, 73) 0%, rgb(28, 27, 27) 100%);
 }
-.h5{
-    color:#FFBF00;
+
+.h5 {
+    color: #FFBF00;
 }
-.calendr-btn{
+
+.calendr-btn {
     display: inline-block;
     padding: 10px 20px;
-    background-color:  #1c1b1b;
+    background-color: #1c1b1b;
     color: #fff;
     border: none;
     border-radius: 10px;
     display: flex;
     font-size: 20px;
 }
-.calendr-btn:hover{
+
+.calendr-btn:hover {
     background-color: #eeb816cb;
     color: black;
 }
 
-.navbar-logo{
+.navbar-logo {
     color: #ffff;
     justify-self: start;
-    margin-left: 20px;
+    margin-left: 10px;
     cursor: pointer;
     font-family: cursive;
 }
-.fa-react{
+
+.fa-react {
     margin-left: 0.5rem;
     font-size: 1.6rem;
 }
-.nav-menu{
+
+.nav-menu {
     display: grid;
     grid-template-columns: repeat(5, auto);
     grid-gap: 10px;
@@ -47,45 +75,62 @@
     text-align: center;
     width: 70vw;
     justify-content: end;
-    margin-right: 2rem;
 }
-.links{
+
+.links {
     color: white;
     text-decoration: none;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.5rem;
 }
-.nav-links:hover{
+
+.nav-links:hover {
     background-color: #FFBF00;
     color: black;
     border-radius: 20px;
     transition: all 0.3s ease-out;
     font-weight: 600;
 }
-.fa-bars{
+
+.fa-bars {
     color: #fff;
 }
-.nav-links-mobile{
+
+.nav-links-mobile {
     display: none;
 }
-.menu-icon{
+
+.menu-icon {
     display: none;
 }
-.formulario{
+
+.formulario {
     padding-top: 20px;
     margin-top: 50px;
 }
+.sidebar{
+    width: 280px;
+    height: 100vh;
+}
+.home{
+    margin-top: 40px;
+}
+
 @media screen and (max-width: 960px) {
-    .home-page header h1, 
-    .home-page header h2{
+
+    .home-page header h1,
+    .home-page header h2 {
         text-shadow: 2px 2px 8px #fff;
     }
-    header h1{
+
+    header h1 {
         font-size: 4rem;
     }
-    .NavbarItems{
+
+    .NavbarItems {
         position: relative;
     }
-    .nav-menu{
+
+    .nav-menu {
         display: flex;
         flex-direction: column;
         width: 30%;
@@ -96,31 +141,36 @@
         opacity: 1;
         transition: all 0.5s ease;
     }
-    .nav-menu.active{
+
+    .nav-menu.active {
         background-color: #20CA;
         right: 0;
         opacity: 1;
         transition: all 0.5s ease;
         z-index: 1;
     }
-    .nav-links{
+
+    .nav-links {
         text-align: center;
         text-decoration: none;
         padding: 1.5rem;
         width: 100%;
         display: table;
     }
-    .nav-links:hover{
+
+    .nav-links:hover {
         background-color: #FFBF00;
         border-radius: 0;
     }
-    .navbar-logo{
+
+    .navbar-logo {
         position: absolute;
-        top:0;
+        top: 0;
         left: 0;
         transform: translate(25%, 50%);
     }
-    .menu-icon{
+
+    .menu-icon {
         display: block;
         position: absolute;
         top: 0;
@@ -129,5 +179,16 @@
         font-size: 1.8rem;
         cursor: pointer;
         color: #fff;
+    }
+    .formulario{
+        width: 80vh;
+        margin-bottom: 10vh;
+        margin-top: 15vh;
+        border-radius: 5px;
+        color: blueviolet;
+        background-color: #ffff;
+        padding: 30px;
+        box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75);
+        border-radius:8px ;
     }
 }

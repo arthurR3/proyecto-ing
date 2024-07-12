@@ -1,11 +1,22 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ReCAPTCHA from 'react-google-recaptcha';
+import ApiConnection from '../../../Componentes/Api/ApiConfig';
+import CustomModal from '../../../Componentes/Modal';
+const URLConnection = ApiConnection();
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 
 function Recuperacion() {
     const navigation = useNavigate();
+    const {method}  = useParams();
+    const [isRecaptcha, setRecaptcha] = useState(false);
+
+    const handleRecaptcha = () => {
+        setRecaptcha(true)
+      }
+      
     const [credentials, setCredentials] = useState({
         email: {
             value: '',
@@ -47,8 +58,12 @@ function Recuperacion() {
             })
             return;
         };
+        if (!isRecaptcha) {
+            toast.info('Por favor, resuelve el reCAPTCHA antes de inciar sesión');
+            return;
+          }
 
-        axios.post("https://back-estetica.up.railway.app/api/v1/users/recover-password", {
+        axios.post(`${URLConnection}/users/recover-password`, {
             email: credentials.email.value
         })
             .then(response => {
@@ -57,7 +72,7 @@ function Recuperacion() {
                         position: 'top-right',
                         className: 'mt-5'
                     })
-                    navigation(`/verify-email/${credentials.email.value}`);
+                    navigation(`/Login/verificacion/verify-email/${method}/${credentials.email.value}`);
                 }
                 else {
                     const errorMessage = response.data.message ? response.data.message : 'Error desconocido';
@@ -99,7 +114,7 @@ function Recuperacion() {
 return (
     <div className=' mt-auto m-5 d-flex align-items-center justify-content-center'>
         <div className='login rounded align-text-center'>
-            <h2 className='mb-3 text-center pb-5'>Recuperación de Contraseña</h2>
+            <h2 className='mb-3 text-center pb-5 fw-5'>Recuperación de Contraseña</h2>
             <form className='needs-validation'>
                 <div className='form-group mb-2'>
                     <label htmlFor='email' className='form-label fw-bold'>
@@ -125,6 +140,7 @@ return (
                         Ingresa un Correo Válido
                     </p>
                 </div>
+                <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2 m-3' />
                 <div className="d-flex">
                     <button type='submit' onClick={handleSubmit} className='btn btn-success me-2'>
                         <i className='fa fa-envelope me-2'></i>
@@ -137,6 +153,9 @@ return (
 
             </form>
         </div>
+        <CustomModal >
+
+        </CustomModal>
     </div>
 )}
 export default Recuperacion

@@ -16,7 +16,7 @@ function Terminos() {
                                 y Condiciones</b> que se detallan a continuación:
                             <br />
                             <br />
-                            Si no está de acuerdo con alguno de estos, no deberá utilizar nuestros Sitios. Nos reservamos el derecho de cambiar, modificar, añadir o eliminar partes de estos Términos y Condiciones en cualquier momento,
+                            Si no está de acuerdo con alguno de estos, no deberá utilizar nuestros sitio. Nos reservamos el derecho de cambiar, modificar, añadir o eliminar partes de estos Términos y Condiciones en cualquier momento,
                             los cambios serán efectivos cuando se publiquen en nuestra página web, por lo que será responsabilidad del cliente revisar
                             las actualizaciones de estos Términos y Condiciones, ya que se tendrán por aceptados los cambios que se hubieren realizado
                             al momento de realizar cualquier solicitud de compra.
@@ -36,13 +36,11 @@ function Terminos() {
                                     Los usuarios aceptan no intentar eludir, desactivar o interferir con las características de seguridad del sitio web. Esto incluye no intentar evitar o restringir el acceso al contenido del sitio web o interferir
                                     de alguna manera con las medidas de seguridad implementadas para proteger el sitio y su contenido.
                                 </li>
-                            </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>
-                                Contenido de terceros y sitios de terceros
-                            </h5>
-                            <ul>
                                 <li>
-                                    <b>ESTÉTICA PRINCIPAL no se hace responsable por el contenido de terceros</b> y no nos hacemos responsables por el contenido de terceros que se publique en nuestro sitio web.
+                                    Esté alerta ante intentos de phishing y suplantación de identidad. <b>Verifique la autenticidad de los mensajes y correos electrónicos antes de proporcionar información personal</b>.
+                                </li>
+                                <li>
+                                    <b>Usted es responsable de cualquier actividad realizada desde su cuenta</b>. Notifique de inmediato cualquier actividad sospechosa o no autorizada.
                                 </li>
                             </ul>
                             <h5 className='mt-3 text-dark fw-bold'>
@@ -69,25 +67,21 @@ function Terminos() {
                                 </li>
                             </ul>
                             <h5 className='mt-3 text-dark fw-bold'>
+                                Contenido de terceros y sitios de terceros
+                            </h5>
+                            <ul>
+                                <li>
+                                    Estética Principal puede proporcionar contenido de terceros ("Contenido de terceros") o enlaces a sitios de terceros como un servicio para los usuarios.
+                                    <b> Estética Principal no controla, aprueba ni es responsable de ningún Contenido de Terceros o Sitios de Terceros</b>, y la inclusión de enlaces a Contenidos de Terceros o Sitios de Terceros no implica ninguna asociación o relación entre Estética Principal y dicho Contenido.
+                                </li>
+                            </ul>
+                            <h5 className='mt-3 text-dark fw-bold'>
                                 Reserva de derechos
                             </h5>
                             <ul>
                                 <li>
-                                    ESTÉTICA PRINCIPAL se reserva el derecho de modificar, interrumpir o deshabilitar el acceso a los sitios o cualquier
+                                    ESTÉTICA PRINCIPAL se reserva el derecho de modificar, interrumpir o deshabilitar el acceso al sitio o cualquier
                                     parte de los mismos en cualquier momento, ya sea de forma permanente o temporal.
-                                </li>
-                            </ul>
-                            <h3 className='mt-3 text-dark fw-bold'>Términos de Uso</h3>
-                            Al usar este sitio web y realizar pedidos o agendamiento de servicios a través de la misma, usted se compromete a:
-                            <ul>
-                                <li>
-                                    Hacer uso de esta página web únicamente para realizar consultas o pedidos legalmente válidos;
-                                </li>
-                                <li>
-                                    <b>Usted acepta proporcionar honestamente su dirección de correo electrónico, dirección postal y otra información
-                                        de contacto </b>y acepta que utilicemos esta información para comunicarnos con usted según sea necesario
-                                    (consulte nuestra Política de privacidad). <b>Si no proporciona toda la información requerida, no podremos procesar su pedido</b>.
-                                    Al realizar un pedido a través de Estética Principal, declaras ser mayor de 18 años y tener capacidad jurídica.
                                 </li>
                             </ul>
                             <h5 className='mt-3 text-dark fw-bold'>
@@ -105,17 +99,17 @@ function Terminos() {
                                     de los productos para evitar posibles reacciones alérgicas.
                                 </li>
                                 <li>
-                                    El uso del Sitio no pretende servir como un sustituto del consejo médico profesional: estos Sitios son únicamente tiendas en línea para productos de belleza.
-                                    Consulte con su médico o profesional de la salud acerca del uso de cualquier producto o información recibida de los Sitios antes de usar o confiar en ellos.
+                                    El uso del Sitio no pretende servir como un sustituto del consejo médico profesional: estos sitio son únicamente tiendas en línea para productos de belleza.
+                                    Consulte con su médico o profesional de la salud acerca del uso de cualquier producto o información recibida del sitio antes de usar o confiar en ellos.
                                     Su médico o profesional de la salud debe dirigirse a todas y cada una de las preguntas médicas, preocupaciones y decisiones con respecto al posible tratamiento de
                                     cualquier condición médica.
                                 </li>
                                 <li>
-                                    <b>Estética Principal</b> no se representa como un médico ni se implica en estos temas tan delicados. No se proporcionan intencionalmente medicamentos o tratamientos médicos en el Sitio web.
+                                    <b>Estética Principal no se representa como un médico ni se implica en estos temas tan delicados</b>. No se proporcionan intencionalmente medicamentos o tratamientos médicos en el Sitio web.
                                     Si necesita atención médica, llame a su médico de inmediato.
                                 </li>
                                 <li>
-                                Las promociones están sujetas a cambio sin previo aviso y sujetas a disponibilidad de inventario.       
+                                    Las promociones están sujetas a cambio sin previo aviso y sujetas a disponibilidad de inventario.
                                 </li>
                                 <li>
                                     Las fotos de los productos son de carácter ilustrativo, existe la posibilidad de que la imagen que se ve en la página sea
@@ -135,7 +129,43 @@ function Terminos() {
                                     ya que puede variar según la pantalla o dispositivo utilizado.
                                 </li>
                                 <li>
-
+                                    Ofrecemos una variedad de servicios de belleza, que incluyen cortes de cabello, coloración, tratamientos faciales y corporales, manicuras y pedicuras,
+                                    entre otros. Cada servicio tiene una descripción detallada y un precio asociado que se muestra claramente en nuestro sitio web.
+                                </li>
+                                <li>
+                                    Nos reservamos el derecho de modificar o interrumpir temporalmente la prestación de ciertos servicios debido a mantenimiento programado, situaciones de emergencia
+                                    o cualquier otra circunstancia que pueda afectar la calidad o disponibilidad de los servicios.
+                                </li>
+                                <li>
+                                    Toda la información personal proporcionada por los clientes será tratada de acuerdo con nuestra Política de Privacidad, que puede consultarse en nuestro sitio web. Nos comprometemos a mantener la
+                                    confidencialidad de esta información y a utilizarla únicamente con el propósito de brindar nuestros servicios.
+                                </li>
+                                <li>Para reservar un servicio en nuestro sitio web, es necesario realizar un pago del 50% o el pago total del costo del servicio. Solo después de recibir el pago se podrá agendar la cita correspondiente.</li>
+                            </ul>
+                            <h5 className='mt-3 text-dark fw-bold'>Reserva y Cancelaciones</h5>
+                            <ul>
+                                <li>
+                                    Para reservar un servicio, los clientes deben hacerlo con al menos 24 horas de anticipación.
+                                </li>
+                                <li>
+                                Los clientes deben confirmar su cita con al menos 2 horas de antelación. Si no se recibe confirmación en este periodo, la cita podrá ser cancelada, y el anticipo del costo del servicio no será reembolsable.
+                                </li>
+                                <li>
+                                Las cancelaciones deben realizarse con al menos 5 días de anticipación; de lo contrario, se aplicará una tarifa de cancelación del 50% del costo del servicio.
+                                </li>
+                                <li>
+                                En caso de que el cliente no se presente a la cita sin haberla cancelado previamente, el anticipo del costo del servicio no será reembolsable.
+                                </li>
+                                <li>
+                                Es responsabilidad del cliente asegurarse de confirmar y asistir a su cita para evitar la pérdida del anticipo y la reasignación de su espacio.
+                                </li>
+                            </ul>
+                            <h5 className='mt-3 text-dark fw-bold'>
+                                Disponibilidad y servicio de entrega
+                            </h5>
+                            <ul>
+                                <li>
+                                    Los productos mostrados en nuestro sitio web estan sujetos a su disponiblidad y se pueden ordenar y entregar sólo dentro de la ciudad de <b>Huejutla de Reyes, Hidalgo, México</b> a través de un servicio de entrega externo a Estética Principal.
                                 </li>
                             </ul>
                             <h5 className='mt-3 text-dark fw-bold'>
@@ -152,17 +182,45 @@ function Terminos() {
                                 <li>
                                     Una vez que hayas seleccionado todos los artículos que deseas comprar, se agregarán a tu carrito y el siguiente paso será procesar el pedido
                                     y realizar el pago. Para ello deberás seguir los pasos del proceso de compra e introducir o confirmar la información que te solicitan en cada paso.
-                                    También podrá cambiar los datos de su pedido durante el proceso de compra previo al pago. Además, los usuarios registrados pueden ver información detallada 
+                                    También podrá cambiar los datos de su pedido durante el proceso de compra previo al pago. Además, los usuarios registrados pueden ver información detallada
                                     sobre todos los pedidos en el área "Mis Compras".
                                 </li>
                                 <li>
                                     <b>Al finalizar la compra </b>y sea enviada la confirmación <b>la orden no podrá ser cancelada o modificada</b>.
                                 </li>
                                 <li>
-                                Podrá utilizar como medio de pago las tarjetas Visa, Mastercard, American Express, Cuenta en Mercado Pago y transferencias interbancarias.
+                                    Podrá utilizar como medio de pago las tarjetas Visa, Mastercard, American Express y Cuenta en Mercado Pago.
                                 </li>
                             </ul>
+                            Al usar este sitio web y realizar pedidos o agendamiento de servicios a través de la misma, usted se compromete a:
+                            <ul>
+                                <li>
+                                    Hacer uso de esta página web únicamente para realizar consultas o pedidos legalmente válidos;
+                                </li>
+                                <li>
+                                    <b>Usted acepta proporcionar honestamente su dirección de correo electrónico, dirección postal y otra información
+                                        de contacto </b>y acepta que utilicemos esta información para comunicarnos con usted según sea necesario
+                                    (consulte nuestra Política de privacidad). <b>Si no proporciona toda la información requerida, no podremos procesar su pedido</b>.
+                                    Al realizar un pedido a través de Estética Principal, declaras ser mayor de 18 años y tener capacidad jurídica.
+                                </li>
+                            </ul>
+                            <h5 className='text-dark fw-bold'>Contacto</h5>
+                        <p>
+                        Si tiene alguna pregunta, comentario o inquietud sobre este Términos y Condiciones, por favor contáctenos a través de los siguientes medios:
                         </p>
+                        <ul>
+                            <li>
+                            Correo electrónico: estetica_principal@gmail.com.mx
+                            </li>
+                            <li>
+                            Teléfono: 7712458426
+                            </li>
+                            <li>Dirección postal: Calle Velázquez Ibarra, colonia Centro, ciudad Huejutla, municipio o delegación Huejutla, c.p. 43000, en la entidad de Hidalgo, país México</li>
+                        </ul>
+                        </p>
+                        <p className='text-right' style={{ color: '#000000', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'lighter', fontSize: '13px' }}>
+                        Última actualización: 23/09/2023
+                    </p>
                     </div>
                 </div>
             </div>

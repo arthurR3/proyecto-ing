@@ -4,21 +4,19 @@ import '../../CSS/agenda_cart.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getService } from '../../Componentes/Api/ApiServices';
-
-const availableTimes = [
-  '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM',
-  '04:00 PM', '05:00 PM', '06:00 PM', '07:00 PM', '08:00 PM'
-];
-
+import Loading from '../../Componentes/Loading/Loading';
+import ServicesPay from './ServicePay';
 const parseTime = timeStr => {
   const [time, period] = timeStr.split(' ');
   let [hours, minutes] = time.split(':').map(Number);
   if (period === 'PM' && hours !== 12) hours += 12;
   if (period === 'AM' && hours === 12) hours = 0;
-  return { hours, minutes };
+  return hours * 60 + minutes; // return total minutes
 };
 
-const formatTime = (hours, minutes) => {
+const formatTime = totalMinutes => {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
   const period = hours >= 12 ? 'PM' : 'AM';
   const adjustedH = hours % 12 || 12;
   const adjustedMin = minutes.toString().padStart(2, '0');
@@ -31,13 +29,15 @@ const parseDuration = durationStr => {
 };
 
 function Agenda() {
-  const {id} = useParams();  // Obtener el ID del servicio desde los parámetros
+  const { id } = useParams();
   const [selectedServices, setSelectedServices] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [services, setServices] = useState([]);
   const [preSelectedService, setPreSelectedService] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showLayoutPay, setShowLayoutPay] = useState(false);
 
   const handleServiceChange = (e) => {
     const selectedServiceId = parseInt(e.target.value);
@@ -47,47 +47,54 @@ function Agenda() {
     }
   };
 
-  const handleRemoveService = (id) => {
-    setSelectedServices(selectedServices.filter(service => service.id !== id));
-  };
-
-  const handleTimeSelect = (time) => {
-    setSelectedTime(time);
-  };
-
   const calculateDuration = () => {
     const additionalServicesDuration = selectedServices.reduce((total, service) => total + parseDuration(service.duration), 0);
     return preSelectedService ? parseDuration(preSelectedService.duration) + additionalServicesDuration : 0;
   };
 
   const generateTimes = () => {
-    const totalDuration = calculateDuration();
-    return availableTimes.map(time => {
-      const { hours, minutes } = parseTime(time);
-      const endHours = hours + Math.floor((minutes + totalDuration) / 60);
-      const endMinutes = (minutes + totalDuration) % 60;
-      return totalDuration > 0 ? `${time} - ${formatTime(endHours, endMinutes)}` : `${time}`;
-    });
-  };
+    const totalDuration = calculateDuration()
+    const endOfDay = parseTime('08:00 PM')
+    const times = [];
+    let timeInicial = parseTime('09:00 AM');
+
+    while (timeInicial + totalDuration <= endOfDay) {
+      const timeFinal = timeInicial + totalDuration
+      times.push(`${formatTime(timeInicial)} - ${formatTime(timeFinal)}`)
+      timeInicial = timeFinal;
+    }
+
+    return times;
+  }
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const data = await getService();
         setServices(data);
-        const preSelected = services.find(service => service.id === parseInt(id));
-        setPreSelectedService(preSelected);
-        console.log(preSelected)
-        console.log(preSelectedService.name)
+        const selectedService = data.find(service => service.id === parseInt(id));
+        setPreSelectedService(selectedService);
+        setTimeout(() => setLoading(false), 2000);
       } catch (error) {
         setError(error);
       }
     };
     fetchServices();
-  }, []);
+  }, [id]);
+
+  const handleSubmit = (data) => {
+    console.log(data);
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className='container-fluid px-1 px-md-2 px-lg-4 py-5 mx-auto'>
+      {showLayoutPay? (
+        <ServicesPay onBack={()=> setShowLayoutPay(false)} data ={ {selectedTime, selectedServices, preSelectedService, selectedDate} }/>
+      ) : (
       <div className='row d-flex justify-content-center'>
         <div className='col-xl-10 col-lg-9 col-md-10 col-sm-11'>
           <div className='card border-0'>
@@ -116,7 +123,7 @@ function Agenda() {
                             <div className='text-muted'>Duración: {service.duration}</div>
                             <div className='text-muted'>Costo: ${service.price.toFixed(2)}</div>
                           </div>
-                          <button className='btn btn-danger btn-sm' onClick={() => handleRemoveService(service.id)}>Eliminar</button>
+                          <button className='btn btn-danger btn-sm' onClick={() => setSelectedServices(selectedServices.filter(s => s.id !== service.id))}>Eliminar</button>
                         </li>
                       ))}
                     </ul>
@@ -139,14 +146,14 @@ function Agenda() {
                       <button
                         key={index}
                         className={`btn btn-sm m-1 ${selectedTime === time ? 'btn-selected' : 'btn-outline-selected'}`}
-                        onClick={() => handleTimeSelect(time)}
+                        onClick={() => setSelectedTime(time)}
                       >
                         {time}
                       </button>
                     ))}
                   </div>
                   <div className='mt-3'>
-                    <button className='btn btn-success ml-2'>Continuar</button>
+                    <button className='btn btn-success ml-2' onClick={() => setShowLayoutPay(true)}>Continuar</button>
                   </div>
                 </div>
               )}
@@ -154,6 +161,7 @@ function Agenda() {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }

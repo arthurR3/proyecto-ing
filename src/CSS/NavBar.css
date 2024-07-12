@@ -1,5 +1,7 @@
 .NavbarItems {
-    background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 17, 73) 100%);
+    /* background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 17, 73) 100%); */
+    background-color: rgb(62, 7, 114);
+
     height: 80px;
     font-size: 18px;
     font-weight: 600;
@@ -104,6 +106,13 @@
 .formulario {
     padding-top: 20px;
     margin-top: 50px;
+}
+.sidebar{
+    width: 280px;
+    height: 100vh;
+}
+.home{
+    margin-top: 40px;
 }
 
 @media screen and (max-width: 960px) {

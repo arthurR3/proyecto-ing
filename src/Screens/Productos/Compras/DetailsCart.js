@@ -133,7 +133,6 @@ const DetailsOrder = () => {
                             <p><strong>Precio Unitario: $ </strong> {(selectedDetail?.unit_price)}</p>
                             <p><strong>Subtotal: $ </strong> {selectedDetail?.subtotal}</p>
                         </>
-
                     </CustomModal>
                 </div>
             </div>

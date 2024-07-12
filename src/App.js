@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import NavBar from './Componentes/NavBar/NavBar';
+import {NavBar} from './Componentes/NavBar/NavBar.js';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,7 +23,6 @@ import PrivateRoute from './Componentes/Context/PrivateRoute.js';
 import PreguntaSecreta from './Screens/Login/Recuperacion/PreguntaSecreta.js';
 import AddressScreen from './Screens/Productos/Compras/AddressScreen.js';
 import DetailsOrder from './Screens/Productos/Compras/DetailsCart.js';
-import DemandaEstetica from './Screens/Services/DemandaServicios.js';
 import InfoUser from './Screens/Users/InfoUser.js';
 import DatosPersonales from './Screens/Users/DatosPersonales.js';
 import Service from './Screens/Services/Service.js';
@@ -32,10 +31,17 @@ import DomicilioUser from './Screens/Users/Domicilio.js';
 import SecurityScreen from './Screens/Users/Security.js';
 import CitasAgendadas from './Screens/Users/MisCitas.js';
 import Terminos from './Screens/Terms&Conditions/Terminos.js';
-import Products from './Screens/admin/ActionsProducts.js';
+import ProductList from './Screens/admin/Productos/ListProductos.js';
 import ServicesList from './Screens/Services/ServicesList.js';
 import Agenda from './Screens/Services/Agenda.js';
 import PrivacyPolicy from './Screens/Terms&Conditions/AvisoPrivacidad.js';
+import Loading from './Componentes/Loading/Loading.js';
+import ServicesPay from './Screens/Services/ServicePay.js';
+import CitasList from './Screens/admin/Citas/ListCitas.js';
+import CitaDetalle from './Screens/admin/Citas/CitaDetalle.js';
+import ListaClientes from './Screens/admin/Clientes/ListaClientes.js';
+import PublicLayout from './Componentes/Layouts/PublicLayout.js';
+import PrivateLayout from './Componentes/Layouts/PrivateLayout.js';
 
 function App() {
   return (
@@ -47,34 +53,39 @@ function App() {
           <AuthProvider>
             <CartProvider>
               <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/productos' element={<Productos />} />
-                <Route path='/Login' element={<Login />} />
-                <Route path='/Login/register' element={<Register />} />
-                <Route path='/Login/recuperacion/recover-password/:method' element={<Recuperacion />} />
-                <Route path='/Login/verificacion/verify-email/:method/:correo' element={<ValidationEmail />} />
-                <Route path='/Login/recuperacion/recuperacion/secret-question/:correo' element={<PreguntaSecreta />} />
-                <Route path='/Login/change/change-password/:correo' element={<ChangePassword />} />
-                <Route path='/User-info/' element={<PrivateRoute><InfoUser /> </PrivateRoute>} />
-                <Route path='/shop-cart' element={<PrivateRoute><Carrito /></PrivateRoute>} />
-                <Route path='/shop-cart/select-address' element={<PrivateRoute><AddressScreen /></PrivateRoute>} />
-                <Route path='/shop-cart/details' element={<PrivateRoute><DetailsOrder /></PrivateRoute>} />
-                <Route path='/book-appointments' element={<AgendarCita />} />
-                <Route path='/Politicas/Terminos y Condiciones' element={<Terminos />} />
-                <Route path='/Politicas/Aviso de Privacidad' element={<PrivacyPolicy/>} />
-                <Route path='*' element={<Error404 />} />
-                <Route path='/Error-500' element={<Error500 />} />
-                <Route path='/user-info/datosPersonal' element={<PrivateRoute><DatosPersonales /></PrivateRoute>}></Route>
-                <Route path='/user-info/Personal-security' element={<PrivateRoute><SecurityScreen /></PrivateRoute>}></Route>
-                <Route path='/user-info/direccion' element={<PrivateRoute><DomicilioUser /></PrivateRoute>}></Route>
-                <Route path='/user-info/citas-agendadas' element={<PrivateRoute><CitasAgendadas /></PrivateRoute>}></Route>
-                <Route path='/servicios' element={<Service />} />
-                <Route path='/servicios/categories/:category' element={<ServicesList/>} />
-                <Route path='/demandas-servicios' element={<DemandaEstetica />} />
-                <Route path='/servicios/agendar-cita/:id' element={<Agenda/>}/> 
-
+                <Route path='/' element={<PublicLayout><Home /></PublicLayout>} />
+                <Route path='/productos' element={<PublicLayout><Productos /></PublicLayout>} />
+                <Route path='/Login' element={<PublicLayout><Login /></PublicLayout>} />
+                <Route path='/Login/register' element={<PublicLayout><Register /></PublicLayout>} />
+                <Route path='/Login/recuperacion/recover-password/:method' element={<PublicLayout><Recuperacion /></PublicLayout>} />
+                <Route path='/Login/verificacion/verify-email/:method/:correo' element={<PublicLayout><ValidationEmail /></PublicLayout>} />
+                <Route path='/Login/recuperacion/recuperacion/secret-question/:correo' element={<PublicLayout><PreguntaSecreta /></PublicLayout>} />
+                <Route path='/Login/change/change-password/:correo' element={<PublicLayout><ChangePassword /></PublicLayout>} />
+                <Route path='/User-info/' element={<PrivateRoute><PublicLayout><InfoUser /></PublicLayout></PrivateRoute>} />
+                <Route path='/shop-cart' element={<PrivateRoute><PublicLayout><Carrito /></PublicLayout></PrivateRoute>} />
+                <Route path='/shop-cart/select-address' element={<PrivateRoute><PublicLayout><AddressScreen /></PublicLayout></PrivateRoute>} />
+                <Route path='/shop-cart/details' element={<PrivateRoute><PublicLayout><DetailsOrder /></PublicLayout></PrivateRoute>} />
+                <Route path='/book-appointments' element={<PublicLayout><AgendarCita /></PublicLayout>} />
+                <Route path='/Politicas/Terminos y Condiciones' element={<PublicLayout><Terminos /></PublicLayout>} />
+                <Route path='/Politicas/Aviso de Privacidad' element={<PublicLayout><PrivacyPolicy /></PublicLayout>} />
+                <Route path='*' element={<PublicLayout><Error404 /></PublicLayout>} />
+                <Route path='/Error-500' element={<PublicLayout><Error500 /></PublicLayout>} />
+                <Route path='/user-info/datosPersonal' element={<PrivateRoute><PublicLayout><DatosPersonales /></PublicLayout></PrivateRoute>} />
+                <Route path='/user-info/Personal-security' element={<PrivateRoute><PublicLayout><SecurityScreen /></PublicLayout></PrivateRoute>} />
+                <Route path='/user-info/direccion' element={<PrivateRoute><PublicLayout><DomicilioUser /></PublicLayout></PrivateRoute>} />
+                <Route path='/user-info/citas-agendadas' element={<PrivateRoute><PublicLayout><CitasAgendadas /></PublicLayout></PrivateRoute>} />
+                <Route path='/servicios' element={<PublicLayout><Service /></PublicLayout>} />
+                <Route path='/servicios/categories/:category' element={<PublicLayout><ServicesList /></PublicLayout>} />
+                <Route path='/servicios/agendar-cita/:id' element={<PublicLayout><Agenda /></PublicLayout>} />
+                // QUITAR LINEAS
+                <Route path='/pago' element={<PublicLayout><ServicesPay /></PublicLayout>} />
+                <Route path='/loading' element={<PublicLayout><Loading /></PublicLayout>} />
+                
+                <Route path='/admin/cita-detalle/:id' element={<PrivateLayout><CitaDetalle/></PrivateLayout>} />
+                <Route path='/admin/clientes' element={<PrivateLayout><ListaClientes/></PrivateLayout>} />
                // Parte administradora del Sitio web
-                <Route path='/admin/add-products' element={<Products />} />
+                <Route path='/admin/Productos-list' element={<PrivateLayout><ProductList/></PrivateLayout>} />
+                <Route path='/admin/citas-list' element={<PrivateLayout><CitasList/></PrivateLayout>} />
               </Routes>
             </CartProvider>
           </AuthProvider>

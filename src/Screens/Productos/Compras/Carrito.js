@@ -115,7 +115,6 @@ const Carrito = () => {
         }
     };
 
-
     return (
         <div className='shopping-cart dark py-5 mt-5'>
             <div className='card'>

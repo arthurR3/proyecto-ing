@@ -11,6 +11,7 @@ import { useCart } from '../../../Componentes/useCart'
 import { cartReducer, CART_ACTION_TYPES, cartInitialState } from '../../../Componentes/Context/Reducers/Cart'
 import { updateCart } from '../../../Componentes/Api/apiCart'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 const URLConnection = ApiConnection();
 function CartItem({ image, price, name, categoria, quantify, addToCart, removeFromCart }) {
@@ -131,15 +132,15 @@ const Carrito = () => {
                             </div>
                             {cart.length === 0 && (
                                 <div className='row'>
-                                <div className='row border-top border-center'>
-                                    <div className='row main align-items-center'>
-                                        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-                                            <h5 className='dark-text'>Tu carrito está vacío<br/>Agrega productos para poder realizar la compra!</h5>
+                                    <div className='row border-top border-center'>
+                                        <div className='row main align-items-center'>
+                                            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
+                                                <h5 className='dark-text'>Tu carrito está vacío<br />Agrega productos para poder realizar la compra!</h5>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            
+
                             )}
                             {cart.map(product => (
                                 <CartItem
@@ -157,6 +158,7 @@ const Carrito = () => {
                         </div>
                         <div className='col-md-4 summary'>
                             <div>
+  
                                 <h5><b>Finalizar Compra</b></h5>
                             </div>
                             <div className='row'>
@@ -184,6 +186,10 @@ const Carrito = () => {
                                 PAGAR
                             </button>
                         </div>
+                        <div>
+                                <Link to='/productos' className='fw-bold p-4 text-decoration-none'> Seguir Comprando</Link>
+
+                            </div>
                     </div>
                 )}
                 {/* asas */}

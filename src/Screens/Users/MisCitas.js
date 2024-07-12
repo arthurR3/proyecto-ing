@@ -11,6 +11,7 @@ function CitasAgendadas() {
     const { token } = useAuth();
     const data = jwtDecode(token)
     const idUser = data.user.idUser
+    console.log(idUser)
     const [citas, setCitas] = useState([]);
     const [selectedCitaId, setSelectedCitaId] = useState(null);
     const [showModal, setShowModal] = useState(false);
@@ -42,19 +43,17 @@ function CitasAgendadas() {
     };
 
     return (
-        <div className=''>
+        <div className='py-5'>
             <div className='row'>
                 <div className='col-md-12'>
                     <div className='bg-light p-4 rounded'>
                         <table className='table'>
-                            <thead>
+                            <thead className="table-dark">
                                 <tr>
                                     <th>Correo Electrónico</th>
                                     <th>Fecha</th>
                                     <th>Hora</th>
                                     <th>Servicio</th>
-                                    <th>Método de Pago</th>
-                                    <th>Total Pagado</th>
                                     <th>Estado de Pago</th>
                                     <th>Estado de la Cita</th>
                                     <th>Acciones</th>
@@ -67,8 +66,6 @@ function CitasAgendadas() {
                                         <td>{new Date(cita.date).toLocaleDateString()}</td>
                                         <td>{cita.time}</td>
                                         <td>{cita.Servicio.name}</td>
-                                        <td>{cita.Metodo_pago.type}</td>
-                                        <td>${cita.paid.toFixed(2)}</td>
                                         <td>{cita.payment_status} - ${cita.remaining.toFixed(2)}</td>
                                         <td>{cita.date_status}</td>
                                         <td>

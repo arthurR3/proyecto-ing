@@ -220,10 +220,10 @@ const Login = () => {
 
 
           <div>
+            <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2' />
             <button type='submit' onClick={handleSubmit} className='btn btn-success mt-2'>
               Iniciar sesión
             </button>
-            <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2' />
             <Link onClick={handleOpenRecoveryModal} className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
             <div className='mt-3'>
               <p className='mb-0 text-align-center'>¿Aun no tienes cuenta?

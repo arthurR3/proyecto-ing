@@ -19,7 +19,7 @@ export const MenuItems = [
     },
     {
         title: 'Agendar Cita',
-        url: '/book-appointments',
+        url: '/servicios',
         cName: 'nav-links'
     },
     {

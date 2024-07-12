@@ -1,5 +1,5 @@
 .citas-container {
-  margin-top: 20vh;
+  margin-top: 15vh;
   height: 600px;
   /* Ajusta este valor según sea necesario */
   background-color: #fff;
@@ -34,3 +34,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   /* Sombra suave para el formulario */
 } 
+
+/* SERVICIOS CSS */
+.title{
+  justify-content: center;
+  color: rgb(68, 15, 117);
+  font-weight: 700;
+}

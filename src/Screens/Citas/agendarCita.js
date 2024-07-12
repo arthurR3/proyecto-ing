@@ -8,32 +8,37 @@ import { Link } from 'react-router-dom';
 import CustomModal from '../../Componentes/Modal';
 import { useAuth } from '../../Componentes/Context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
+import DatePicker from 'react-datepicker'
 const emailRegexp = new RegExp(/[^@\t\r\n]+@[^@\t\r\n]+\.[^@\t\r\n]+/);
 const URLConnection = ApiConnection();
 
 function AgendarCita() {
-  const { token } = useAuth(); 
-
+  const { token } = useAuth();
   const [services, setServices] = useState([]);
-  const [selectedService, setSelectedService] = useState('');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('')
+  const [selectedService, setSelectedService] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState({});
   const [availableTimes, setAvailableTimes] = useState([]);
-  const [confirmationCode, setConfirmationCode] = useState('')
-  const [error, setError] = useState('')
+  const [confirmationCode, setConfirmationCode] = useState('');
+  const [error, setError] = useState('');
   const [modalContent, setModalContent] = useState(null);
-  const [showModal, setShowModal] = useState(false)
-  const [showModalC, setShowModalC] = useState(false)
-  const [step, setStep] = useState('agendar')
+  const [showModal, setShowModal] = useState(false);
+  const [showModalC, setShowModalC] = useState(false);
+  const [step, setStep] = useState('agendar');
   const [timeSlot, setTimeSlot] = useState({ start: '', end: '' });
-
-  const data = jwtDecode(token)// Obtén la información del usuario autenticado
+  // Función para filtrar los días domingo
+  const filterSunday = (date) => {
+    return date.getDay() !== 0; // Devuelve true si el día no es domingo
+  };
   const [formData, setFormData] = useState({
     name: '',
     last_name1: '',
     last_name2: '',
     phone: '',
   });
+  const removeSelectedService = (serviceIdToRemove) => {
+    setSelectedService(selectedService.filter(serviceId => serviceId !== serviceIdToRemove));
+  };
 
   // Estado inicial para el correo electrónico con validación
   const [credentials, setCredentials] = useState({
@@ -69,7 +74,7 @@ function AgendarCita() {
     }));
   }
 
- useEffect(() => {
+  useEffect(() => {
     // Si hay autenticación, actualizar los campos con la información del usuario
     if (token) {
       const data = jwtDecode(token);
@@ -85,7 +90,7 @@ function AgendarCita() {
           hasError: false,
         },
       });
-    }
+    } 
   }, [token]);
 
   useEffect(() => {
@@ -99,14 +104,6 @@ function AgendarCita() {
       });
   }, []);
 
-  useEffect(() => {
-    if (selectedService && date) {
-      const serviceDuration = services.find(service => service.id === parseInt(selectedService));
-      //console.log(serviceDuration.duration);
-      const times = calculateAvailableServices(serviceDuration.duration, date);
-      setAvailableTimes(times);
-    }
-  }, [selectedService, date, services])
 
   useEffect(() => {
     if (showModal) {
@@ -156,6 +153,21 @@ function AgendarCita() {
     }
     return availableTimes
   }
+
+
+  useEffect(() => {
+    if (selectedService && date) {
+      const serviceDuration = services.find(service => service.id === parseInt(selectedService));
+      if (serviceDuration) {
+        const times = calculateAvailableServices(serviceDuration.duration, date);
+        setAvailableTimes(times);
+      } else {
+        setAvailableTimes([]);
+      }
+    }
+  }, [selectedService, date, services])
+
+
   const handleChange = (e, field) => {
     const value = e.target.value;
     setFormData(prevState => ({
@@ -174,16 +186,23 @@ function AgendarCita() {
       }));
     }
   }
+
   const handleSubmit = () => {
-    if (!services || !date || !time) {
-      toast.error('No dejes ningún campo vacío!', {
+    if (!selectedService.length || !date || !time) {
+      toast.error('Por favor, selecciona al menos un servicio, fecha y hora antes de continuar.', {
         position: 'top-right',
         className: 'mt-5'
-      })
+      });
       return;
     }
-    setStep('information')
-  }
+    console.log("Información a enviar:", {
+      services: selectedService,
+      date,
+      time
+    });
+    setStep('information');
+  };
+
   const handleConfirmation = () => {
     setShowModalC(true);
     setModalContent('preparing');
@@ -205,57 +224,52 @@ function AgendarCita() {
       })
       .catch(error => {
         // Verificación fallida, mostrar mensaje de error
-        console.error('Error al verificar el código:', error);
+        toast.warn('Error al verificar el código. Revise su correo!');
         // Puedes mostrar un mensaje de error al usuario aquí
       });
   };
 
-  
-  const realizarPago = async () => {
-    const service = services.find(service => service.id === parseInt(selectedService));
-  const info = {
-    service: {
-      id: service.id,
-      name: service.name,
-      price: service.price
-    },
-    client: {
-      name: formData.name,
-      last_name1: formData.last_name1,
-      last_name2: formData.last_name2,
-      email: credentials.email.value,
-      phone: formData.phone
-    },
-    date,
-    time
-  };
-    try {
-        const response = await axios.post(`${URLConnection}/dates/createAppointment`, info);
-        const init_point = response.data.data.body.init_point;
-        window.location.href = init_point;
-    } catch (error) {
-        console.error('Error al realizar pago:', error);
-    }
-};
 
-  const handleSubmitApi = (e) => {
-    e.preventDefault();
+  const realizarPago = async () => {
+    const selectedServicesInfo = selectedService.map((serviceId) => {
+      const service = services.find((service) => service.id === parseInt(serviceId));
+      return {
+        id: service.id,
+        name: service.name,
+        price: service.price,
+      };
+    });
 
     const info = {
-      ...formData,
-      service: selectedService,
-      date: date,
-      time: `${timeSlot.start} - ${timeSlot.end}`
-    }
-    console.log(info)
+      services: selectedServicesInfo,
+      client: {
+        name: formData.name,
+        last_name1: formData.last_name1,
+        last_name2: formData.last_name2,
+        email: credentials.email.value,
+        phone: formData.phone,
+      },
+      date,
+      timeStart : timeSlot.start,
+      timeEnd: timeSlot.end,
+    };
 
-  }
+    try {
+      const response = await axios.post(`${URLConnection}/dates/createAppointment`, info);
+      const init_point = response.data.data.body.init_point;
+      window.location.href = init_point;
+      // console.log(info)
+    } catch (error) {
+      console.error('Error al realizar pago:', error);
+    }
+  };
+
   return (
-    <div className='citas-container'>
+    <div className='py-5'>
       <div className='row'>
         <div className='col-md-6'>
           <img className='img-cita'
-            src='https://jx|arturoonline.000webhostapp.com/maq-estetica/img/Cita.png' alt='foto'
+            src='https://jarturoonline.000webhostapp.com/maq-estetica/img/Cita.png' alt='foto'
           />
         </div>
         {step === 'agendar' && (
@@ -264,27 +278,51 @@ function AgendarCita() {
 
               <h1 className='mb-4 fw-bold'>Agendar Cita</h1>
               <form >
+
                 <div className='mb-3'>
-                  <label htmlFor='servicio' className='form-label fw-bold'>Elije el Servicio : </label>
-                  <select id='servicio' className='form-select' value={selectedService} onChange={(e) => setSelectedService(e.target.value)}>
+                  <label htmlFor='servicio' className='form-label fw-bold'>Elije el Servicio(s) : </label>
+                  <select id='servicio' className='form-select' value={''} onChange={(e) => {
+                    const selectedServiceId = e.target.value;
+                    if (!selectedService.includes(selectedServiceId)) {
+                      setSelectedService([...selectedService, selectedServiceId]);
+                    }
+                  }}>
                     <option value=''>Selecciona un servicio</option>
                     {services.map(service => (
                       <option key={service.id} value={service.id}>{service.name} - Costo : $ {(service.price).toFixed(2)}</option>
                     ))}
                   </select>
-                </div>
-                <div className='mb-3'>
-                  <label htmlFor='fecha' className='form-label fw-bold'>Fecha : </label>
-                  <input id='fecha' className='form-control' type='date' value={date} onChange={(e) => setDate(e.target.value)} min={new Date().toISOString().split('T')[0]} />
-                </div>
-                <div className='mb-3'>
-                  <label htmlFor='hora' className='form-label fw-bold'>Hora : </label>
-                  <select id='hora' className='form-select' value={time} onChange={(e) => setTime(e.target.value)}>
-                    <option value=''>Selecciona una hora</option>
-                    {availableTimes.map((timeSlot, index) => (
-                      <option key={index} value={timeSlot.start}>{timeSlot.start} - {timeSlot.end}</option>
-                    ))}
-                  </select>
+                  {selectedService.map((serviceId, index) => (
+                    <div key={index} className="d-flex align-items-center">
+                      <div>
+                        <label>Horario para {services.find(service => service.id === parseInt(serviceId)).name}:</label>
+                        <select value={time[serviceId] || ''} onChange={(e) => setTime({
+                          ...time,
+                          [serviceId]: e.target.value
+                        })}>
+                          <option className='form-control'>Selecciona un horario</option>
+                          {availableTimes.map((timeSlot, index) => (
+                            <option key={index} value={timeSlot.start}>{timeSlot.start} - {timeSlot.end}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <button className="btn btn-danger ms-2 mt-3" onClick={() => removeSelectedService(serviceId)}>Eliminar</button>
+                    </div>
+                  ))}
+
+                  <div className='mb-3'>
+                    <label htmlFor='fecha' className='form-label fw-bold mt-3'>Fecha de la cita:</label>
+                    <DatePicker
+                      id='fecha'
+                      selected={date}
+                      onChange={date => setDate(date)}
+                      filterDate={filterSunday}
+                      minDate={new Date()} // Para evitar seleccionar fechas pasadas
+                      showDisabledMonthNavigation
+                      dateFormat='dd/MM/yyyy'
+                      className='form-control'
+                    />
+                  </div>
 
                 </div>
                 <input className='btn btn-success' type='button'
@@ -391,51 +429,59 @@ function AgendarCita() {
           <p>Por favor, espera un momento mientras preparamos tu compra...</p>
         ) : (
           <>
-            <div className="px-4 ">
-              <h5 className="text-uppercase text-center fs-5">{formData.name} {formData.last_name1} {formData.last_name2} </h5>
+            <div className="px-4">
+              <h5 className="text-uppercase text-center fs-5">{formData.name} {formData.last_name1} {formData.last_name2}</h5>
               <div className='d-flex'>
-                <label className='form-label title fw-bold'> Email :</label>
+                <label className='form-label title fw-bold'>Email :</label>
                 <span className="theme-color">{credentials.email.value}</span>
               </div>
               <div className='d-flex'>
                 <span className="theme-color"> No. Celular: {formData.phone} </span>
               </div>
-              {/* <h4 className="mt-2 theme-color mb-5">Thanks for your order</h4> */}
               <div className="mb-3">
-                <hr className="new1"
-                />
+                <hr className="new1" />
               </div>
-              {modalContent && (
-                <>
-                  <div className="d-flex justify-content-between">
-                    <span className="font-weight-bold">Servicio ({modalContent.name}) : </span>
-                    <span className="text-muted">$ {(modalContent.price).toFixed(2)}</span>
+              {selectedService.map((serviceId) => {
+                const service = services.find((service) => service.id === parseInt(serviceId));
+                const totalAmount = service.price / 2;
+                return (
+                  <div key={serviceId}>
+                    <div className="d-flex justify-content-between">
+                      <span className="font-weight-bold">Servicio ({service.name}) :</span>
+                      <span className="text-muted">$ {(service.price).toFixed(2)}</span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <small>Anticipo del :</small>
+                      <small>$ {totalAmount.toFixed(2)}</small>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <small>Restante a pagar :</small>
+                      <small>$ {totalAmount.toFixed(2)}</small>
+                    </div>
+                    <div className="mb-3">
+                      <hr className="new1" />
+                    </div>
                   </div>
-                  <div className="d-flex justify-content-between">
-                    <small>Anticipo del : </small>
-                    <small> $ {(modalContent.price / 2).toFixed(2)}</small>
-                  </div>
-                  <div className="d-flex justify-content-between">
-                    <small>Restante a pagar : </small>
-                    <small>$ {(modalContent.price / 2).toFixed(2)}</small>
-                  </div>
-                  <div className="mb-3">
-                    <hr className="new1" />
-                  </div>
-                  <div className="d-flex justify-content-between mt-3">
-                    <span className="font-weight-bold">Total a pagar : </span>
-                    <span className="font-weight-bold theme-color">$ {(modalContent.price / 2).toFixed(2)}</span>
-                  </div>
-                </>
-              )}
-              <div className="text-center mt-5">
+                );
+              })}
+              <div className="d-flex justify-content-between mt-3">
+                <span className="font-weight-bold">Total a pagar :</span>
+                <span className="font-weight-bold theme-color">
+                  $ {selectedService.reduce((total, serviceId) => {
+                    const service = services.find((service) => service.id === parseInt(serviceId));
+                    return total + (service.price / 2);
+                  }, 0).toFixed(2)}
+                </span>
+              </div>
+            </div>
+            <div className="text-center mt-5">
               <button className="btn btn-primary" onClick={realizarPago}>Realizar pago</button>
-
-              </div>
             </div>
           </>
         )}
       </CustomModal>
+
+
     </div >
   )
 }

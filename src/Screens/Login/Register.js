@@ -31,6 +31,7 @@ const Register = () => {
     })
     const [showPassword, setShowPassword] = useState('')
     const [showPasswordR, setShowPasswordR] = useState('')
+    const [isChecked, setIsChecked] = useState(false)
     const [selectedQuestion, setSelectedQuestion] = useState(null);
     const [customAnswer, setCustomAnswer] = useState('');
     const [question] = useState([
@@ -65,6 +66,9 @@ const Register = () => {
 
     const handleCustomAnswerChange = (e) => {
         setCustomAnswer(e.target.value);
+    };
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
     };
 
     const [passwordRequirements, setPasswordRequirements] = useState({
@@ -214,7 +218,7 @@ const Register = () => {
             toast.info('1 Por favor, completa todos los campos antes de enviar el formulario.');
             return;
         }
-        if (credentials.email.value === '' || credentials.password.value === '' || credentials.repeatPassword.value === '' || customAnswer === '') {
+        if (credentials.email.value === '' || credentials.password.value === '' || credentials.repeatPassword.value === '' || customAnswer === ''|| isChecked === false) {
             toast('Completa los campos para poder realizar tu registro', {
                 position: 'bottom-center'
             })
@@ -234,6 +238,10 @@ const Register = () => {
             })
             return;
         }
+        if (!isChecked) {
+            alert('Debes aceptar los términos y condiciones para registrarte.');
+            return;
+        }
         const userInfo = {
             user: {
                 id_role: 1,
@@ -247,7 +255,7 @@ const Register = () => {
                 birthday: formData,
                 question: selectedQuestion.value,
                 answers: customAnswer,
-                
+
             },
             address: {
                 municipality: municipio,
@@ -610,6 +618,22 @@ const Register = () => {
                                         </div>
                                     )}
                                 </div>
+                                <div className='form-group mb-3 mt-5'>
+                                    <div className='form-group'>
+                                        <div className='form-check'>
+                                            <input
+                                                type='checkbox'
+                                                className='form-check-input'
+                                                id='termsCheckbox'
+                                                checked={isChecked}
+                                                onChange={handleCheckboxChange}
+                                            />
+                                            <label className='form-check-label' htmlFor='termsCheckbox'>
+                                                He leído y acepto los<a href='/Politicas/Terminos y Condiciones'>Términos y Condiciones</a> y las Políticas de Privacidad
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className='col-12 text-center mt-2'>
                                 {/* Fila adicional para centrar el botón */}
@@ -618,6 +642,9 @@ const Register = () => {
                                         <button type='submit' onClick={handleSubmit} className='btn btn-success align-items-center mt-2 fs-5'>
                                             Registrarme
                                         </button>
+                                        <Link to="/login" className='btn btn-secondary me-2 fs-5'>
+                                            Cancelar
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

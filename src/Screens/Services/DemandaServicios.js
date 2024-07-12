@@ -30,18 +30,26 @@ const DemandaEstetica = () => {
     { date: new Date('2024-03-15'), label: '15 de marzo del 2024' },
     { date: new Date('2024-03-22'), label: '22 de marzo del 2024' },
     { date: new Date('2024-03-29'), label: '29 de marzo del 2024' },
+    ///
+    { date: new Date('2024-02-23'), label: '05 de abril del 2024' },
+    { date: new Date('2024-03-01'), label: '12 de abril del 2024' },
+    { date: new Date('2024-03-08'), label: '19 de abril del 2024' },
+    { date: new Date('2024-03-15'), label: '26 de abril del 2024' },
+    { date: new Date('2024-03-22'), label: '03 de mayo del 2024' },
+    { date: new Date('2024-03-29'), label: '10 de mayo del 2024' },
   ];
 
   const fechasInicial = [
     { date: new Date('2024-01-12'), label: 'Elige una fecha', demanda: 0 },
-    { date: new Date('2024-01-26'), label: '19 de enero del 2024', demanda: 8},
-    { date: new Date('2024-01-26'), label: '26 de enero del 2024', demanda: 11 },
-    { date: new Date('2024-02-02'), label: '02 de febrero del 2024', demanda: 15 },
-    { date: new Date('2024-02-09'), label: '09 de febrero del 2024', demanda: 18 },
-    { date: new Date('2024-02-16'), label: '16 de febrero del 2024', demanda: 25 },
-    { date: new Date('2024-02-23'), label: '23 de febrero del 2024', demanda: 29 },
-    { date: new Date('2024-03-01'), label: '01 de marzo del 2024', demanda: 36 },
-    { date: new Date('2024-03-08'), label: '08 de marzo del 2024', demanda: 41 },
+    { date: new Date('2024-01-12'), label: '12 de enero del 2024', demanda: 8},
+    { date: new Date('2024-01-26'), label: '19 de enero del 2024', demanda: 11},
+    { date: new Date('2024-01-26'), label: '26 de enero del 2024', demanda: 15 },
+    { date: new Date('2024-02-02'), label: '02 de febrero del 2024', demanda: 18 },
+    { date: new Date('2024-02-09'), label: '09 de febrero del 2024', demanda: 25 },
+    { date: new Date('2024-02-16'), label: '16 de febrero del 2024', demanda: 29 },
+    { date: new Date('2024-02-23'), label: '23 de febrero del 2024', demanda: 36 },
+    { date: new Date('2024-03-01'), label: '01 de marzo del 2024', demanda: 41},
+    { date: new Date('2024-03-08'), label: '08 de marzo del 2024', demanda: 46 },
   ];
   const obtenerDemandaInicial = (fechaSeleccionada) => {
     const fecha = fechasInicial.find((f) => f.label === fechaSeleccionada);
@@ -85,10 +93,14 @@ const DemandaEstetica = () => {
   const calcularDemanda = () => {
     const valorInicialNum = parseFloat(valorInicial);
     const tiempoDeseadoNum = parseFloat(tiempoDeseado);
+    console.log(tiempoDeseadoNum)
     const k = parseFloat(kCalculado);
 
     const demandaCalculada = valorInicialNum * Math.exp(k * (tiempoDeseadoNum - 1));
     setResultado(demandaCalculada.toFixed(1));
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
 
     if (chartRef.current) {
       const ctx = chartRef.current.getContext('2d');
@@ -99,7 +111,6 @@ const DemandaEstetica = () => {
           y: valorInicialNum * Math.exp(k * (i === 1 ? i : i - 1)),
         });
       }
-
       const newChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -147,7 +158,7 @@ const DemandaEstetica = () => {
       </div>
       <div className="row">
         <div className="col-md-6">
-          <label>Demanda inicial:</label>
+          <label>Servicios ofrecidos anteriormente:</label>
           <input
             type="text"
             className="form-control"
@@ -227,7 +238,7 @@ const DemandaEstetica = () => {
           <button onClick={() => { calcularK(); calcularDemanda(); }} className='btn btn-success'>Calcular Demanda</button>
           {resultado && (
             <div>
-              <p>Resultado: {resultado} servicios en {tiempoK - 1} semanas</p>
+              <p>Resultado: {resultado} servicios estimados para esa fechas</p>
               <div>
                 <canvas ref={chartRef}></canvas>
               </div>

@@ -6,13 +6,14 @@ import axios from 'axios';
 import { useCart } from '../../Componentes/useCart';
 import CustomModal from '../../Componentes/Modal';
 import { useAuth } from '../../Componentes/Context/AuthContext';
+import { toast } from 'react-toastify';
 
 function Productos() {
     const { addToCart } = useCart();
     const [filterProducts, setFilterProducts] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [selectedProductId, setSelectedProductId] = useState(null);
+    const [selectedProductId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [brandFilter, setBrandFilter] = useState('');
@@ -60,21 +61,22 @@ function Productos() {
 
                 if (categoryFilter) {
                     filteredProducts = filteredProducts.filter(producto =>
-                        producto.categoria === categoryFilter
+                        producto.Categoria.name === categoryFilter
                         /* producto.Marca.name === brandFilter  */
                     );
                 }
 
                 if (brandFilter) {
                     filteredProducts = filteredProducts.filter(producto =>
-                        producto.marca === brandFilter
+                        producto.Marca.name === brandFilter
                         /*  producto.Marca.name === brandFilter  */
                     );
                 }
 
                 setFilterProducts(filteredProducts);
             } catch (error) {
-                console.log('Error fetching products: ', error);
+                toast.warn('Error al obtener los productos, Intente de Nuevo!')
+                //console.log('Error fetching products: ', error);
             }
         };
         fetchData();
@@ -82,7 +84,7 @@ function Productos() {
 
 
     return (
-        <div className='productos-container'>
+        <div className='container mt-5'>
             <div className='row'>
                 <div className='col-log-12 mx-auto'>
                     <div className='text-black p-5 shadow-sm rounded'>
@@ -130,14 +132,15 @@ function Productos() {
                 <div className="row py-5">
                     {filterProducts.map(producto => (
                         <div className="col-xl-3 col-lg-4 col-md-6 mb-4" key={producto.id}>
-                            <div className='bg-white rounded shadow-sm'>
+                            <div className='bg-white rounded shadow-sm card'>
                                 <img className='img-fluid card-img-top'
                                     as={ZoomImage}
                                     src={producto.image}
                                     onDoubleClick={() => openModal(producto)}
                                 />
-                                <div className='p-4'>
-                                    <h5 className='text-dark'>{producto.name}</h5>
+                                <div className='card-body'>
+                                    <h5 className='text-dark card-title'>{producto.name}</h5>
+                                    <p className='card-text'>$ {producto.price.toFixed(2)}</p>
                                     {selectedProductId === producto.id && (
                                         <Card.Footer className='d-flex align-items-center justify-content-between rouned-pill bg-light px-3 py-2 mt-4 '>
                                             <p className='small text-muted mb-0'>Precio: ${producto.price}</p>

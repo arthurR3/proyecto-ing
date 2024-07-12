@@ -35,10 +35,10 @@ function Footer() {
                         <h5 className='text-uppercase mb-4 font-weight-bold text-warning'>Términos y Politicas</h5>
                         <hr className='mb-4' />
                         <p>
-                            <Link to='/register' className='text-white'>Politicas de Privacidad</Link>
+                            <Link to='/Politicas/Aviso de Privacidad' className='text-white'>Politicas de Privacidad</Link>
                         </p>
                         <p>
-                            <Link to='/register'  className='text-white'>Términos y Condiciones</Link>
+                            <Link to='/Politicas/Terminos y Condiciones'  className='text-white'>Términos y Condiciones</Link>
                         </p>
                         <p>
                             <Link to='/register'  className='text-white'>Politicas de cookies</Link>

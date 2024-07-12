@@ -4,7 +4,7 @@ import '../CSS/Carrusel.css'
 import { CitaBtn } from "../Componentes/NavBar/MenuItems";
 import Portada from '../Image/portada.png'
 
-import CarouselC from "../Componentes/Carrusel/CarouselC";
+import {CarouselC, CarouselService} from "../Componentes/Carrusel/CarouselC";
 
 const Home = () => {
  
@@ -31,18 +31,18 @@ const Home = () => {
             {/* Productos mas vendidos */}
 
             <div className="ContCarr">
-                <div className="Category bg-black">
+                <div className="Category">
                     <h3 className="fs-1 text-center text-white">Productos más vendidos</h3>
                 </div>
 
                 <CarouselC />
             </div>
             <div className="ContCarr">
-                <div className="Category bg-black">
+                <div className="Category">
                     <h3 className="fs-1 text-center text-white">Servicios Ofrecidos</h3>
                 </div>
 
-                <CarouselC />
+                <CarouselService />
             </div>
         </div>
     )

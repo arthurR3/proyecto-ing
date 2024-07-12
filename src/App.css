@@ -9,9 +9,12 @@
 .App {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Establece el alto mínimo de la aplicación para que el footer se mantenga en la parte inferior */
+  min-height: 100vh;
+  /* Establece el alto mínimo de la aplicación para que el footer se mantenga en la parte inferior */
 }
 
 .content {
+  background-color:white;
+
   flex: 1; /* Permite que el contenido principal ocupe todo el espacio restante */
 }

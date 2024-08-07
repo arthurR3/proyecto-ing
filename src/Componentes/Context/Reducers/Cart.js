@@ -13,6 +13,7 @@ export const CART_ACTION_TYPES = {
 }
 
 export const updateLocalStorage = (state) => {
+    localStorage.removeItem(`Cart`)
     localStorage.setItem(`Cart`, JSON.stringify(state))
 }
 

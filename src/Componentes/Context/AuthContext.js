@@ -12,6 +12,12 @@ export const AuthProvider = ({ children }) => {
     setToken(SessionStorage.getSession()?.userData)
   }, []);
 
+  const logout = () => {
+    setToken(null);
+    setIsAuthenticated(false);
+    SessionStorage.removeSession(); // Elimina la sesión del almacenamiento
+  };
+
   return (
     <AuthContext.Provider value={{ isAuthenticated, token }}>
       {children}

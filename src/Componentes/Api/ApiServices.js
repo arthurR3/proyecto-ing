@@ -11,4 +11,13 @@ export const getService = async () => {
         toast.error('Error al obtener los servicios.', error);
     }
 }
+export const getBookedSlots = async (date) => {
+    try {
+        const response = await axios.post(`${URLConnection}/dates/counts/times`,{date})
+        return response.data.slots;
+    } catch (error) {
+        toast.error('Error al obtener los servicios.', error);
+    }
+}
+
 

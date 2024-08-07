@@ -1,32 +1,25 @@
 import { MenuItems, MenuItemsPrivate, AdminMenuItems, AdminMenuItemsPrivate } from './MenuItems.js';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container';
 import '../../CSS/NavBar.css';
 import { Link, useLocation } from 'react-router-dom';
 import SessionStorage from '../sessionStorage.js';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Breadcrumb } from 'react-bootstrap';
+import { useAuth } from '../Context/AuthContext.js'
+import { jwtDecode } from 'jwt-decode';
+import { useAdminAuth } from '../Context/AdminAuthContext.js';
 
 const NavBar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(SessionStorage.hasSession());
-    const [hovered, setHovered] = useState(false);
-    const location = useLocation();
-    const handleMouseEnter = () => {
-        setHovered(true);
-    };
+    const auth = useAuth();
+    const [userData, setUserData] = useState(null);
 
-    const handleMouseLeave = () => {
-        setHovered(false);
-    };
-
-    const routes = {
-        '/': 'Inicio',
-        '/productos': 'Productos',
-        '/login': 'Login',
-    };
-    const pathnames = location.pathname.split('/').filter((x) => x);
+    useEffect(() => {
+        setIsLoggedIn(SessionStorage.hasSession());
+        if (isLoggedIn && auth && auth.token) {
+            const data = jwtDecode(auth.token);
+            setUserData((data.user.nombre).concat(' ') + data.user.lastName);
+        }
+    }, [isLoggedIn, auth]);
 
     const logoutUser = () => {
         SessionStorage.clearSession();
@@ -34,154 +27,121 @@ const NavBar = () => {
         window.location.reload();
         toast.success('Sesión cerrada correctamente!');
     };
-
-    useEffect(() => {
-        setIsLoggedIn(SessionStorage.hasSession());
-    }, []);
-
     return (
-        <div>
-            <Navbar expand='lg' className='NavbarItems fixed-top'>
-                <Container>
-                    <Navbar.Brand className=''>
-                        <Link to="/" className='navbar-brand fw-semibold text-white navbar-logo ml-1'>
+        <nav className="NavbarItems fixed-top w-100 px-5">
+            <div className="container">
+                <div className="row mb-0 align-items-center">
+                    <div className={`col-md-6 ${isLoggedIn ? 'text-start' : 'text-center'}`}>
+                        <Link className="navbar-brand" to="/">
+                            <img
+                                src='https://res.cloudinary.com/dnm7asoe3/image/upload/v1722473489/Image_Estetica/Estetica_Principal_BINA3_iejitd.png'
+                                className='rounded-circle me-2'
+                                alt="Logo"
+                                style={{ width: '60px', height: '60px' }}
+                            />
                             Estética Principal
                         </Link>
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                    <Navbar.Collapse id='basic-navbar-nav'>
-                        <Nav className='nav-menu active'>
+                    </div>
+                    {isLoggedIn && (
+                        <div className="col-md-6 d-flex justify-content-end align-items-center">
+                            <Link className='nav-link' to='/User-info/datosPersonal'>
+                                <i className="fa-solid fa-user-gear fa-lg"></i>
+                            </Link>
+                            <span className="user-name ms-2">{userData}</span>
+                        </div>
+                    )}
+                </div>
+                <div className="row">
+                    <div className="nav-menu">
+                        <ul className="d-flex font-weight-bold justify-content-end">
                             {isLoggedIn ?
+
                                 MenuItemsPrivate.map((item) => {
-                                    if (isLoggedIn && item.title === 'Cerrar Sesión') {
+                                    if (item.title === 'Cerrar Sesión') {
                                         return (
-                                            <Link
-                                                className='links nav-links'
-                                                onClick={logoutUser}
-                                                onMouseEnter={handleMouseEnter}
-                                                onMouseLeave={handleMouseLeave}
-                                            >
-                                                {hovered ? (
-                                                    <i className="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-                                                ) : (
+                                            <div className="nav-item" key={item.title}>
+                                                <button
+                                                    className='btn btn-danger d-flex align-items-center gap-2'
+                                                    onClick={logoutUser}
+                                                >
                                                     <i className="fa-solid fa-right-from-bracket"></i>
-                                                )}
-                                            </Link>
+                                                    {item.title}
+                                                </button>
+                                            </div>
                                         );
                                     } else {
                                         return (
-                                            <Link to={item.url} className='links nav-links'>{item.icons}{item.title}</Link>
+                                            <li className="nav-item" key={item.title}>
+                                                <Link to={item.url} className='nav-link'>{item.icons}{item.title}</Link>
+                                            </li>
                                         );
                                     }
                                 }) :
                                 MenuItems.map((item) => (
-                                    <Link key={item.title} to={item.url} className='links nav-links'>{item.title}</Link>
+                                    <li className="nav-item" key={item.title}>
+                                        <Link to={item.url} className='nav-link'>{item.title}</Link>
+                                    </li>
                                 ))
                             }
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-
-            <Breadcrumb>
-                {pathnames.map((name, index) => {
-                    const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
-                    const isLast = index === pathnames.length - 1;
-                    return (
-                        <Breadcrumb.Item key={routeTo} active={isLast}>
-                            {isLast ? (
-                                name
-                            ) : (
-                                <Link to={routeTo}>{name}</Link>
-                            )}
-                        </Breadcrumb.Item>
-                    );
-                })}
-            </Breadcrumb>
-        </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
     );
 };
 
 const NavBarAdmin = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(SessionStorage.hasSession());
-    const [hovered, setHovered] = useState(false);
-    const location = useLocation();
-
-    const handleMouseEnter = () => {
-        setHovered(true);
-    };
-
-    const handleMouseLeave = () => {
-        setHovered(false);
-    };
+    const {adminLogout, admin} = useAdminAuth()
 
     const logoutUser = () => {
-        SessionStorage.clearSession();
-        setIsLoggedIn(false);
+      adminLogout()
         window.location.reload();
         toast.success('Sesión cerrada correctamente!');
     };
-
-    useEffect(() => {
-        setIsLoggedIn(SessionStorage.hasSession());
-    }, []);
-
+    
     return (
-        <div>
-            <Navbar expand='lg' className='NavbarItems fixed-top'>
-                <Container>
-                    <Navbar.Brand className=''>
-                        <Link to="/admin" className='navbar-brand fw-semibold text-white navbar-logo ml-1'>
-                            Admin Dashboard
-                        </Link>
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                    <Navbar.Collapse id='basic-navbar-nav'>
-                        <Nav className='nav-menu active'>
-                            {isLoggedIn ?
-                                AdminMenuItemsPrivate.map((item) => {
-                                    if (isLoggedIn && item.title === 'Cerrar Sesión') {
-                                        return (
-                                            <Link
-                                                key={item.title}
-                                                className='links nav-links'
+        <nav className="bg-light shadow NavbarItems fixed-top w-100 px-3 navbar-admin py-3">
+            <div className="container d-flex align-items-center justify-content-between flex-wrap flex-md-nowrap">
+                {/* Logo */}
+                <Link className="navbar-brand" to="/">
+                    <img src='https://res.cloudinary.com/dnm7asoe3/image/upload/v1722473489/Image_Estetica/Estetica_Principal_BINA3_iejitd.png' className='rounded-circle me-2' />
+                </Link>
+                <div className="nav-menu active order-3 w-100 md-w-auto order-md-2">
+                    <ul className="d-flex font-weight-bold justify-content-end">
+                        {admin &&
+                            AdminMenuItemsPrivate.map((item) => {
+                                if (admin && item.title === 'Cerrar Sesión') {
+                                    return (
+                                        <div className="nav-item" key={item.title}>
+                                            <button
+                                                className='btn btn-danger d-flex align-items-center gap-2'
                                                 onClick={logoutUser}
-                                                onMouseEnter={handleMouseEnter}
-                                                onMouseLeave={handleMouseLeave}
                                             >
-                                                {hovered ? (
-                                                    <i className="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-                                                ) : (
-                                                    <i className="fa-solid fa-right-from-bracket"></i>
-                                                )}
-                                            </Link>
-                                        );
-                                    } else {
-                                        return (
-                                            <Link key={item.title} to={item.url} className='links nav-links'>{item.icons}{item.title}</Link>
-                                        );
-                                    }
-                                }) :
-                                AdminMenuItems.map((item) => (
-                                    <Link key={item.title} to={item.url} className='links nav-links'>{item.title}</Link>
-                                ))
-                            }
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-           {/*  <div className='d-flex home'>
-                <div className='d-flex sidebar flex-column flex-shrink-0 text-white bg-dark'>
-                    <ul className='nav nav-pills flex-column mb-auto px-0'>
-                        <a href='#' className='nav-link'>Dashboard</a>
+                                                <i className="fa-solid fa-right-from-bracket"></i>
+                                                {item.title}
+                                            </button>
+                                        </div>
+                                    );
+                                } else {
+                                    return (
+                                        <Link to={item.url} className='nav-link '>{item.icons}{item.title}</Link>
+                                    );
+                                }
+                            })
+                        }
                     </ul>
                 </div>
-                <div className='content'>
-                    Content
-                </div>
-            </div> */}
-        </div>
-
+                {/* <div className="order-2 order-md-3">
+                    <button className="btn btn-primary d-flex align-items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <span>Login</span>
+                    </button>
+                </div> */}
+            </div>
+        </nav>
     );
 };
 

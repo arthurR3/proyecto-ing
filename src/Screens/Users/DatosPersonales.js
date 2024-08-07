@@ -5,72 +5,89 @@ import { jwtDecode } from 'jwt-decode';
 import ApiConnection from '../../Componentes/Api/ApiConfig';
 import { toast } from 'react-toastify';
 
-function DatosPersonales() {
-    const [dataUser, setData] = useState([]);
-    const [nombre, setNombre] = useState('');
-    const [apPaterno, setApPaterno] = useState('');
-    const [apMaterno, setApMaterno] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [email, setEmail] = useState('');
-    const [editando, setEditando] = useState(false);
+function DatosPersonales({ onClose }) {
+    const [formData, setFormData] = useState({
+        nombre: '',
+        apPaterno: '',
+        apMaterno: '',
+        telefono: '',
+        email: '',
+        image: null
+    });
     const URLConnection = ApiConnection();
     const { token } = useAuth();
     const data = jwtDecode(token);
     const idUser = data.user.idUser;
 
-    const handleEditar = () => {
-        setEditando(true);
-    };
-
-    const handleCancelar = () => {
-        setEditando(false);
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
     };
 
     useEffect(() => {
-        // Llamar a la API para obtener los datos del usuario
         axios.get(`${URLConnection}/users/${idUser}`)
             .then(response => {
                 const userData = response.data;
-                if (!nombre) setNombre(userData.name);
-                if (!apPaterno) setApPaterno(userData.last_name1);
-                if (!apMaterno) setApMaterno(userData.last_name2);
-                if (!telefono) setTelefono(userData.phone);
-                if (!email) setEmail(userData.email);
+                setFormData({
+                    nombre: userData.name,
+                    apPaterno: userData.last_name1,
+                    apMaterno: userData.last_name2,
+                    telefono: userData.phone,
+                    email: userData.email
+                });
             })
             .catch(error => {
                 console.log('Error al obtener los datos del usuario:', error);
             });
-    }, []);
+    }, [idUser, URLConnection]);
 
+    const handleChangeImage = (e) => {
+        const file = e.target.files[0];
+        if (file && !['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) {
+            toast.error('Solo se permiten archivos con formato png, jpg y jpeg');
+            return;
+        }
+        setFormData(prevFormData => ({ ...prevFormData, image: file }));
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Enviar la solicitud a la API para actualizar los datos del usuario
-        axios.put(`${URLConnection}/users/${idUser}`, {
-            name: nombre,
-            last_name1: apPaterno,
-            last_name2: apMaterno,
-            phone: telefono,
-            email: email
-        })
-        .then(response => {
-            //console.log('Datos actualizados correctamente:', response.data);
-            toast.success('Datos actualizados correctamente', {
-                position: 'top-right',
-                className: 'mt-5'
-            });
-            setEditando(false);
-        })
-        .catch(error => {
-            toast.error('Error al actualizar los datos del usuario')
-            //console.log('Error al actualizar los datos del usuario:', error);
+        const dataToSend = new FormData();
+        Object.keys(formData).forEach(key => {
+            if (formData[key]) {
+                dataToSend.append(key, formData[key]);
+            }
         });
+        try {
+            axios.put(`${URLConnection}/users/${idUser}`, dataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    if (response.data.success) {
+                        toast.success(response.data.message, {
+                            position: 'top-right',
+                            className: 'mt-5'
+                        });
+                        onClose();
+                    } else {
+                        toast.error(response.data.message);
+                    }
+                })
+        } catch (error) {
+            console.error('Error saving service', error);
+            toast.error('Error al guardar su información. Intente de nuevo');
+        }
     };
 
     return (
-        <div className='mt-4'>
-            <div className='row'>
-                <div className='col-md-3'></div>
-                <div className='col-md-8 formulario'>
+        <div className='col-md-12 mb-3'>
+            <div className='card card-dates'>
+                <div className='card-body'>
+                    <h5 className='text-muted'>Información Personal</h5>
+                    <hr className='border-left'/>
                     <form onSubmit={handleSubmit}>
                         <div className='mb-3'>
                             <label htmlFor='nombre' className='form-label fw-bold'>Nombre:</label>
@@ -79,36 +96,33 @@ function DatosPersonales() {
                                 id='nombre'
                                 type='text'
                                 name='nombre'
-                                value={nombre}
-                                onChange={(e) => setNombre(e.target.value)}
+                                value={formData.nombre}
+                                onChange={handleChange}
                                 required
-                                disabled={!editando}
                             />
                         </div>
                         <div className='mb-3'>
-                            <label htmlFor='ApPaterno' className='form-label fw-bold'>Apellido Paterno :</label>
+                            <label htmlFor='apPaterno' className='form-label fw-bold'>Apellido Paterno :</label>
                             <input
                                 className='form-control'
-                                id='ApPaterno'
+                                id='apPaterno'
                                 type='text'
-                                name='ApPaterno'
-                                value={apPaterno}
-                                onChange={(e) => setApPaterno(e.target.value)}
+                                name='apPaterno'
+                                value={formData.apPaterno}
+                                onChange={handleChange}
                                 required
-                                disabled={!editando}
                             />
                         </div>
                         <div className='mb-3'>
-                            <label htmlFor='ApMaterno' className='form-label fw-bold'>Apellido Materno :</label>
+                            <label htmlFor='apMaterno' className='form-label fw-bold'>Apellido Materno :</label>
                             <input
                                 className='form-control'
-                                id='ApMaterno'
+                                id='apMaterno'
                                 type='text'
-                                name='ApMaterno'
-                                value={apMaterno}
-                                onChange={(e) => setApMaterno(e.target.value)}
+                                name='apMaterno'
+                                value={formData.apMaterno}
+                                onChange={handleChange}
                                 required
-                                disabled={!editando}
                             />
                         </div>
                         <div className='mb-3'>
@@ -118,41 +132,39 @@ function DatosPersonales() {
                                 id='telefono'
                                 type='text'
                                 name='telefono'
-                                value={telefono}
-                                onChange={(e) => setTelefono(e.target.value)}
+                                value={formData.telefono}
+                                onChange={handleChange}
                                 required
-                                disabled={!editando}
                             />
                         </div>
                         <div className='mb-3'>
-                            <label htmlFor='correo' className='form-label fw-bold'>Correo Electronico :</label>
+                            <label htmlFor='email' className='form-label fw-bold'>Correo Electronico :</label>
                             <input
                                 className='form-control'
-                                id='correo'
+                                id='email'
                                 type='text'
-                                name='correo'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                name='email'
+                                value={formData.email}
+                                onChange={handleChange}
                                 required
-                                disabled={!editando}
+                            />
+                        </div>
+                        <div className='mb-3'>
+                            <label htmlFor='image' className='form-label fw-bold'>Perfil de usuario :</label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                name="image"
+                                onChange={handleChangeImage}
                             />
                         </div>
                         <div className='d-flex justify-content-center mt-2'>
-                            {!editando && (
-                                <button type='button' className='btn btn-success me-2 fs-5' onClick={handleEditar}>
-                                    Editar
-                                </button>
-                            )}
-                            {editando && (
-                                <>
-                                    <button type='submit' className='btn btn-primary me-2 fs-5'>
-                                        Guardar
-                                    </button>
-                                    <button type='button' className='btn btn-secondary fs-5' onClick={handleCancelar}>
-                                        Cancelar
-                                    </button>
-                                </>
-                            )}
+                            <button type='submit' className='btn btn-success me-4 fs-5'>
+                                Guardar
+                            </button>
+                            <button type='button' className='btn btn-secondary fs-5' onClick={onClose}>
+                                Cancelar
+                            </button>
                         </div>
                     </form>
                 </div>

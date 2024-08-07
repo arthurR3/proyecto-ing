@@ -1,10 +1,119 @@
 .NavbarItems {
-    /* background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 17, 73) 100%); */
-    background-color: rgb(62, 7, 114);
-
+    background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 17, 73) 100%);
+    color: white;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.navbar-admin {
     height: 80px;
-    font-size: 18px;
-    font-weight: 600;
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Primera fila cuando hay sesión activa */
+.NavbarItems .row.mb-2 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.NavbarItems .row.mb-2 .col-md-6 {
+    display: flex;
+    align-items: center;
+}
+
+.NavbarItems .navbar-brand img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.NavbarItems .navbar-brand {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.NavbarItems .col-md-6.d-flex.justify-content-end {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Espacio entre el ícono y el nombre del usuario */
+.NavbarItems .col-md-6.d-flex.justify-content-end .user-name {
+    margin-left: 10px;
+}
+
+/* Segunda fila */
+.NavbarItems .nav-menu {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.NavbarItems .nav-menu ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+}
+
+.NavbarItems .nav-item {
+    margin-left: 20px;
+}
+
+.NavbarItems .nav-link {
+    color: #fff;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    margin: 0;
+}
+
+.NavbarItems .nav-link i {
+    margin-right: 5px;
+}
+
+.NavbarItems .nav-link:hover {
+    color: #FFBF00;
+}
+
+.NavbarItems .dropdown-menu {
+    display: none; /* Ocultar el menú desplegable por defecto */
+    position: absolute;
+    top: 100%; /* Mostrar el menú justo debajo del botón */
+    left: 0;
+    z-index: 1000;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    min-width: 200px;
+}
+
+.NavbarItems .nav-item.dropdown:hover .dropdown-menu {
+    display: block; /* Mostrar el menú cuando el usuario pase el mouse sobre el contenedor */
+}
+
+.NavbarItems .dropdown-item {
+    padding: 0.5rem 1rem;
+    color: #212529;
+    text-decoration: none;
+    display: block;
+    font-size: 0.875rem;
+}
+
+.NavbarItems .dropdown-item:hover {
+    background-color: #f8f9fa;
 }
 
 .titulo-menu {
@@ -57,9 +166,14 @@
 .navbar-logo {
     color: #ffff;
     justify-self: start;
-    margin-left: 10px;
+    margin-left: 60px;
     cursor: pointer;
     font-family: cursive;
+}
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 50px; /* Espacio entre el logo y el texto */
 }
 
 .fa-react {
@@ -70,7 +184,6 @@
 .nav-menu {
     display: grid;
     grid-template-columns: repeat(5, auto);
-    grid-gap: 10px;
     list-style: none;
     text-align: center;
     width: 70vw;
@@ -114,7 +227,7 @@
 .home{
     margin-top: 40px;
 }
-
+  
 @media screen and (max-width: 960px) {
 
     .home-page header h1,

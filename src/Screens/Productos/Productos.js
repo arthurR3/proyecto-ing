@@ -7,42 +7,48 @@ import { useCart } from '../../Componentes/useCart';
 import CustomModal from '../../Componentes/Modal';
 import { useAuth } from '../../Componentes/Context/AuthContext';
 import { toast } from 'react-toastify';
+import ApiConnection from '../../Componentes/Api/ApiConfig';
+const URLConnetion = ApiConnection();
 
 function Productos() {
     const { addToCart } = useCart();
     const [filterProducts, setFilterProducts] = useState([]);
+    const [promotions, setPromotions] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [selectedProductId] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [brandFilter, setBrandFilter] = useState('');
 
-    // Usando el context del carrito
-    const { token } = useAuth();
-    const isAuthenticated = token ? true : false;
+    const { isAuthenticated } = useAuth();
+
+    const calculateDiscountedPrice = (price, discount) => {
+        return (price - (price * discount / 100)).toFixed(2);
+    };
+
     const handleAddToCart = async (product) => {
         if (isAuthenticated) {
             try {
-                addToCart(product);
+                // Calculate discounted price if applicable
+                const price = product.promotion ? calculateDiscountedPrice(product.price, product.promotion.discount) : product.price;
+                const productWithUpdatedPrice = { ...product, price: parseFloat(price) };
+
+                addToCart(productWithUpdatedPrice);
+                toast.success('Producto agregado al carrito.')
             } catch (error) {
                 console.error('Error al agregar al carrito:', error);
             }
         } else {
             // Aquí puedes mostrar un mensaje al usuario indicando que debe iniciar sesión
-            console.log('Debes iniciar sesión para agregar productos al carrito');
+            toast.warn('Debes iniciar sesión para agregar productos al carrito');
         }
     };
-    /* const handleMouseEnter = (productId) => {
-        setSelectedProductId(productId);
-    };
-    const handleMouseLeave = () => {
-        setSelectedProductId(null);
-    }; */
+
     const openModal = (product) => {
         setSelectedProduct(product);
         setShowModal(true);
     };
+
     const closeModal = () => {
         setShowModal(false);
     };
@@ -50,38 +56,48 @@ function Productos() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/v1/products');
-                let filteredProducts = response.data;
+                const [productResponse, promoResponse] = await Promise.all([
+                    axios.get(`${URLConnetion}/products`),
+                    axios.get(`${URLConnetion}/promotion`)
+                ]);
 
+                const allProducts = productResponse.data.filter(product => product.status === true);
+                const activePromotions = promoResponse.data.filter(promo => promo.status === true);
+
+                let productsWithPromotions = allProducts.map(product => {
+                    const productPromotion = activePromotions.find(promo => promo.id_product === product.id);
+                    return {
+                        ...product,
+                        promotion: productPromotion || null
+                    };
+                });
+
+                // Filter products based on search and filters
                 if (searchTerm) {
-                    filteredProducts = filteredProducts.filter(producto =>
-                        producto.name.toLowerCase().includes(searchTerm.toLowerCase())
+                    productsWithPromotions = productsWithPromotions.filter(product =>
+                        product.name.toLowerCase().includes(searchTerm.toLowerCase())
                     );
                 }
 
                 if (categoryFilter) {
-                    filteredProducts = filteredProducts.filter(producto =>
-                        producto.Categoria.name === categoryFilter
-                        /* producto.Marca.name === brandFilter  */
+                    productsWithPromotions = productsWithPromotions.filter(product =>
+                        product.Categoria.name === categoryFilter
                     );
                 }
 
                 if (brandFilter) {
-                    filteredProducts = filteredProducts.filter(producto =>
-                        producto.Marca.name === brandFilter
-                        /*  producto.Marca.name === brandFilter  */
+                    productsWithPromotions = productsWithPromotions.filter(product =>
+                        product.Marca.name === brandFilter
                     );
                 }
 
-                setFilterProducts(filteredProducts);
+                setFilterProducts(productsWithPromotions);
             } catch (error) {
                 toast.warn('Error al obtener los productos, Intente de Nuevo!')
-                //console.log('Error fetching products: ', error);
             }
         };
         fetchData();
     }, [searchTerm, categoryFilter, brandFilter]);
-
 
     return (
         <div className='container mt-5'>
@@ -89,7 +105,7 @@ function Productos() {
                 <div className='col-log-12 mx-auto'>
                     <div className='text-black p-5 shadow-sm rounded'>
                         <div className='col-12 text-center'>
-                            <h1 className=''>Explora tu Camino hacía la Belleza</h1>
+                            <h1 className='title'>Explora tu Camino hacia la Belleza</h1>
                             <div className='d-flex justify-content-center'>
                                 <FormControl
                                     type='text'
@@ -120,7 +136,6 @@ function Productos() {
                         </div>
                     </div>
                 </div>
-
             </div>
             {filterProducts.length === 0 ? (
                 <div className="home-page">
@@ -140,12 +155,17 @@ function Productos() {
                                 />
                                 <div className='card-body'>
                                     <h5 className='text-dark card-title'>{producto.name}</h5>
-                                    <p className='card-text'>$ {producto.price.toFixed(2)}</p>
-                                    {selectedProductId === producto.id && (
-                                        <Card.Footer className='d-flex align-items-center justify-content-between rouned-pill bg-light px-3 py-2 mt-4 '>
-                                            <p className='small text-muted mb-0'>Precio: ${producto.price}</p>
-                                            <div className='badge badge-danger px-3 rounded-pill'>{producto.description}</div>
-                                        </Card.Footer>
+                                    <p className='card-text'>
+                                        Precio: $ 
+                                        {producto.promotion 
+                                            ? calculateDiscountedPrice(producto.price, producto.promotion.discount) 
+                                            : producto.price.toFixed(2)}
+                                    </p>
+                                    <p className='card-text'>Cantidad disponible: {producto.amount}</p>
+                                    {producto.promotion ? (
+                                        <p className='text-success'>¡En promoción! Descuento: {producto.promotion.discount}%</p>
+                                    ) : (   
+                                        <p className='text-muted'></p>
                                     )}
                                     {producto.amount === 0 ? (
                                         <p className="text-danger">Stock sin disposición</p>
@@ -156,7 +176,6 @@ function Productos() {
                             </div>
                         </div>
                     ))}
-
                 </div>
             )}
             <CustomModal
@@ -165,7 +184,7 @@ function Productos() {
                 title={selectedProduct?.name}
             >
                 <p>{selectedProduct?.description}</p>
-                <p>Precio : $  {selectedProduct?.price.toFixed(2)}</p>
+                <p>Precio : $ {selectedProduct?.price.toFixed(2)}</p>
             </CustomModal>
         </div>
     );

@@ -1,17 +1,17 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import ApiConnection from '../../../Componentes/Api/ApiConfig';
+import LoadingSpinner from '../../../Componentes/Loading/Loading.js';
 import { useAuth } from '../../../Componentes/Context/AuthContext';
 import { useCart } from '../../../Componentes/useCart';
-import CustomModal from '../../../Componentes/Modal';
 import { jwtDecode } from 'jwt-decode';
+
 const URLConnection = ApiConnection();
 
 const DetailsOrder = () => {
     const { token } = useAuth();
     const { addToCart } = useCart();
-    const [showModal, setShowModal] = useState(false);
-    const [selectedDetail, setSelectedDetail] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [filterDate, setFilterDate] = useState('todas');
     const [orders, setOrders] = useState([]);
     const [filteredOrders, setFilteredOrders] = useState([]);
@@ -20,125 +20,108 @@ const DetailsOrder = () => {
     const idUser = data.user.idUser;
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await axios.get(`${URLConnection}/sales/${idUser}`);
-                setOrders(response.data.data);
-            } catch (error) {
-                console.error('Error fetching orders:', error);
-            }
-        };
-
         fetchOrders();
-    }, []);
+    }, [idUser]);
+
+    const fetchOrders = async () => {
+        setIsLoading(true);
+        try {
+            const response = await axios.get(`${URLConnection}/sales/${idUser}`);
+            setOrders(response.data.data.sort((a, b) => new Date(b.date) - new Date(a.date))); // Ordenar en orden descendente
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     useEffect(() => {
-        // Filtrar las órdenes cuando cambie el filtro de fecha
-        const currentDate = new Date();
-        const currentWeek = currentDate.getDate() - currentDate.getDay();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth();
+        const filterOrders = () => {
+            const now = new Date();
+            const filterDateObj = (date) => {
+                const orderDate = new Date(date);
+                if (filterDate === 'semana') {
+                    const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+                    const endOfWeek = new Date(startOfWeek);
+                    endOfWeek.setDate(startOfWeek.getDate() + 6);
+                    return orderDate >= startOfWeek && orderDate <= endOfWeek;
+                } else if (filterDate === 'mes') {
+                    return orderDate.getFullYear() === now.getFullYear() && orderDate.getMonth() === now.getMonth();
+                }else if (filterDate === 'mesPasado') {
+                    const lastMonth = new Date(now.setMonth(now.getMonth() - 1));
+                    return orderDate.getFullYear() === lastMonth.getFullYear() && orderDate.getMonth() === lastMonth.getMonth();}
+                else if (filterDate === 'año') {
+                    return orderDate.getFullYear() === now.getFullYear();
+                }
+                return true; // Mostrar todas las órdenes si no se aplica ningún filtro
+            };
 
-        const filteredOrders = orders.filter((order) => {
-            const orderDate = new Date(order.date);
-            const orderWeek = orderDate.getDate() - orderDate.getDay();
-            const orderYear = orderDate.getFullYear();
-            const orderMonth = orderDate.getMonth();
+            setFilteredOrders(orders.filter(order => filterDateObj(order.date)));
+        };
 
-            if (filterDate === 'semana') {
-                return orderYear === currentYear && orderMonth === currentMonth && orderWeek === currentWeek;
-            } else if (filterDate === 'mes') {
-                return orderYear === currentYear && orderMonth === currentMonth;
-            } else if (filterDate === 'año') {
-                return orderYear === currentYear;
-            }
-
-            return true; // Mostrar todas las órdenes si no se aplica ningún filtro
-        });
-
-        setFilteredOrders(filteredOrders);
+        filterOrders();
     }, [orders, filterDate]);
 
     return (
-        <div className="container mt-5">
-            <div className="row justify-content-center">
-                <div className="col-md-10">
-                    <div className="navbar bg-body-tertiary nav-color m-3">
-                        <div className="container-fluid">
-                            <a className="navbar-brand">Mis Compras</a>
-                            <select
-                                className="form-select me-2"
-                                aria-label="Filtrar por fecha"
-                                value={filterDate}
-                                onChange={(e) => setFilterDate(e.target.value)}
-                            >
-                                <option value="todas">Todas</option>
-                                <option value="semana">Esta semana</option>
-                                <option value="mes">Mes pasado</option>
-                                <option value="año">Año pasado</option>
+        <div className="container py-5 mt-4">
+            <div className='col-md-offset-1 col-md-12'>
+                <div className='row'>
+                    <div className='col'>
+                        <h4 className='title'>Mis Compras</h4>
+                    </div>
+                    <div className='col text-right d-flex mb-3 justify-content-between'>
+
+                        <div className=''>
+                        <button className='btn btn-default' title='Reload' onClick={() => fetchOrders()}><i className='fa fa-sync-alt'></i></button>
+
+                            <select onChange={(e) => setFilterDate(e.target.value)} className='custom-select' aria-label='Filter By Status'>
+                                <option value='todas'>Filtar Por fecha</option>
+                                <option value='semana'>Semana</option>
+                                <option value='mes'>Este Mes</option>
+                                <option value='mesPasado'>Mes Pasado</option>
+                                <option value='año'>Año</option>    
                             </select>
                         </div>
                     </div>
-                    {filteredOrders.length === 0 ? (
-                        <div className="text-center">No hay productos disponibles en estas fechas.</div>
-                    ) : (
-                        filteredOrders.map((filteredOrder, index) => (
-                            filteredOrder.details.map((detail, index2) => (
-                                <div key={`${index}-${index2}`} className="navbar bg-body-tertiary nav-color m-3">
-                                    <div className="container-fluid">
-                                        <a className="navbar-brand">{new Date(filteredOrder.date).toLocaleDateString()}</a>
-                                        <hr />
-                                        <div className="row">
-                                            <div className="col">
-                                                <button
-                                                    className="btn btn-primary me-2"
-                                                    onClick={() => {
-                                                        setShowModal(true);
-                                                        setSelectedDetail(detail);
-                                                    }}
-                                                >
-                                                    Detalle Compra
-                                                </button>
-
-                                                <button
-                                                    className="btn btn-success"
-                                                    onClick={() => addToCart({ id: detail.id_product, name: detail.product_name, image: detail.image_product, price: detail.unit_price })}
-                                                >
-                                                    Volver a Comprar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='navbar bg-body-tertiary'>
-                                        <img src={detail.image_product} />
-                                        <div className='row'>
-                                            <div className='col'>
-                                                <span className={`badge ${filteredOrder.shipping_status === 'En proceso' ? 'bg-warning' : 'bg-success'}`}>{filteredOrder.shipping_status}</span>
-                                                <h4>{detail.product_name}</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        ))
-                    )}
-
-                    <CustomModal show={showModal} onHide={() => setShowModal(false)}
-                        title='Detalle de la Compra'
-                        centered
-                    >
-                        <>
-                            <p><strong>Producto:</strong> {selectedDetail?.product_name}</p>
-                            <p><strong>Cantidad:</strong> {selectedDetail?.amount}</p>
-                            <p><strong>Precio Unitario: $ </strong> {(selectedDetail?.unit_price)}</p>
-                            <p><strong>Subtotal: $ </strong> {selectedDetail?.subtotal}</p>
-                        </>
-                    </CustomModal>
                 </div>
             </div>
+            <hr />
+            {isLoading ? (
+                <LoadingSpinner />
+            ) : (
+                filteredOrders.map(order => (
+                    <div key={order.id} className="card mb-4">
+                        <h5>{new Date(order.date).toLocaleDateString()}</h5>
+                        <hr />
+                        {order.details.map(detail => (
+                            <div key={detail.id} className="row mb-3">
+                                <div className="col-md-2 d-flex align-items-start">
+                                    <img src={detail.image_product} alt={detail.product_name} className="img-fluid" />
+                                </div>
+                                <div className="col-md-4">
+                                    <p className="mb-1 fs-5"><strong>{detail.product_name}</strong></p>
+                                    <p className="mb-1">Cantidad: {detail.amount}</p>
+                                    <p className="mb-1">Precio: $ {detail.unit_price.toFixed(2)}</p>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                        <span className={`fs-5 badge ${order.shipping_status === 'Entregado' ? 'badge-success' : 'badge-warning'}`}>
+                                            {order.shipping_status}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="col-md-3 d-flex flex-column align-items-end">
+                                    <button className="btn btn-outline-primary mb-2" /* onClick={() => setSelectedDetail(detail)} */>Ver detalle</button>
+                                    <button className="btn btn-outline-secondary" onClick={() => addToCart(detail)}>Volver a comprar</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ))
+            )}
         </div>
     );
 };
 
 export default DetailsOrder;
-

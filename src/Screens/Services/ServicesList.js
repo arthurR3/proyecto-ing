@@ -14,7 +14,7 @@ const ServicesList = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${URLConnection}/services`);
-                setServices(response.data.filter(service => service.Categoria.name === category));
+                setServices(response.data.filter(service => service.Categoria.name === category && service.status === true));
             } catch (error) {
                 throw new Error('Error getting services')
             }

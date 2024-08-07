@@ -24,7 +24,7 @@ export const MenuItems = [
     },
     {
         title: 'Contacto',
-        url: '/contacto',
+        url: '/contact',
         cName: 'nav-links'
     },
     {
@@ -37,23 +37,20 @@ export const MenuItems = [
 export const MenuItemsPrivate = [
     {
         url: '/',
+        title: 'Inicio',
         cName: 'nav-links',
-        icons: <i class="fa-solid fa-house-laptop"></i>
     },
     {
         title: 'Productos',
         url: '/productos',
-        cName: 'nav-links'
+        cName: 'nav-links',
+        icons:<i className="fa-solid fa-clipboard-list"></i>
     },
     {
-        title: 'Servicios',
+        title: 'Agendar',
         url: '/servicios',
-        cName: 'nav-links'
-    },
-    {
-        title: 'Agendar Cita',
-        url: '/book-appointments',
-        cName: 'nav-links'
+        cName: 'nav-links',
+        icons:<i className="fa-solid fa-calendar-plus"></i>
     },
     {
         title: 'Mis Compras',
@@ -61,42 +58,57 @@ export const MenuItemsPrivate = [
         cName: 'nav-links'
     },
     {
-        icons: <i class="fa-solid fa-cart-arrow-down"></i>,
+        title: 'Mis Citas',
+        url: '/user-info/citas-agendadas',
+        cName: 'nav-links'
+    },
+    /* {
+        title: 'Productos Recomendados',
+        cName: 'nav-links',
+        url:'https://prediction-recomendaciones.onrender.com'
+    }, */
+    {
+        icons: <i className="fa-solid fa-cart-arrow-down fa-lg"></i>,
         url: '/shop-cart',
         cName: 'nav-links'
     },
     {
-        icons: <i class="fa-solid fa-user-gear"></i>,
-        url: '/User-info/',
-        cName: 'nav-links'
-    },
-    {
         title: 'Cerrar Sesión',
-        cName: 'nav-links'
+        cName: 'nav-links',
     },
 ];
 
 export const AdminMenuItems = [
     {
         title: 'Dashboard',
-        url: '/admin',
-        icons: <i className="fa-solid fa-tachometer-alt"></i>,
-    },
-    {
-        title: 'Productos',
-        url: '/admin/Productos-list',
-        icons: <i className="fa-solid fa-box"></i>,
-    },
-    {
-        title: 'Clientes',
-        url: '/admin/clientes',
-        icons: <i className="fa-light fa-users"></i>,
+        url: '/admin/admin/dashboard',
+        icons: <i className="fa-solid fa-house-chimney-window"></i>
     },
     {
         title: 'Citas',
-        url: '/admin/citas-list',
+        url: '/admin/admin/citas-list',
         icons: <i className="fa-solid fa-calendar-check"></i>,
     },
+    {
+        title: 'Clientes',
+        url: '/admin/admin/clientes',
+        icons: <i className="fa-solid fa-users-line"></i>,
+    },
+    {
+        title: 'Productos',
+        url: '/admin/admin/Productos-list',
+        icons: <i className="fa-solid fa-box"></i>,
+    },
+    {
+        title: 'Servicios',
+        url: '/admin/admin/services-list',
+        icons: <i className="fa-solid fa-hands-helping"></i>,
+    },
+    {
+        title: 'Ventas',
+        url: '/admin/admin/ventas-realizadas',
+        icons: <i className="fa-solid fa-sack-dollar"></i>,
+    }
 ];
 
 export const AdminMenuItemsPrivate = [
@@ -111,7 +123,7 @@ export const AdminMenuItemsPrivate = [
 export function CitaBtn() {
     return (
         <div>
-            <Link to='/book-appointments' className="text-decoration-none">
+            <Link to='/servicios' className="text-decoration-none">
                 <button className="calendr-btn">
                     <i className="fas fa-calendar-alt me-2"></i>
                     Agendar Cita

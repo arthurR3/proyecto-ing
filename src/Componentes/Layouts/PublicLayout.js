@@ -1,17 +1,18 @@
 import React from 'react';
-import {NavBar} from '../NavBar/NavBar.js';
+import { Outlet } from 'react-router-dom';
+import { NavBar } from '../NavBar/NavBar.js';
 import Footer from '../Footer.js';
 
 function PublicLayout({ children }) {
-    return (
-        <div className='public -layout'>
-            <NavBar />
-            <div className='content'>
-                {children}
-            </div>
-            <Footer />
-        </div>
-    )
+  return (
+    <>
+      <NavBar />
+      <div className='mt-4 py-5'>  
+        {children || <Outlet />}
+      </div>
+      <Footer/>
+    </>
+  );
 }
 
-export default PublicLayout
+export default PublicLayout;

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import '../CSS/Carrusel.css'
 
 const CustomModal = ({ show, onHide, title, children }) => {
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal className='modal-open' show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>

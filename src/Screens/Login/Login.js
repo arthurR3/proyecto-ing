@@ -19,6 +19,7 @@ const Login = () => {
   const [recoveryMethod, setRecoveryMethod] = useState('');
   const [showPassword, setShowPassword] = useState('')
   const [isRecaptcha, setRecaptcha] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     email: {
       value: '',
@@ -87,8 +88,10 @@ const Login = () => {
   }
 
   const handleSubmit = (e) => {
+    setLoading(true)
     e.preventDefault();
     if (!credentials.email.value || !credentials.password.value) {
+      setLoading(false)
       toast.error('No deje ningun campo vacio', {
         position: 'bottom-center',
         className: 'p-2'
@@ -96,6 +99,7 @@ const Login = () => {
       return;
     }
     if (!isRecaptcha) {
+      setLoading(false)
       toast.info('Por favor, resuelve el reCAPTCHA antes de inciar sesión');
       return;
     }
@@ -104,33 +108,30 @@ const Login = () => {
       password: credentials.password.value
     })
       .then(response => {
+        setLoading(true)
         const data = response.data.data;
         if (response.data.success) {
-          toast.success(`Inicio exitoso`, {
-            position: "top-right",
-            className: "mt-5",
-            autoClose: 300,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: false,
-            progress: 0,
-            toastId: "my_toast",
-          })
-          setTimeout(() => {
-            window.location.reload()
-          }, 100)
-          SessionStorage.saveSession(data);
-          navigation('/');
-
+          setTimeout(()=>{
+            toast.success(`Inicio exitoso`, {
+              position: "top-right",
+              className: "mt-5"
+            })
+            setTimeout(() => {
+              window.location.reload()
+            }, 100)
+            SessionStorage.saveSession(data);
+            navigation('/');
+          }, 2000)
           /* console.log("Inicio exitoso") */
 
         } else {
+          setLoading(false)
           const errorMessage = response.data.message ? response.data.message : 'Error desconocido';
-          alert('Ingreso fallido. ' + errorMessage);
+          toast.error('Ingreso fallido. ' + errorMessage);
         }
       })
       .catch(error => {
+        setLoading(false)
         if (error.response) {
           // El servidor respondió con un error
           if (error.response.status === 401) {
@@ -153,7 +154,6 @@ const Login = () => {
             // Otro tipo de error que no es del servidor (puede ser local)
             console.log('Error:', error.message);
             toast.error('Error inesperado. Por favor, inténtalo de nuevo más tarde.');
-            navigation('/Error-500');
           }
         }
       })
@@ -221,8 +221,20 @@ const Login = () => {
 
           <div>
             <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2' />
-            <button type='submit' onClick={handleSubmit} className='btn btn-success mt-2'>
-              Iniciar sesión
+            <button type='submit' onClick={handleSubmit} className={`btn btn-success mt-2 ${loading ? 'loading' : ''}`} disabled={loading}
+              style={{ position: 'relative', overflow: 'hidden' }}
+            >
+              {loading ? (
+                <div className="progress-container">
+                  <i className="fa-solid fa-spinner"></i>  Ingresando...
+                  <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: '100%' }}></div>
+                </div>
+              ) : (
+                <>
+                  <i className="fa-solid fa-right-to-bracket me-3"></i>
+                  Iniciar sesión
+                </>
+              )}
             </button>
             <Link onClick={handleOpenRecoveryModal} className='fw-bold p-2 d-block text-decoration-none'>¿Olvidaste tu Contraseña?</Link>
             <div className='mt-3'>

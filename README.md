@@ -4,10 +4,10 @@
 La aplicación web de la **"Estética Principal"** permite a los usuarios comprar productos de belleza y agendar citas para servicios estéticos de manera rápida y eficiente. La plataforma está diseñada para mejorar la experiencia de los clientes mediante una interfaz amigable y un flujo de navegación sencillo. El proyecto incluye funcionalidades como registro de usuario, inicio de sesión, carrito de compras, historial de compras, agendamiento de citas, y perfil de usuario.
 
 ## Objetivos
-**Facilitar la compra de productos de belleza:** A través de un catálogo online, los usuarios pueden explorar y comprar productos con facilidad.
-**Agendar citas para servicios estéticos:** Los clientes pueden programar y gestionar sus citas directamente desde la plataforma.
-**Optimizar la gestión de usuarios:** La aplicación incluye funcionalidades de inicio de sesión, registro, recuperación de contraseña y gestión del perfil.
-**Mejorar la eficiencia en la administración de la estética:** La plataforma integra un sistema de administración de citas y compras para los dueños del negocio.
+- **Facilitar la compra de productos de belleza:** A través de un catálogo online, los usuarios pueden explorar y comprar productos con facilidad.
+- **Agendar citas para servicios estéticos:** Los clientes pueden programar y gestionar sus citas directamente desde la plataforma.
+- **Optimizar la gestión de usuarios:** La aplicación incluye funcionalidades de inicio de sesión, registro, recuperación de contraseña y gestión del perfil.
+- **Mejorar la eficiencia en la administración de la estética:** La plataforma integra un sistema de administración de citas y compras para los dueños del negocio.
 
 ## Metodología de Trabajo
 Se utiliza la metodología ágil **Scrum**, que permite realizar entregas incrementales y una retroalimentación constante para garantizar el progreso continuo del proyecto. Cada sprint tiene una duración de dos semanas y está enfocado en entregar funcionalidades clave.
@@ -16,10 +16,10 @@ Se utiliza la metodología ágil **Scrum**, que permite realizar entregas increm
 El proyecto utiliza Git como herramienta de control de versiones, alojado en **GitHub**. El flujo de trabajo está basado en la estrategia **Git Flow**, que permite una estructura clara y organizada de las ramas para el desarrollo y la implementación del proyecto.
 
 ## Flujo de Trabajo
-La rama principal del repositorio es `main`, que contiene el código listo para producción.
-La rama `develop` se utiliza para la integración de nuevas funcionalidades.
-Cada nueva característica o corrección de error se desarrolla en una rama feature separada. Una vez completada, la rama feature se fusiona en `develop`.
-Al finalizar cada sprint, el código de `develop` se fusiona con `main`, y se realiza una nueva versión de la aplicación.
+1.- La rama principal del repositorio es `main`, que contiene el código listo para producción.
+2.- La rama `develop` se utiliza para la integración de nuevas funcionalidades.
+3.- Cada nueva característica o corrección de error se desarrolla en una rama feature separada. Una vez completada, la rama feature se fusiona en `develop`.
+4.- Al finalizar cada sprint, el código de `develop` se fusiona con `main`, y se realiza una nueva versión de la aplicación.
 
 ## Estrategia de Versionamiento
 El proyecto sigue la estrategia de **Git Flow**, que organiza el ciclo de vida de las ramas de la siguiente manera:

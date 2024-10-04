@@ -17,8 +17,11 @@ El proyecto utiliza Git como herramienta de control de versiones, alojado en **G
 
 ## Flujo de Trabajo
 1.- La rama principal del repositorio es `main`, que contiene el código listo para producción.
+
 2.- La rama `develop` se utiliza para la integración de nuevas funcionalidades.
+
 3.- Cada nueva característica o corrección de error se desarrolla en una rama feature separada. Una vez completada, la rama feature se fusiona en `develop`.
+
 4.- Al finalizar cada sprint, el código de `develop` se fusiona con `main`, y se realiza una nueva versión de la aplicación.
 
 ## Estrategia de Versionamiento
@@ -42,7 +45,9 @@ El proyecto utiliza la estrategia de despliegue **Rolling (Progresivo)**, lo que
 El proyecto utiliza **GitHub Actions** para automatizar los flujos de trabajo de CI/CD:
 
 1.- Cuando el código se fusiona en `develop`, se ejecutan pruebas automáticas.
+
 2.- Si las pruebas son exitosas, el código se despliega en el entorno de **staging**.
+
 3.- Después de la aprobación en **staging**, el código se despliega en producción.
 
 ## Instrucciones para Clonar el Repositorio e Instalar Dependencias
@@ -54,12 +59,15 @@ cd proyecto-ing
 
 ## Instalar Dependencias
 Utiliza **npm** para instalar todas las dependencias necesarias:
+
 `npm install`
 
 ## Ejecutar el Proyecto en Desarrollo
 Para ejecutar la aplicación en modo desarrollo, utiliza el siguiente comando:
+
 `npm start`
 
 ## Compilar el Proyecto para Producción
 Para crear una versión optimizada de la aplicación lista para producción, utiliza:
+
 `npm run build`

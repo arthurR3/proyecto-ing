@@ -54,8 +54,11 @@ El proyecto utiliza **GitHub Actions** para automatizar los flujos de trabajo de
 Sigue los siguientes pasos para clonar el proyecto, instalar las dependencias y ejecutar la aplicación en tu entorno local.
 
 ## Clonar el Repositorio
+
+```bash
 git clone https://github.com/arthurR3/proyecto-ing.git
 cd proyecto-ing
+```
 
 ## Instalar Dependencias
 Utiliza **npm** para instalar todas las dependencias necesarias:

@@ -1,15 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import { PrimeReactProvider } from "primereact/api";
 import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter } from 'react-router-dom';
+import Tailwind from 'primereact/passthrough/tailwind';
+import './index.css';
+import 'primeicons/primeicons.css';
+import App from './App';
+import { AuthProvider } from './Components/Context/AuthContext';
+import { AdminAuthProvider } from './Components/Context/AdminAuthContext';
+import CarritoContext from './Components/Context/CarritoContext';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <BrowserRouter>
+  <AuthProvider>
+  <AdminAuthProvider>
+    <CarritoContext>
+  <React.StrictMode>
+    <PrimeReactProvider value={{ unstyled: true, pt:  Tailwind}}>
     <App />
-  </BrowserRouter>
+    </PrimeReactProvider>
+  </React.StrictMode>
+  </CarritoContext>
+  </AdminAuthProvider>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

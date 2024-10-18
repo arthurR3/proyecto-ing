@@ -1,9 +1,13 @@
-import React from 'react';
-import './App.css';
-import { Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import PublicRoutes from './routes/publicRoutes.js';
+/* import { ToastContainer } from 'react-toastify'; */
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthProvider } from './Componentes/Context/AuthContext.js';
+import './App.css';
+import ScrollToTop from './hooks/ScrollTop.js';
+import AdminRoutes from './routes/AdminRoutes.js';
+
+
+/* import { AuthProvider } from './Componentes/Context/AuthContext.js';
 import { CartProvider } from './Componentes/Context/CarritoContext.js';
 import PrivateRoute from './Componentes/Context/PrivateRoute.js';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -38,10 +42,24 @@ import { NavBar } from './Componentes/NavBar/NavBar.js';
 import AdminRoutes from './AdminRoute.js';
 import SuccessPage from './Screens/Productos/Compras/SuccessPage.js';
 import ConfirmationDates from './Screens/Citas/ConfirmationDates.js';
-import ErrorBoundary from './Componentes/Layouts/CatchErrores.js';
+import ErrorBoundary from './Componentes/Layouts/CatchErrores.js'; */
 
 function App() {
   return (
+    <Router>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/*" element={<PublicRoutes />} />
+        <Route path='/admin/*' element={<AdminRoutes />} />
+      </Routes>
+    </Router>
+  )
+}
+
+export default App;
+
+
+/* return (
     <div className='App'>
       <div className='content'>
         <ErrorBoundary>
@@ -49,7 +67,6 @@ function App() {
           <AuthProvider>
             <CartProvider>
               <Routes>
-                {/* Rutas públicas */}
                 <Route path='/' element={<PublicLayout><Home /></PublicLayout>} />
                 <Route path='/productos' element={<PublicLayout><Productos /></PublicLayout>} />
                 <Route path='/Login' element={<PublicLayout><Login /></PublicLayout>} />
@@ -79,7 +96,6 @@ function App() {
                 <Route path='/pago' element={<PublicLayout><ServicesPay /></PublicLayout>} />
                 <Route path='/loading' element={<PublicLayout><Loading /></PublicLayout>} />
                 
-                {/* Rutas del Administrador */}
                 <Route path='/admin/*' element={<AdminRoutes />} />
               </Routes>
             </CartProvider>
@@ -89,7 +105,4 @@ function App() {
       </div>
       <ToastContainer />
     </div>
-  );
-}
-
-export default App;
+  ); */

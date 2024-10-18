@@ -1,3 +1,17 @@
+.slick-slide > div{
+    margin:0 10px ;
+  }
+
+  .slick-prev:before, .slick-next:before {
+    color: black; /* Cambia esto al color que prefieras */
+    font-size: 30px;
+    margin: 5px; /* Ajusta el tamaño según sea necesario */
+  }
+  
+  .slick-prev, .slick-next {
+    z-index: 2; /* Asegura que las flechas estén por encima del contenido */
+  }
+
 .ContCarr {
     padding: 50px;
     background-color: aliceblue;
@@ -5,7 +19,6 @@
 }
 
 .Category {
-    margin-bottom: 30px;
     background-color: rgb(62, 7, 114);
 }
 

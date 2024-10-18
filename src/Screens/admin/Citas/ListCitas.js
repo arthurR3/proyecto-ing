@@ -97,13 +97,13 @@ const CitasList = () => {
         const userName = appointment.Usuario ? `${appointment.Usuario.name} ${appointment.Usuario.last_name1} ${appointment.Usuario.last_name2}` : '';
         const matchesSearchQuery = userName.toLowerCase().includes(searchQuery.toLowerCase());
         
-        const matchesStatusFilter = statusFilter ? appointment.date_status === statusFilter : (appointment.date_status === 'Confirmada' || appointment.date_status === 'P_confirmar');
+        const matchesStatusFilter = statusFilter ? appointment.date_status === statusFilter : (appointment.date_status === 'Confirmada' || appointment.date_status === 'P_Confirmar');
 
         return matchesSearchQuery && matchesStatusFilter;
     });
 
     const sortedAppointments = filteredAppointments.sort((a, b) => {
-        const statusOrder = ['Confirmada', 'P_confirmar', 'Pendiente', 'Cancelada'];
+        const statusOrder = ['Confirmada', 'P_Confirmar', 'Pendiente', 'Cancelada'];
         const statusComparison = statusOrder.indexOf(a.date_status) - statusOrder.indexOf(b.date_status);
 
         if (statusComparison !== 0) {
@@ -161,7 +161,7 @@ const CitasList = () => {
                                                 >
                                                     <option value=''>Todos los estados</option>
                                                     <option value='Confirmada'>Confirmada</option>
-                                                    <option value='P_confirmar'>P_confirmar</option>
+                                                    <option value='P_Confirmar'>P_confirmar</option>
                                                     <option value='pendiente'>Pendiente</option>
                                                     <option value='Cancelada'>Cancelada</option>
                                                 </select>

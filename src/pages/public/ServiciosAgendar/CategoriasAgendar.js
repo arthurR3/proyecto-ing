@@ -19,10 +19,8 @@ const Service = () => {
                             </div>
                             <img
                                 src={img}
-                                width="600"
-                                height="400"
                                 alt="Beauty Services"
-                                className="mx-auto rounded-xl shadow-lg"
+                                className="w-full h-auto object-cover rounded-lg shadow-md"
                                 style={{ aspectRatio: "600/400", objectFit: "cover" }}
                             />
                         </div>

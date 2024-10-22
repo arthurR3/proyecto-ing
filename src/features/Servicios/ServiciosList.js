@@ -1,7 +1,6 @@
 // src/components/ServiceList.js
 import React, { useState, useEffect } from 'react';
 import ServiceCard from '../../Components/Servicios/ServicesCard.js'; // Asegúrate de ajustar el camino según tu estructura de carpetas
-import { fetchData } from '../../services/apiServices.js';
 import LoadingSpinner from '../../Components/Loading/Loading.js';
 import axios from 'axios';
 

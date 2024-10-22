@@ -1,17 +1,15 @@
 import React from 'react';
-
+import '../../../css/config.css'
 function Terminos() {
     return (
-        <div className='container py-5'>
-            <div className='card'>
-                <div className='card-header bg-white shadow-sm border-0'>
-                    <h2 className='mb-0'>
-                        <span className='text-dark font-weight-bold'>Términos y Condiciones</span>
-                    </h2>
+        <div className='container'>
+            <div className='bg-gray-100 shadow-lg rounded max-w-5xl min-h-screen mx-auto p-6'>
+                <div className=' flex justify-center items-center'>
+                    <h2 className=' text-4xl font-semibold mb-4'>Términos y Condiciones</h2>
                 </div>
-                <div>
-                    <div className='card-body p-5'>
-                        <p className='font-weight-bold m-0 text-justify'>
+                <div className='text-lg justify-stretch text-justify space-x-4'>
+                    <div>
+                        <p>
                             Este sitio es operado por <b>Estética Principal</b>. Al visitar nuestro sitio y/o comprar algo con nosotros, acepta los <b>Términos
                                 y Condiciones</b> que se detallan a continuación:
                             <br />
@@ -21,7 +19,7 @@ function Terminos() {
                             las actualizaciones de estos Términos y Condiciones, ya que se tendrán por aceptados los cambios que se hubieren realizado
                             al momento de realizar cualquier solicitud de compra.
 
-                            <h5 className='mt-3 text-dark fw-bold'>
+                            <h5>
                                 Acceso al Contenido
                             </h5>
                             <ul>
@@ -30,7 +28,7 @@ function Terminos() {
                                     Esto significa que los usuarios deben respetar los términos y condiciones establecidos y no pueden utilizar, copiar o distribuir contenido que no esté expresamente autorizado o proporcionado en el sitio.
                                 </li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>Seguridad del Sitio</h5>
+                            <h5>Seguridad del Sitio</h5>
                             <ul>
                                 <li>
                                     Los usuarios aceptan no intentar eludir, desactivar o interferir con las características de seguridad del sitio web. Esto incluye no intentar evitar o restringir el acceso al contenido del sitio web o interferir
@@ -43,7 +41,7 @@ function Terminos() {
                                     <b>Usted es responsable de cualquier actividad realizada desde su cuenta</b>. Notifique de inmediato cualquier actividad sospechosa o no autorizada.
                                 </li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>
+                            <h5>
                                 Cuenta del usuario
                             </h5>
                             <ul>
@@ -66,7 +64,7 @@ function Terminos() {
                                     <b>ESTÉTICA PRINCIPAL se reserva el derecho de cancelar su cuenta sin previo aviso</b> si se violan estos Términos y Condiciones o si decidimos, a nuestra sola discreción, que es lo mejor para ESTÉTICA PRINCIPAL.
                                 </li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>
+                            <h5 >
                                 Contenido de terceros y sitios de terceros
                             </h5>
                             <ul>
@@ -75,7 +73,7 @@ function Terminos() {
                                     <b> Estética Principal no controla, aprueba ni es responsable de ningún Contenido de Terceros o Sitios de Terceros</b>, y la inclusión de enlaces a Contenidos de Terceros o Sitios de Terceros no implica ninguna asociación o relación entre Estética Principal y dicho Contenido.
                                 </li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>
+                            <h5>
                                 Reserva de derechos
                             </h5>
                             <ul>
@@ -84,8 +82,8 @@ function Terminos() {
                                     parte de los mismos en cualquier momento, ya sea de forma permanente o temporal.
                                 </li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>
-                                Información del Producto
+                            <h5>
+                                 Información del Producto
                             </h5>
                             <ul>
                                 <li>
@@ -120,7 +118,7 @@ function Terminos() {
                                     que el color coincida con el color del producto o tono, ya que la visualización del color depende, en parte, del monitor que se utilice.
                                 </li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>
+                            <h5>
                                 Servicios
                             </h5>
                             <ul>
@@ -142,7 +140,7 @@ function Terminos() {
                                 </li>
                                 <li>Para reservar un servicio en nuestro sitio web, es necesario realizar un pago del 50% o el pago total del costo del servicio. Solo después de recibir el pago se podrá agendar la cita correspondiente.</li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>Reserva y Cancelaciones</h5>
+                            <h5>Reserva y Cancelaciones</h5>
                             <ul>
                                 <li>
                                     Para reservar un servicio, los clientes deben hacerlo con al menos 24 horas de anticipación.
@@ -160,7 +158,7 @@ function Terminos() {
                                 Es responsabilidad del cliente asegurarse de confirmar y asistir a su cita para evitar la pérdida del anticipo y la reasignación de su espacio.
                                 </li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>
+                            <h5>
                                 Disponibilidad y servicio de entrega
                             </h5>
                             <ul>
@@ -168,7 +166,7 @@ function Terminos() {
                                     Los productos mostrados en nuestro sitio web estan sujetos a su disponiblidad y se pueden ordenar y entregar sólo dentro de la ciudad de <b>Huejutla de Reyes, Hidalgo, México</b> a través de un servicio de entrega externo a Estética Principal.
                                 </li>
                             </ul>
-                            <h5 className='mt-3 text-dark fw-bold'>
+                            <h5 >
                                 Precio y Pago
                             </h5>
                             <ul>
@@ -189,7 +187,7 @@ function Terminos() {
                                     <b>Al finalizar la compra </b>y sea enviada la confirmación <b>la orden no podrá ser cancelada o modificada</b>.
                                 </li>
                                 <li>
-                                    Podrá utilizar como medio de pago las tarjetas Visa, Mastercard, American Express y Cuenta en Mercado Pago.
+                                    Podrá utilizar como medio de pago las tarjetas Visa, Mastercard, American Express, a través de una plataforma externa.
                                 </li>
                             </ul>
                             Al usar este sitio web y realizar pedidos o agendamiento de servicios a través de la misma, usted se compromete a:
@@ -204,22 +202,24 @@ function Terminos() {
                                     Al realizar un pedido a través de Estética Principal, declaras ser mayor de 18 años y tener capacidad jurídica.
                                 </li>
                             </ul>
-                            <h5 className='text-dark fw-bold'>Contacto</h5>
+                            <h5 >Contacto</h5>
                         <p>
                         Si tiene alguna pregunta, comentario o inquietud sobre este Términos y Condiciones, por favor contáctenos a través de los siguientes medios:
                         </p>
                         <ul>
                             <li>
-                            Correo electrónico: estetica_principal@gmail.com.mx
+                            Correo electrónico: esteticaprincipal7@gmail.com
                             </li>
                             <li>
                             Teléfono: 7712458426
                             </li>
-                            <li>Dirección postal: Calle Velázquez Ibarra, colonia Centro, ciudad Huejutla, municipio o delegación Huejutla, c.p. 43000, en la entidad de Hidalgo, país México</li>
+                            <li>Dirección postal: Calle Velázquez Ibarra, colonia Centro, ciudad Huejutla de Reyes, c.p. 43000, Hidalgo, México</li>
                         </ul>
                         </p>
-                        <p className='text-right' style={{ color: '#000000', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'lighter', fontSize: '13px' }}>
-                        Última actualización: 23/09/2023
+                        {/*<p className='text-right' style={{ color: '#000000', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'lighter', fontSize: '13px' }}>
+ */}
+                        <p className='text-end text-xl text-gray-500 py-5'>
+                        Última actualización: 19/09/2024
                     </p>
                     </div>
                 </div>

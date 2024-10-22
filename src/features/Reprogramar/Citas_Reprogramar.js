@@ -70,11 +70,11 @@ const Citas_Reprogramar = ({ onBack, service, onUpdateSuccess }) => {
                     }
                 })
                 .catch(error => {
-                    toast.current.show({ severity: 'error', summary: 'Error', detail: 'Ingreso Fallido catch' + response.data.message, life: 3000 });
+                    toast.current.show({ severity: 'error', summary: 'Error', detail: 'Ingreso Fallido catch' + error, life: 3000 });
                 })
 
         } catch (error) {
-            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Ingreso Fallido ULTIMO ' + response.data.message, life: 3000 });
+            toast.current.show({ severity: 'error', summary: 'Error', detail: 'Ingreso Fallido ULTIMO ' + error, life: 3000 });
         }
     }
 

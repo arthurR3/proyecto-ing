@@ -1,21 +1,22 @@
 import React from 'react';
+import '../../../css/config.css'
 
 const PrivacyPolicy = () => {
     return (
         <div className='container py-5'>
-            <div className='card'>
-                <div className='card-header bg-white shadow-sm border-0'>
-                    <h2 className='mb-0 text-dark font-weight-bold'>Aviso de Privacidad</h2>
+            <div className='bg-gray-100 shadow-lg rounded max-w-5xl min-h-screen mx-auto p-6'>
+            <div className=' flex justify-center items-center'>
+            <h2 className=' text-4xl font-semibold mb-4'>Aviso de Privacidad</h2>
                 </div>
-                <div className='card-body p-5'>
+                <div className='text-lg justify-stretch text-justify space-x-4'>
                     <section>
-                        <p className='font-weight-bold m-0 text-justify'>
+                        <p>
                             ESTETICA PRINCIPAL, mejor conocido como ESTETICA PRINCIPAL, con domicilio en calle VELÁZQUEZ IBARRA, colonia CENTRO, ciudad HUEJUTLA DE REYES, municipio o delegación HUEJUTLA DE REYES, c.p. 43000, en la entidad de HIDALGO, país MEXICO, es el responsable del uso y protección de sus datos personales, y al respecto le informamos lo siguiente:
                         </p>
                     </section>
 
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>¿Para qué fines utilizaremos sus datos personales?</h5>
+                        <h5>¿Para qué fines utilizaremos sus datos personales?</h5>
                         <ul>
                             <li>Autenticación del usuario</li>
                             <li>Seguimiento de usuarios</li>
@@ -38,7 +39,7 @@ const PrivacyPolicy = () => {
                     </section>
 
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>¿Qué datos personales utilizaremos para estos fines?</h5>
+                        <h5>¿Qué datos personales utilizaremos para estos fines?</h5>
                         <p>Para llevar a cabo las finalidades descritas en el presente aviso de privacidad, utilizaremos los siguientes datos personales:</p>
                         <ul>
                             <li>Nombre</li>
@@ -49,27 +50,27 @@ const PrivacyPolicy = () => {
                     </section>
 
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>¿Cómo puede acceder, rectificar o cancelar sus datos personales, u oponerse a su uso?</h5>
+                        <h5 >¿Cómo puede acceder, rectificar o cancelar sus datos personales, u oponerse a su uso?</h5>
                         <p>
                             Usted tiene derecho a conocer qué datos personales tenemos de usted, para qué los utilizamos y las condiciones del uso que les damos (Acceso). Asimismo, es su derecho solicitar la corrección de su información personal en caso de que esté desactualizada, sea inexacta o incompleta (Rectificación); que la eliminemos de nuestros registros o bases de datos cuando considere que la misma no está siendo utilizada adecuadamente (Cancelación); así como oponerse al uso de sus datos personales para fines específicos (Oposición). Estos derechos se conocen como derechos ARCO.
                         </p>
                         <p>Para el ejercicio de cualquiera de los derechos ARCO, usted deberá presentar la solicitud respectiva a través del siguiente medio:</p>
-                        <p className='ml-4'><strong>Enviando un correo electrónico a: estetica_principal@gmail.com.mx</strong></p>
+                        <p className='ml-4'><strong>Enviando un correo electrónico a: esteticaprincipal7@gmail.com</strong></p>
                         <p>Para conocer el procedimiento y requisitos para el ejercicio de los derechos ARCO, ponemos a su disposición el siguiente medio:</p>
-                        <p className='ml-4'><strong>estetica_principal@gmail.com.mx</strong></p>
+                        <p className='ml-4'><strong>esteticaprincipal7@gmail.com</strong></p>
                         <p>
                             Los datos de contacto de la persona o departamento de datos personales, que está a cargo de dar trámite a las solicitudes de derechos ARCO, son los siguientes:
                         </p>
                         <ul className='ml-4'>
                             <li><strong>Nombre de la persona o departamento de datos personales:</strong> Estetica Principal</li>
                             <li><strong>Domicilio:</strong> calle Velázquez Ibarra, colonia Centro, ciudad Huejutla, municipio o delegación Huejutla, c.p. 43000, en la entidad de Hidalgo, país México</li>
-                            <li><strong>Correo electrónico:</strong> estetica_principal@gmail.com.mx</li>
+                            <li><strong>Correo electrónico:</strong> esteticaprincipal7@gmail.com</li>
                             <li><strong>Número telefónico:</strong> 7712458426</li>
                         </ul>
                     </section>
 
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>Usted puede revocar su consentimiento para el uso de sus datos personales</h5>
+                        <h5>Usted puede revocar su consentimiento para el uso de sus datos personales</h5>
                         <p>
                             Usted puede revocar el consentimiento que, en su caso, nos haya otorgado para el tratamiento de sus datos personales. Sin embargo, es importante que tenga en cuenta que no en todos los casos podremos atender su solicitud o concluir el uso de forma inmediata, ya que es posible que por alguna obligación legal requiramos seguir tratando sus datos personales.
                         </p>
@@ -77,24 +78,24 @@ const PrivacyPolicy = () => {
                             Asimismo, usted deberá considerar que para ciertos fines, la revocación de su consentimiento implicará que no le podamos seguir prestando el servicio que nos solicitó, o la conclusión de su relación con nosotros.
                         </p>
                         <p>Para revocar su consentimiento deberá presentar su solicitud a través del siguiente medio:</p>
-                        <p className='ml-4'><strong>Enviando un correo electrónico a: estetica_principal@gmail.com.mx</strong></p>
+                        <p className='ml-4'><strong>Enviando un correo electrónico a: esteticaprincipal7@gmail.com</strong></p>
                         <p>Para conocer el procedimiento y requisitos para la revocación del consentimiento, ponemos a su disposición el siguiente medio:</p>
-                        <p className='ml-4'>  Enviando un correo electrónico a: <strong>estetica_principal@gmail.com.mx</strong></p>
+                        <p className='ml-4'>  Enviando un correo electrónico a: <strong>esteticaprincipal7@gmail.com</strong></p>
                     </section>
 
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>¿Cómo puede limitar el uso o divulgación de su información personal?</h5>
+                        <h5>¿Cómo puede limitar el uso o divulgación de su información personal?</h5>
                         <p>Con objeto de que usted pueda limitar el uso y divulgación de su información personal, le ofrecemos los siguientes medios:</p>
                         <p className='ml-4'>
                             Llamando a la siguiente número telefónico: <strong>774 852 7163</strong>
                         </p>
                         <p className='ml-4'>
-                            Enviando un correo electrónico a: <strong>estetica_principal@gmail.com.mx</strong>
+                            Enviando un correo electrónico a: <strong>esteticaprincipal7@gmail.com</strong>
                         </p>
                     </section>
 
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>Medidas de Seguridad</h5>
+                        <h5>Medidas de Seguridad</h5>
                         <ul>
                             <li>Implementamos las medidas de seguridad administrativas, técnicas y físicas necesarias para proteger sus datos personales contra daño, pérdida, alteración, destrucción o el uso, acceso o tratamiento no autorizado.</li>
                             <li>Toda la información que se considere sensible para el usuario será procesada con mecanismos de encriptación para codificar su información.</li>
@@ -103,7 +104,7 @@ const PrivacyPolicy = () => {
                         </ul>
                     </section>
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>Transferencia de Datos</h5>
+                        <h5>Transferencia de Datos</h5>
                         <p>
                         En ESTETICA PRINCIPAL, nos comprometemos a proteger su privacidad y mantener la confidencialidad de su información personal. Por lo tanto, no compartimos su información personal con terceros sin su consentimiento, 
                         a menos que sea necesario para la prestación de nuestros servicios o para cumplir con las obligaciones legales.
@@ -113,7 +114,7 @@ const PrivacyPolicy = () => {
                         </p>
                     </section>
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>El uso de tecnologías de rastreo en nuestro portal de internet</h5>
+                        <h5>El uso de tecnologías de rastreo en nuestro portal de internet</h5>
                         <p>
                             Le informamos que en nuestra página de internet utilizamos cookies, web beacons u otras tecnologías, a través de las cuales es posible monitorear su comportamiento como usuario de internet, así como brindarle un mejor servicio y experiencia al navegar en nuestra página. Los datos personales que recabamos a través de estas tecnologías, los utilizaremos para los siguientes fines:
                         </p>
@@ -130,33 +131,33 @@ const PrivacyPolicy = () => {
                     </section>
 
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>¿Cómo puede conocer los cambios en este aviso de privacidad?</h5>
+                        <h5>¿Cómo puede conocer los cambios en este aviso de privacidad?</h5>
                         <p>
                             El presente aviso de privacidad puede sufrir modificaciones, cambios o actualizaciones derivadas de nuevos requerimientos legales; de nuestras propias necesidades por los productos o servicios que ofrecemos; de nuestras prácticas de privacidad; de cambios en nuestro modelo de negocio, o por otras causas.
                         </p>
                         <p>
-                            Nos comprometemos a mantenerlo informado sobre los cambios que pueda sufrir el presente aviso de privacidad, a través de: Correo electrónico a: <strong>estetica_principal@gmail.com.mx</strong>
+                            Nos comprometemos a mantenerlo informado sobre los cambios que pueda sufrir el presente aviso de privacidad, a través de: Correo electrónico a: <strong>esteticaprincipal7@gmail.com</strong>
                         </p>
                     </section>
                     <section className='mt-3'>
-                        <h5 className='text-dark fw-bold'>Contacto</h5>
+                        <h5 >Contacto</h5>
                         <p>
                         Si tiene alguna pregunta, comentario o inquietud sobre este aviso de privacidad, por favor contáctenos a través de los siguientes medios:
                         </p>
                         <ul>
                             <li>
-                            Correo electrónico: estetica_principal@gmail.com.mx
+                            Correo electrónico: esteticaprincipal7@gmail.com
                             </li>
                             <li>
                             Teléfono: 7712458426
                             </li>
-                            <li>Dirección postal: Calle Velázquez Ibarra, colonia Centro, ciudad Huejutla, municipio o delegación Huejutla, c.p. 43000, en la entidad de Hidalgo, país México</li>
+                            <li>Dirección postal: Calle Velázquez Ibarra, colonia Centro, ciudad Huejutla de Reyes, c.p. 43000, Hidalgo, México</li>
                         </ul>
                     </section>
 
 
-                    <p className='text-right' style={{ color: '#000000', fontFamily: 'Arial, Helvetica, sans-serif', fontWeight: 'lighter', fontSize: '13px' }}>
-                        Última actualización: 23/09/2023
+                    <p className='text-end text-xl text-gray-500 py-5'>
+                        Última actualización: 19/09/2024
                     </p>
                 </div>
             </div>

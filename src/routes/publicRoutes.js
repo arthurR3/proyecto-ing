@@ -22,6 +22,9 @@ const SuccessPage = lazy(()=> import('../pages/public/Carrito/SuccessPage.js'))
 const MisCompras = lazy(() => import('../pages/public/users/DetailsCart.js'))
 const MisCitas = lazy(() => import('../pages/public/users/MisCitas.js'))
 const MiPerfil = lazy(() => import('../pages/public/users/Perfil.js'))
+
+const Terminos = lazy(() => import('../pages/public/Terms&Conditions/Terminos.js'))
+const AvisoPriv = lazy(() => import('../pages/public/Terms&Conditions/AvisoPrivacidad.js'))
 const DashboardAdmin = lazy(()=> import('../Screens/admin/DashboardAdmin.js'))
 const PublicRoutes = () =>(
     <Suspense fallback={<LoadingSpinner/>}>
@@ -39,12 +42,16 @@ const PublicRoutes = () =>(
             <Route path="/servicio/horarios/:id" element={<PublicLayout><AgendaHorarios/></PublicLayout>}/>
             <Route path="/success" element={<PublicLayout><SuccessDates/></PublicLayout>}/>
 
+             {/* TERMINOS Y CONDICIONES */}
+             <Route path="/Terminos y condiciones" element={<PublicLayout><Terminos/></PublicLayout>}/>   
+             <Route path="/Aviso de Privacidad" element={<PublicLayout><AvisoPriv/></PublicLayout>}/>   
 
             <Route path="/carrito-compras" element={<ProtectedLayout><Carrito /></ProtectedLayout>}/>
             <Route path="/shopmarket/success" element={<PublicLayout><SuccessPage/></PublicLayout>}/>
             <Route path="/mi-perfil" element={<ProtectedLayout><MiPerfil/></ProtectedLayout>}/>
             <Route path='/user-info/citas-agendadas' element={<ProtectedLayout><MisCitas/></ProtectedLayout>}/>
             <Route path="/user-info/mis-compras" element={<ProtectedLayout><MisCompras/></ProtectedLayout>}/>
+
             <Route path="/admin/home" element={<PublicLayout><DashboardAdmin/></PublicLayout>}/>
         </Routes>
     </Suspense>

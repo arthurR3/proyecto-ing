@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'; // Asegúrate de ajustar esto si estás
 const Footer = () => {
     return (
         <>
-            <footer className="bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900  text-white mt-12 md:py-12 w-full">
+            <footer className="bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900  text-white mt-12 md:py-6 w-full">
                 <div className="container max-w-7xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 p-5 mb-0 gap-8">
                     <div className="space-y-4  ml-12 ">
                         <h3 className="text-xl font-semibold">Contacto</h3>
@@ -34,7 +34,7 @@ const Footer = () => {
                                 >
                                     <path d="M20 18h-2V9.25L12 13 6 9.25V18H4V6h1.2l6.8 4.25L18.8 6H20m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z" />
                                 </svg>
-                                estetica_principal@gmail.com
+                                esteticaprincipal7@gmail.com
                             </p>
                         </div>
                     </div>
@@ -46,7 +46,7 @@ const Footer = () => {
                     </div>
                     <div className="space-y-4">
                         <h3 className="text-xl font-semibold">Ubicación</h3>
-                        <p className="text-muted-foreground">Calle Revolución, Centro, 43000 Huejutla de Reyes, Hgo, México</p>
+                        <p className="text-muted-foreground">Calle Revolución, Centro, 43000 Huejutla de Reyes, Hgo, México.</p>
                         <div className="w-full aspect-video rounded-lg overflow-hidden">
                             <iframe
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.2601869684854!2d-98.42363979007436!3d21.14204138379867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d727e7a837cbc5%3A0xe343765760364cc0!2sEst%C3%A9tica%20Principal%20Emma!5e0!3m2!1ses-419!2smx!4v1724541445075!5m2!1ses-419!2smx"
@@ -107,17 +107,17 @@ const Footer = () => {
                     <p className="text-gray-600 text-sm">&copy; 2024 Estética Principal Emma. Todos los derechos reservados. | Proyecto con Fines Educativos</p>
                     <div className="flex gap-4">
                         <Link
-                            to="#"
+                            to="/Terminos y condiciones"
                             className="text-gray-600 hover:text-blue-600 transition-colors duration-300"
-                            href="#"
+                            href="/Terminos y condiciones"
                             prefetch={false}
                         >
                             Términos de Servicio
                         </Link>
                         <Link
-                            to="#"
+                            to="/Aviso de Privacidad"
                             className="text-gray-600 hover:text-blue-600 transition-colors duration-300"
-                            href="#"
+                            href="/Aviso de Privacidad"
                             prefetch={false}
                         >
                             Política de Privacidad

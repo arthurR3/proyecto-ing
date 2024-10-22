@@ -81,3 +81,14 @@
   font-size: 18px;
   width: 90%;
 }
+.btn-custom-success {
+  background-color: #28a745 !important; /* Un verde más fuerte */
+  border-color: #28a745 !important;
+  color: white !important;
+}
+
+.btn-custom-secondary {
+  background-color: #6c757d !important; /* Un gris más fuerte */
+  border-color: #6c757d !important;
+  color: white !important;
+}

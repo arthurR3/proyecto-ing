@@ -5,83 +5,92 @@ import ApiConnection from '../../Componentes/Api/ApiConfig';
 import { toast } from 'react-toastify';
 import { jwtDecode } from 'jwt-decode';
 
-function SecurityScreen() {
-    const [oldPassword, setOldPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
+const URLConnection = ApiConnection();
+
+function SecurityScreen({ onClose }) {
+    const [passwordActual, setPasswordActual] = useState('');
+    const [nuevoPassword, setNuevoPassword] = useState('');
+    const [confirmarPassword, setConfirmarPassword] = useState('');
     const { token } = useAuth();
-    const URLConnection = ApiConnection();
     const data = jwtDecode(token);
     const idUser = data.user.idUser;
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (newPassword !== confirmPassword) {
+        if (nuevoPassword !== confirmarPassword) {
             toast.error('Las contraseñas no coinciden');
             return;
         }
-
         axios.post(`${URLConnection}/users/change-password/old/${idUser}`, {
-            oldPassword: oldPassword,
-            newPassword: newPassword
+            oldPassword: passwordActual,
+            newPassword: nuevoPassword
         })
-        .then(response => {
-            toast.success('Contraseña actualizada correctamente');
-            setOldPassword('');
-            setNewPassword('');
-            setConfirmPassword('');
-        })
-        .catch(error => {
-            setError(error.response.data.message);
-            toast.error(error.response.data.message);
-        });
+            .then(response => {
+                if (response.data.success) {
+                    toast.success(response.data.message, {
+                        position: 'top-right',
+                        className: 'mt-5'
+                    });
+                    onClose();
+                } else {
+                    toast.error(response.data.message);
+                }
+            })
+            .catch(error => {
+                const errorMessage = error.response?.data?.message || 'Error al actualizar la contraseña';
+                toast.error(errorMessage);
+            });
     };
 
     return (
-        <div className='mt-4'>
-            <div className='row'>
-                <div className='col-md-3'></div>
-                <div className='col-md-6 formulario'>
+        <div className='col-md-12 mb-3'>
+            <div className='card card-dates'>
+                <div className='card-body'>
+                    <h5 className='text-muted'>Seguridad</h5>
+                    <hr />
                     <form onSubmit={handleSubmit}>
                         <div className='mb-3'>
-                            <label htmlFor='oldPassword' className='form-label fw-bold'>Contraseña anterior:</label>
+                            <label htmlFor='passwordActual' className='form-label fw-bold'>Contraseña Actual:</label>
                             <input
                                 className='form-control'
-                                id='oldPassword'
+                                id='passwordActual'
                                 type='password'
-                                name='oldPassword'
-                                value={oldPassword}
-                                onChange={(e) => setOldPassword(e.target.value)}
+                                name='passwordActual'
+                                value={passwordActual}
+                                onChange={(e) => setPasswordActual(e.target.value)}
                                 required
                             />
                         </div>
                         <div className='mb-3'>
-                            <label htmlFor='newPassword' className='form-label fw-bold'>Nueva contraseña:</label>
+                            <label htmlFor='nuevoPassword' className='form-label fw-bold'>Nueva Contraseña:</label>
                             <input
                                 className='form-control'
-                                id='newPassword'
+                                id='nuevoPassword'
                                 type='password'
-                                name='newPassword'
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
+                                name='nuevoPassword'
+                                value={nuevoPassword}
+                                onChange={(e) => setNuevoPassword(e.target.value)}
                                 required
                             />
                         </div>
                         <div className='mb-3'>
-                            <label htmlFor='confirmPassword' className='form-label fw-bold'>Confirmar nueva contraseña:</label>
+                            <label htmlFor='confirmarPassword' className='form-label fw-bold'>Confirmar Contraseña:</label>
                             <input
                                 className='form-control'
-                                id='confirmPassword'
+                                id='confirmarPassword'
                                 type='password'
-                                name='confirmPassword'
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                name='confirmarPassword'
+                                value={confirmarPassword}
+                                onChange={(e) => setConfirmarPassword(e.target.value)}
                                 required
                             />
                         </div>
                         <div className='d-flex justify-content-center mt-2'>
-                            <button type='submit' className='btn btn-primary me-2 fs-5'>
-                                Actualizar Contraseña
+                            <button type='submit' className='btn btn-success me-4 fs-5'>
+                                Guardar
+                            </button>
+                            <button type='button' className='btn btn-secondary fs-5' onClick={onClose}>
+                                Cancelar
                             </button>
                         </div>
                     </form>

@@ -153,9 +153,6 @@ return (
 
             </form>
         </div>
-        <CustomModal >
-
-        </CustomModal>
     </div>
 )}
 export default Recuperacion

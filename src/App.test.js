@@ -10,11 +10,14 @@ test('renders learn react link', () => {
 
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Login from './pages/public/Login/Login'; 
+import Login from './pages/public/Login/Login';
 import ValidationEmail from '../src/pages/public/Login/Recuperacion/validationEmail.js';
-import { AuthContext } from './Components/Context/AuthContext'; 
+import { AuthContext } from './Components/Context/AuthContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+
+import Servicios from './pages/public/Servicios';
+import ServiceList from './features/Servicios/ServiciosList';
 // Mock de funciones y componentes que se usan en Login
 jest.mock('axios');
 jest.mock('react-google-recaptcha', () => () => <div>ReCAPTCHA Mock</div>);
@@ -41,7 +44,7 @@ describe('Login Component', () => {
   test('allows user to enter email and password', () => {
     const emailInput = screen.getByLabelText(/Correo electrónico/i);
     const passwordInput = screen.getByLabelText(/Contraseña/i);
-    
+
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
 
@@ -52,7 +55,7 @@ describe('Login Component', () => {
   test('shows a warning when fields are empty on submit', () => {
     const submitButton = screen.getByRole('button', { name: /Acceder/i });
     fireEvent.click(submitButton);
-    
+
     expect(screen.getByText(/Completa todos los campos/i)).toBeInTheDocument();
   });
 
@@ -78,5 +81,32 @@ describe('ValidationEmail Component', () => {
     expect(screen.getByText('Ingrese un codigo válido')).toBeInTheDocument();
   });
 
-  // Agrega más pruebas según las funcionalidades
+});
+
+// Mockeamos el componente ServiceList para esta prueba
+jest.mock('./features/Servicios/ServiciosList', () => () => <div>Mock Service List</div>);
+
+describe('Servicios Component', () => {
+  
+  test('renders the main header and subtitle', () => {
+    render(<Router><Servicios /></Router>);
+  });
+
+  test('renders the image with correct src', () => {
+    render(<Router><Servicios /></Router>);
+    
+    const image = screen.getByAltText(/Beauty Services/i);
+    expect(image).toBeInTheDocument();
+    
+    // Verificamos que la URL de la imagen sea la correcta
+    expect(image).toHaveAttribute('src', 'https://www.beautymarket.es/imagen/min18484.jpg');
+  });
+
+  test('renders the ServiceList component', () => {
+    render(<Router><Servicios /></Router>);
+    
+    // Verificamos que el componente `ServiceList` se renderiza
+    expect(screen.getByText(/Mock Service List/i)).toBeInTheDocument();
+  });
+
 });

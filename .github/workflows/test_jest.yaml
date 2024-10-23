@@ -1,0 +1,46 @@
+name : Run Tests Jest
+on: 
+  pull request:
+  push:
+    branches: 
+      - main
+
+permissions: write-all
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.14.0'
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test --coverage
+    
+  #Se publica los resultados de las pruebas en el pull request
+  test-results:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Subir el reporte de cobertura
+      - name: Upload coverage to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage
+          
+
+
+

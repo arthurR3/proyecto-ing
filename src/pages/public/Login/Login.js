@@ -147,7 +147,7 @@ const Login = () => {
               </>
             ) : (
               <>
-                <i className="fa-solid fa-right-to-bracket mr-2"></i> Iniciar sesión
+                <i className="fa-solid fa-right-to-bracket mr-2"></i> Acceder
               </>
             )}
           </button>

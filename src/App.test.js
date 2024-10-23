@@ -11,6 +11,7 @@ test('renders learn react link', () => {
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Login from './pages/public/Login/Login'; 
+import ValidationEmail from '../src/pages/public/Login/Recuperacion/validationEmail.js';
 import { AuthContext } from './Components/Context/AuthContext'; 
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -55,4 +56,27 @@ describe('Login Component', () => {
     expect(screen.getByText(/Completa todos los campos/i)).toBeInTheDocument();
   });
 
+});
+
+describe('ValidationEmail Component', () => {
+  test('should render the component correctly', () => {
+    render(
+      <Router>
+        <ValidationEmail />
+      </Router>
+    );
+    expect(screen.getByText('Verificar Código')).toBeInTheDocument();
+  });
+
+  test('should show warning when code is empty', () => {
+    render(
+      <Router>
+        <ValidationEmail />
+      </Router>
+    );
+    fireEvent.click(screen.getByText('Verificar'));
+    expect(screen.getByText('Ingrese un codigo válido')).toBeInTheDocument();
+  });
+
+  // Agrega más pruebas según las funcionalidades
 });

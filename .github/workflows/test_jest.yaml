@@ -40,11 +40,6 @@ jobs:
         with:
           name: coverage-report
           path: coverage
-      
-      - name: Post test results
-        run: |
-          echo "Test results:"
-          echo "${{ steps.run_tests.outputs }}"
 
 
 

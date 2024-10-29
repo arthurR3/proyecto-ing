@@ -82,7 +82,7 @@ function ForEmail() {
         <div className='flex justify-center items-center mt-10 mx-5'>
             <div className='bg-white shadow-lg border-2 rounded-lg p-6'>
                 <h2 className='text-2xl font-bold text-center mb-6'>Recuperación de Contraseña</h2>
-                <form className='space-y-4'>
+                <form className='space-y-4' onSubmit={handleSubmit}>
                     <div className='form-group'>
                         <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
                             Correo Electrónico
@@ -111,7 +111,7 @@ function ForEmail() {
                     </div>
                     <ReCAPTCHA sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM" onChange={handleRecaptcha} className='pt-2 mb-3' />
                     <div className='flex space-x-4'>
-                        <button type='submit' onClick={handleSubmit} className='btn btn-success bg-green-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-600'>
+                        <button type='submit'  className='btn btn-success bg-green-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-green-600'>
                             <i className='fa fa-envelope mr-2'></i>
                             Enviar Codigo
                         </button>

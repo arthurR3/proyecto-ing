@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Catalogo from '../../features/Productos/Catalogo.js';
-import LoadingSpinner from '../../Components/Loading/Loading.js'
+import LoadingSpinner from '../../Components/Loading/Loading.js';
 import axios from 'axios';
+
 function Products() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [categoryFilter, setCategoryFilter] = useState('');
+    const [brandFilter, setBrandFilter] = useState('');
+
     useEffect(() => {
         const loadProducts = async () => {
             try {
@@ -20,22 +25,21 @@ function Products() {
 
         loadProducts();
     }, []);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [categoryFilter, setCategoryFilter] = useState('');
-    const [brandFilter, setBrandFilter] = useState('');
 
-    const categories = [...new Set(products.map(product => product.Categoria.name))];
-    const brands = [...new Set(products.map(product => product.Marca.name))];
+    if (loading) {
+        return <LoadingSpinner />;
+    }
 
+    // Filtrar productos aquí antes de pasar a Catalogo
     const filteredProducts = products.filter(product =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         (!categoryFilter || product.Categoria.name === categoryFilter) &&
         (!brandFilter || product.Marca.name === brandFilter)
     );
 
-    if (loading) {
-        return <LoadingSpinner />
-    }
+    // Obtener categorías y marcas únicas
+    const categories = [...new Set(products.map(product => product.Categoria.name))];
+    const brands = [...new Set(products.map(product => product.Marca.name))];
 
     return (
         <div>
@@ -53,6 +57,7 @@ function Products() {
                         </div>
                         <div className="flex justify-center space-x-4">
                             <select
+                                aria-label="Seleccionar categoría" 
                                 className="form-select w-1/4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onChange={(e) => setCategoryFilter(e.target.value)}
                             >
@@ -62,6 +67,7 @@ function Products() {
                                 ))}
                             </select>
                             <select
+                                aria-label="Seleccionar marca" 
                                 className="form-select w-1/4 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 onChange={(e) => setBrandFilter(e.target.value)}
                             >
@@ -77,8 +83,6 @@ function Products() {
 
             <Catalogo
                 products={filteredProducts}
-                categoryFilter={categoryFilter}
-                brandFilter={brandFilter}
             />
         </div>
     );

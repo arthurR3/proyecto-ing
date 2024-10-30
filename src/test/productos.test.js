@@ -65,7 +65,9 @@ describe('Products integration tests', () => {
         const input = await screen.findByPlaceholderText('Buscar...');
 
         // Simula el cambio en el input de búsqueda
-        fireEvent.change(input, { target: { value: 'Producto A' } });
+        await act(async () => {
+            fireEvent.change(input, { target: { value: 'Producto A' } });
+        });
 
         // Verifica que solo se muestre el producto A
         expect(screen.getByText('Producto A')).toBeInTheDocument();

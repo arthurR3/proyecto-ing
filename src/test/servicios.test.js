@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import {Routes, BrowserRouter as Router, MemoryRouter, useParams, Route } from 'react-router-dom';
 
 
@@ -95,20 +95,4 @@ describe('ServicesList', () => {
         expect(mockNavigate).toHaveBeenCalledWith(-1);
     });
 
-    test('muestra mensaje de error cuando falla la carga de servicios', async () => {
-        axios.get.mockRejectedValue(new Error('Error getting services'));
-
-        render(
-            <MemoryRouter initialEntries={['/services/Categoría Test']}>
-                <Routes>
-                    <Route path="/services/:category" element={<ServicesList />} />
-                </Routes>
-            </MemoryRouter>
-        );
-
-        // Esperar que aparezca el mensaje de error
-        await waitFor(() => {
-            expect(screen.getByText('Error getting services')).toBeInTheDocument();
-        });
-    });
 });

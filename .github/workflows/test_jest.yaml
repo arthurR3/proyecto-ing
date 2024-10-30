@@ -8,7 +8,7 @@ on:
 permissions: write-all
 
 jobs:
-  name: Run Tests
+  - name: Run Tests
   test:
     runs-on: ubuntu-latest
     steps:

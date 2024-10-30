@@ -10,23 +10,28 @@ import { AuthProvider } from './Components/Context/AuthContext';
 import { AdminAuthProvider } from './Components/Context/AdminAuthContext';
 import CarritoContext from './Components/Context/CarritoContext';
 
+import { Workbox } from "workbox-window";
+
+if ("serviceWorker" in navigator) {
+  const wb = new Workbox("./services-worker.js");
+  wb.register();
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <AuthProvider>
-  <AdminAuthProvider>
-    <CarritoContext>
   <React.StrictMode>
-    <PrimeReactProvider value={{ unstyled: true, pt:  Tailwind}}>
-    <App />
-    </PrimeReactProvider>
+    <AuthProvider>
+      <AdminAuthProvider>
+        <CarritoContext>
+          <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
+            <App />
+          </PrimeReactProvider>
+        </CarritoContext>
+      </AdminAuthProvider>
+    </AuthProvider>
   </React.StrictMode>
-  </CarritoContext>
-  </AdminAuthProvider>
-  </AuthProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
 reportWebVitals();

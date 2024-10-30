@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { Toast } from 'primereact/toast';
 import { Link, useNavigate } from 'react-router-dom';
@@ -24,7 +24,15 @@ const Login = () => {
   };
 
   const { credentials, handleChange, handleBlur } = useLoginForm(initialState, 8);
+ // Flag para saber si el componente está montado
+ const isMounted = useRef(true);
 
+ useEffect(() => {
+   // Se desactiva el flag cuando el componente se desmonta
+   return () => {
+     isMounted.current = false;
+   };
+ }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -52,7 +60,9 @@ const Login = () => {
         handleError(error);
       })
       .finally(() => {
-        setLoading(false);
+        if (isMounted.current) { // Cambia el estado solo si el componente está montado
+          setLoading(false);
+        }
       });
   };
 

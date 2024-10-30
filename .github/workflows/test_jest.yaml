@@ -8,8 +8,8 @@ on:
 permissions: write-all
 
 jobs:
+  name: Run Tests
   test:
-    name: Run Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,8 +40,3 @@ jobs:
         with:
           name: coverage-report
           path: coverage
-
-
-
-
-

@@ -88,9 +88,9 @@ const Login = () => {
     <div className='flex items-center justify-center w-full mt-4'>
       <Toast ref={toast}/>
       <div className='bg-white shadow-lg border-2 rounded-lg p-6 w-full max-w-lg'>
-        <div class="flex flex-col mb-5 space-y-1">
-          <h3 class="whitespace-nowrap tracking-tight text-2xl font-bold text-purple-700">Iniciar Sesión</h3>
-          <p class="text-sm text-muted-foreground">
+        <div className="flex flex-col mb-5 space-y-1">
+          <h3 className="whitespace-nowrap tracking-tight text-2xl font-bold text-purple-700">Iniciar Sesión</h3>
+          <p className="text-sm text-muted-foreground">
             Ingresa tu correo electrónico y contraseña para acceder a tu cuenta.
           </p>
         </div>

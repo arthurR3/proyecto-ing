@@ -27,7 +27,7 @@ module.exports = {
         },
       },
       {
-        urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/products/,
+        urlPattern:/https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/products/,
         handler: 'NetworkFirst',
         options: {
           cacheName: 'products',
@@ -38,7 +38,7 @@ module.exports = {
         },
       },
       {
-        urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/services/,
+        urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/services/,
         handler: 'NetworkFirst',
         options: {
           cacheName: 'services',
@@ -49,7 +49,7 @@ module.exports = {
         },
       },
       {
-        urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/users\/\d+/,
+        urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/users\/\d+/,
         handler: 'NetworkFirst',
         options: {
           cacheName: 'user-detail',

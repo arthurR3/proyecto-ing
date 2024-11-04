@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react';
 import ServiceCard from '../../Components/Servicios/ServicesCard.js'; // Asegúrate de ajustar el camino según tu estructura de carpetas
 import LoadingSpinner from '../../Components/Loading/Loading.js';
 import axios from 'axios';
+import ApiConnection from '../../Components/Api/ApiConfig.js';
 
 const ServiceList = () => {
+  const URLConnetion = ApiConnection()
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +14,7 @@ const ServiceList = () => {
   useEffect(() => {
     const loadServices = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/v1/services/');
+            const response = await axios.get(`${URLConnetion}/services`);
             setServices(response.data.filter(service => service.status === true).slice(0,9));
         } catch (err) {
             setError(err.message);

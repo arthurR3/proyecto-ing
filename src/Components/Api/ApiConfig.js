@@ -3,7 +3,7 @@ const ApiConnection = () => {
 
     return isLocalConnection ? 
     'http://localhost:5000/api/v1' :
-    'https://160b-201-97-146-111.ngrok-free.app/api/v1';
+    'https://back-estetica-production-e475.up.railway.app';
 }
 
 export default ApiConnection;

@@ -69,7 +69,7 @@ describe('ServicesList', () => {
         // Mockear la respuesta de axios
         axios.get.mockResolvedValue({ data: mockServices });
 
-        render(
+        render( 
             <MemoryRouter initialEntries={['/services/Categoría Test']}>
                 <Routes>
                     <Route path="/services/:category" element={<ServicesList />} />

@@ -8,11 +8,11 @@ import { CartContext } from './Context/CarritoContext';
 
 const ProductCard = ({ product, showAditional = false }) => {
   const [quantity, setQuantity] = useState(1);
-  const toast = useRef(null)
-  const context = useContext(CartContext);
+   const toast = useRef(null)
+  /*const context = useContext(CartContext);
 
   const { addToCart } = context;
-  const { token } = useAuth();
+  const { token } = useAuth(); */
   const handleToCart = (product) =>{
     console.log(product)
     if(token){

@@ -6,7 +6,9 @@ import '../../css/Carrusel.css';
 import axios from 'axios';
 import LoadingSpinner from '../../Components/Loading/Loading';
 import { useNavigate } from 'react-router-dom';
+import ApiConnection from '../../Components/Api/ApiConfig';
 function ServiceCarousel() {
+    const URLConnetion = ApiConnection()
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,7 +16,7 @@ function ServiceCarousel() {
     useEffect(() => {
         const loadServices = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/v1/services/');
+                const response = await axios.get(`${URLConnetion}/services`);
                 setServices(getUniqueCategories(response.data));
             } catch (err) {
                 setError(err.message);

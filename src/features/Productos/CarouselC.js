@@ -6,16 +6,18 @@ import '../../css/Carrusel.css'
 import ProductCard from '../../Components/ProductsCard.js';
 import LoadingSpinner from '../../Components/Loading/Loading.js';
 import axios from 'axios';
+import ApiConnection from '../../Components/Api/ApiConfig.js';
 
 
 function CarouselC() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error,setError] = useState(null);
+    const URLConnetion = ApiConnection()
     useEffect(() => {
         const loadProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/v1/products/');
+                const response = await axios.get(`${URLConnetion}/products`);
                 setProducts(response.data.filter(product => product.status === true && product.amount>0).slice(5,14));
             } catch (err) {
                 setError(err.message);

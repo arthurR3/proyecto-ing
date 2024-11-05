@@ -143,12 +143,12 @@ const Login = () => {
           <ReCAPTCHA
             sitekey="6LcHuV0pAAAAAITzNPOb8TaIRX4UEI3w9XHYB9IM"
             onChange={() => setRecaptcha(true)}
-            className='pt-2'
+            className='mt-9 sm:mt-6'
           />
 
           <button
             type='submit'
-            className={`btn btn-success mt-2 p-5 bg-green-600 text-white py-2 rounded-lg ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
+            className={`mt-12 sm:mt-12 mb-4 p-5 bg-green-600 text-white py-2 rounded-lg ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
             disabled={loading}
           >
             {loading ? (

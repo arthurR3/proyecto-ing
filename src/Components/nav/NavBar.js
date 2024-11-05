@@ -6,7 +6,9 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../Context/AuthContext.js';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import ApiConnection from '../Api/ApiConfig.js';
 const NavBar = () => {
+  const URLConnetion = ApiConnection()
   const [customer, setCustomer] = useState(null);
   const { token, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +24,7 @@ const NavBar = () => {
         if (token) {
           const decoded = jwtDecode(token);
           const userId = decoded.user.idUser;
-          const response = await axios.get(`http://localhost:5000/api/v1/users/${userId}`);
+          const response = await axios.get(`${URLConnetion}/users/${userId}`);
           setCustomer(response.data);
         }
       } catch (error) {

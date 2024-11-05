@@ -60,10 +60,10 @@ describe('ServicesList', () => {
 
     test('muestra los servicios filtrados y permite la navegación de regreso', async () => {
         const mockServices = [
-            { id: 1, name: 'Servicio 1', Categoria: { name: 'Categoría Test' }, status: true },
-            { id: 2, name: 'Servicio 2', Categoria: { name: 'Categoría Test' }, status: true },
-            { id: 3, name: 'Servicio 3', Categoria: { name: 'Otra Categoría' }, status: true },
-            { id: 4, name: 'Servicio 4', Categoria: { name: 'Categoría Test' }, status: false }, // Inactivo
+            { id: 1, name: 'Servicio 1', Categoria: { name: 'Categoría Test' }, status: true, price: 100 , duration:'1:00:00'},
+            { id: 2, name: 'Servicio 2', Categoria: { name: 'Categoría Test' }, status: true,  price: 100 , duration:'2:00:00'  },
+            { id: 3, name: 'Servicio 3', Categoria: { name: 'Otra Categoría' }, status: true ,  price: 100 , duration:'2:00:00' },
+            { id: 4, name: 'Servicio 4', Categoria: { name: 'Categoría Test' }, status: false , price: 100 , duration:'1:00:00' }, // Inactivo
         ];
 
         // Mockear la respuesta de axios

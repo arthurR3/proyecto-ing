@@ -10,7 +10,7 @@ import { AuthProvider } from './Components/Context/AuthContext';
 import { AdminAuthProvider } from './Components/Context/AdminAuthContext';
 import CarritoContext from './Components/Context/CarritoContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration.js'
-
+import * as notification from './notification.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -27,4 +27,5 @@ root.render(
 );
 
 serviceWorkerRegistration.register()
+notification.requestNotificationPermission()
 reportWebVitals();

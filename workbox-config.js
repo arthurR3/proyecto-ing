@@ -4,6 +4,11 @@ module.exports = {
       "**/*.{html,js,css,png,jpg,json,ico}"
   ],
   swDest: "build/service-worker.js",
+   // Agregar un manejo personalizado de eventos (como 'push')
+   importScripts: [
+    '/cw.js'  // Asegúrate de que la ruta sea correcta
+  ],
+
   runtimeCaching: [
       {
           urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
@@ -62,5 +67,29 @@ module.exports = {
               networkTimeoutSeconds: 5, // Tiempo para esperar la respuesta antes de usar la caché
           },
       },
+      {
+        urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/dates\/\d+/,
+        handler: 'NetworkFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
+        options: {
+            cacheName: 'dates-user',
+            expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 5 * 60, // 5 minutos
+            },
+            networkTimeoutSeconds: 5, // Tiempo para esperar la respuesta antes de usar la caché
+        },
+    },
+    {
+        urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/sales\/\d+/,
+        handler: 'NetworkFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
+        options: {
+            cacheName: 'sales-user',
+            expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 5 * 60, // 5 minutos
+            },
+            networkTimeoutSeconds: 5, // Tiempo para esperar la respuesta antes de usar la caché
+        },
+    },
   ],
 };

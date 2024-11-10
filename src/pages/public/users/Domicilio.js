@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const DomicilioUser = ({correo}) => {
+export const DomicilioUser = ({ correo }) => {
   const URLConnection = ApiConnection();
   const { token } = useAuth();
   const navigation = useNavigate();

@@ -1,6 +1,7 @@
 import React from "react";
 import Portada from '../../Image/portada.png';
 import CarouselC from "../../features/Productos/CarouselC.js";
+import ServiceCarousel from "../../features/Servicios/CarouselServicios.js";
 const Home = () => {
     return (
         <div className="container mx-auto">
@@ -32,10 +33,15 @@ const Home = () => {
                 </div>
                 <CarouselC />
             </div>
-            <div className="mt-20">
-                <div className="Category">
-                    <h3 className="fs-1 text-center text-white">Servicios Ofrecidos</h3>
+            <div className="h-auto">
+                <div className="mb-8 mt-6">
+                    <div className="Category py-1 rounded-md shadow-md">
+                        <h3 className="text-center text-white text-2xl sm:text-3xl md:text-4xl">
+                            Servicios ofrecidos
+                        </h3>
+                    </div>
                 </div>
+                <ServiceCarousel />
             </div>
         </div>
     )

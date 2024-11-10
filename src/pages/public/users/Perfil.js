@@ -55,16 +55,6 @@ const Perfil = () => {
             }
         }
     }
-    const handleChangeImage = (e) => {
-        const file = e.target.files[0];
-        if (file && !['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) {
-            toast.current.show({ severity: 'info', summary: 'Tipo de Archivo', detail: 'Solo se permiten archivos con formato png, jpg y jpeg', life: 3000 });
-            return;
-        }
-        customBase64Uploader(file)
-        //setFormData(prevFormData => ({ ...prevFormData, image: file }));
-    }
-
     // Manejar cambios en los campos del formulario
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -146,7 +136,7 @@ const Perfil = () => {
                 });
             })
             .finally(() => {
-                setLoadingCamera(false); // Desactivar el estado de carga
+                setLoadingCamera(false);
             });
         } catch (error) {
             console.log('Error al subir la imagen, ', error)
@@ -212,7 +202,7 @@ const Perfil = () => {
                             name="image"
                             accept="image/*"
                             style={{ display: 'none' }}
-                            onChange={handleChangeImage}
+                            onChange={(e)=> customBase64Uploader(e.target.files[0])}
                         />
                     </div>
                     <div className='p-8 w-full'>

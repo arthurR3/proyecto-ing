@@ -7,7 +7,7 @@ import { useAuth } from '../../../Components/Context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import DomicilioUser from './Domicilio';
-
+import Avatar from  '../../../Image/avatar.png'
 const Perfil = () => {
     const URLConnection = ApiConnection();
 
@@ -186,7 +186,7 @@ const Perfil = () => {
                         </div>
                     )}
                     <div className='md:flex shrink-0 bg-purple-600 md:w-48 flex flex-col items-center justify-center p-6'>
-                        <img className='w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg' src={user.image} alt={user.name} />
+                        <img className='w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg' src={user.image || Avatar} alt={user.name} />
                         <h2 className='mt-4 text-xl font-semibold text-white'>{user.name} {user.last_name1}</h2>
                         <p className='mt-2 text-purple-200'>Cliente Frecuente</p>
                         {!cameraEnabled && (

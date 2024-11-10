@@ -7,6 +7,7 @@ import { useAuth } from '../Context/AuthContext.js';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import ApiConnection from '../Api/ApiConfig.js';
+import Avatar from '../../Image/avatar.png'
 const NavBar = () => {
   const URLConnetion = ApiConnection()
   const [customer, setCustomer] = useState(null);
@@ -144,7 +145,7 @@ const NavBar = () => {
                     className='flex items-center text-white focus:outline-none'
                   >
                     <img
-                      src={customer.image || 'URL_DE_IMAGEN_GENERICA'}
+                      src={customer.image || Avatar}
                       alt='Avatar'
                       className='w-8 h-8 rounded-full'
                     />

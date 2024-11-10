@@ -37,7 +37,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    if (!credentials.email.value || !credentials.password.value) {
+    if (!credentials.email.value || !credentials.password.value || !isRecaptcha) {
       setLoading(false);
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Completa todos los campos.', life: 3000 });
       return;

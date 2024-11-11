@@ -18,9 +18,9 @@ export async function requestNotificationPermission() {
   const permission = await Notification.requestPermission();
   if (permission === 'granted') {
     const existing = await checkSubscription()
-    if(existing){
+    if (existing) {
       console.log('El usuario ya esta suscrito')
-    }else{
+    } else {
       console.log('El usuario no esta suscrito')
       await subscribeUser();
     }
@@ -51,7 +51,7 @@ async function subscribeUser() {
     userVisibleOnly: true,
     applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
   });
-  await fetch("https://back-estetica-production-e475.up.railway.app/api/v1/subscription/create", {
+  await fetch("http://localhost:5000/api/v1/subscription/create", {
     method: "POST",
     body: JSON.stringify(subscription),
     headers: {
@@ -60,4 +60,51 @@ async function subscribeUser() {
   });
 
   console.log("Usuario suscrito exitosamente");
-}  
+}
+
+export async function subscribeLogin(id_user) {
+  const subscription = await checkSubscription()
+  if (subscription) {
+    await fetch("http://localhost:5000/api/v1/subscription/associate", {
+      method: "POST",
+      body: JSON.stringify({ id_user, subscription }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  } else {
+    const vapidPublicKey = 'BChSLck1h_Pd82I74efkU3B4Xw2C23q8a8JX7gIJ5zTF0HXnixM4X30qxSo_K8P3BevVvIv5GKCmtS2JafWAJzE'
+    const registration = await navigator.serviceWorker.ready;
+
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+    });
+    await fetch("http://localhost:5000/api/v1/subscription/associate", {
+      method: "POST",
+      body: JSON.stringify({ id_user, subscription }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+  }
+}
+
+export async function unsubscribeUser(id_user) {
+  const registration = await navigator.serviceWorker.ready;
+  const subscription = await registration.pushManager.getSubscription();
+  
+  if (subscription) {
+    // Notifica al backend para eliminar la suscripción del usuario
+    await fetch("http://localhost:5000/api/v1/subscription/delete", {
+      method: "POST",
+      body: JSON.stringify({ id_user}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    console.log("Suscripción eliminada en el servidor.");
+  } else {
+    console.log("No hay suscripción activa para eliminar.");
+  }
+}

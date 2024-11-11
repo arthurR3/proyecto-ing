@@ -52,8 +52,10 @@ const Login = () => {
           authToken(response.data.data);
           toast.current.show({ severity: 'success', summary: 'Inicio Exitoso!', detail: 'Bienvenido! Inicio correctamente', life: 2500 });
           setTimeout(() => navigate('/'), 3000);
+          setLoading(false);
         } else {
           toast.current.show({ severity: 'error', summary: 'Error', detail: 'Ingreso Fallido ' + response.data.message, life: 3000 });
+          setLoading(false);
         }
       })
       .catch(error => {

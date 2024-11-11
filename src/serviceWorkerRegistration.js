@@ -33,7 +33,7 @@ export function register(config) {
     });
   }
 }
- /*  export function register(config) {
+  /* export function register(config) {
     // Modificar aquí para permitir la registración en modo desarrollo también
     if ((process.env.NODE_ENV === 'production' || isLocalhost) && 'serviceWorker' in navigator) {
       const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -56,8 +56,8 @@ export function register(config) {
         }
       });
     }
-  } */
-  
+  }
+   */
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)

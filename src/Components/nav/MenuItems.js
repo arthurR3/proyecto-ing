@@ -79,7 +79,7 @@ export const AdminMenuItems = [
     },
     {
         title: 'Productos',
-        url: '/admin/admin/Productos-list',
+        url: '/admin/productos/lista',
         icons: <i className="fa-solid fa-box"></i>,
     },
     {
@@ -88,9 +88,8 @@ export const AdminMenuItems = [
         icons: <i className="fa-solid fa-hands-helping"></i>,
     },
     {
-        title: 'Ventas',
-        url: '/admin/admin/ventas-realizadas',
-        icons: <i className="fa-solid fa-sack-dollar"></i>,
+        title: 'Promociones',
+        url: '/admin/promociones',
     }
 ];
 

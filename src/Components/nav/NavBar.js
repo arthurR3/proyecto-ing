@@ -27,6 +27,7 @@ const NavBar = () => {
           const userId = decoded.user.idUser;
           const response = await axios.get(`${URLConnetion}/users/${userId}`);
           setCustomer(response.data);
+          //console.log(userId, customer.notification)
         }
       } catch (error) {
         console.error("Error fetching customer:", error);

@@ -171,7 +171,7 @@ const Perfil = () => {
     
                 // Realizar suscripción o desuscripción solo si es necesario
                 if (newStatus === true) {
-                    await subscribeLogin(userToken.idUser);
+                    await subscribeUser(userToken.idUser);
                 } else {
                     await unsubscribeUser(userToken.idUser);
                 }
@@ -196,6 +196,24 @@ const Perfil = () => {
         }
     };
     
+
+    async function subscribeUser(id_user) {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+          const subscription = await registration.pushManager.getSubscription();
+    
+          if (subscription) {
+            await axios.post(`${URLConnection}/subscription/associate`, {
+              subscription,
+              id_user,
+            });
+            console.log("Suscripción del usuario actualizada exitosamente");
+          }
+        } catch (error) {
+          console.error("Error al suscribir al usuario:", error);
+        } 
+      };
+
     return (
         <div className='min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 py-12 px-4 sm:px-6 lg:px-8'>
 

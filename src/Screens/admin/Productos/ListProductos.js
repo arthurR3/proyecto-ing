@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import ApiConnection from '../../../Componentes/Api/ApiConfig.js';
-import LoadingSpinner from '../../../Componentes/Loading/Loading.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ApiConnection from '../../../Components/Api/ApiConfig.js';
+import LoadingSpinner from '../../../Components/Loading/Loading.js';
 import axios from 'axios';
 import ProductForm from './FormProductos.js';
-import exportToExcel from '../../../Componentes/Export_reportes/Export_excel.js'
+import exportToExcel from '../../../Components/Export_reportes/Export_excel.js'
 const URLConnetion = ApiConnection();
+
 
 const ProductList = () => {
   const fileName = 'Productos';

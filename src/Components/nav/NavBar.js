@@ -7,6 +7,7 @@ import { useAuth } from '../Context/AuthContext.js';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import ApiConnection from '../Api/ApiConfig.js';
+import Avatar from '../../Image/avatar.png'
 const NavBar = () => {
   const URLConnetion = ApiConnection()
   const [customer, setCustomer] = useState(null);
@@ -26,6 +27,7 @@ const NavBar = () => {
           const userId = decoded.user.idUser;
           const response = await axios.get(`${URLConnetion}/users/${userId}`);
           setCustomer(response.data);
+          //console.log(userId, customer.notification)
         }
       } catch (error) {
         console.error("Error fetching customer:", error);
@@ -144,7 +146,7 @@ const NavBar = () => {
                     className='flex items-center text-white focus:outline-none'
                   >
                     <img
-                      src={customer.image || 'URL_DE_IMAGEN_GENERICA'}
+                      src={customer.image || Avatar}
                       alt='Avatar'
                       className='w-8 h-8 rounded-full'
                     />

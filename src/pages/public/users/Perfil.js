@@ -2,12 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 import { Button } from 'primereact/button';
+import { SelectButton } from 'primereact/selectbutton'
 import ApiConnection from '../../../Components/Api/ApiConfig';
 import { useAuth } from '../../../Components/Context/AuthContext';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import DomicilioUser from './Domicilio';
-
+import Avatar from '../../../Image/avatar.png'
+import { subscribeLogin, unsubscribeUser } from '../../../notification';
 const Perfil = () => {
     const URLConnection = ApiConnection();
 
@@ -26,7 +28,9 @@ const Perfil = () => {
     const [formType, setFormType] = useState('');
     const [cameraEnabled, setCameraEnabled] = useState(false);
     const [capturedImage, setCapturedImage] = useState(null);
-    const [loadingCamera, setLoadingCamera] = useState(false); // Estado de carga de la cámara
+    const [loadingCamera, setLoadingCamera] = useState(false);
+    const [enableNotification, setEnableNotification] = useState(null);
+    const options = ['Off', 'On'];
     useEffect(() => {
         if (token) {
             const decodeToken = jwtDecode(token)
@@ -49,22 +53,13 @@ const Perfil = () => {
                 const reponse2 = await axios.get(`${URLConnection}/address/${id_user}`)
                 setUser(response.data)
                 setUsuarioEditado(response.data)
+                setEnableNotification(response.data.notification)
                 setAddress(reponse2.data)
             } catch (error) {
                 console.log('Error getting user', error)
             }
         }
     }
-    const handleChangeImage = (e) => {
-        const file = e.target.files[0];
-        if (file && !['image/png', 'image/jpg', 'image/jpeg'].includes(file.type)) {
-            toast.current.show({ severity: 'info', summary: 'Tipo de Archivo', detail: 'Solo se permiten archivos con formato png, jpg y jpeg', life: 3000 });
-            return;
-        }
-        customBase64Uploader(file)
-        //setFormData(prevFormData => ({ ...prevFormData, image: file }));
-    }
-
     // Manejar cambios en los campos del formulario
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -123,35 +118,35 @@ const Perfil = () => {
         dataSend.append('image', file);
         try {
             setLoadingCamera(true)
-            axios.put(`${URLConnection}/users/${userToken.idUser}`, dataSend,{
+            axios.put(`${URLConnection}/users/${userToken.idUser}`, dataSend, {
                 headers: {
-                    'Content-Type':'multipart/form-data'
+                    'Content-Type': 'multipart/form-data'
                 }
             })
 
-            .then(response => {
-                if (response.status === 200) {
-                    toast.current.show({ severity: 'success', summary: 'Imagen subida', detail: 'La imagen se ha subido correctamente', life: 3000 });
-                    fetchUserInfo()
-                } else {
-                    toast.current.show({ severity: 'error', summary: 'Error al subir imagen', detail: 'Ha ocurrido un error al subir la imagen', life: 3000 });
-                }
-            }).catch(error => {
-                console.log('Error al subir la imagen: ', error);
-                toast.current.show({
-                    severity: 'error',
-                    summary: 'Error al subir imagen',
-                    detail: 'Hubo un problema al subir la imagen',
-                    life: 3000,
+                .then(response => {
+                    if (response.status === 200) {
+                        toast.current.show({ severity: 'success', summary: 'Imagen subida', detail: 'La imagen se ha subido correctamente', life: 3000 });
+                        fetchUserInfo()
+                    } else {
+                        toast.current.show({ severity: 'error', summary: 'Error al subir imagen', detail: 'Ha ocurrido un error al subir la imagen', life: 3000 });
+                    }
+                }).catch(error => {
+                    console.log('Error al subir la imagen: ', error);
+                    toast.current.show({
+                        severity: 'error',
+                        summary: 'Error al subir imagen',
+                        detail: 'Hubo un problema al subir la imagen',
+                        life: 3000,
+                    });
+                })
+                .finally(() => {
+                    setLoadingCamera(false);
                 });
-            })
-            .finally(() => {
-                setLoadingCamera(false); // Desactivar el estado de carga
-            });
         } catch (error) {
             console.log('Error al subir la imagen, ', error)
         }
-        
+
     };
 
     const handleSelection = (type) => {
@@ -162,13 +157,70 @@ const Perfil = () => {
         }
     }
 
+
+    const handleNotificationChange = async (e) => {
+        const newStatus = e.value === 'On' ? true : false;
+        
+        // Solo hacer la actualización si el estado realmente ha cambiado
+        if (newStatus !== enableNotification) {
+            try {
+                await axios.put(`${URLConnection}/users/${userToken.idUser}`, {
+                    notification: newStatus,
+                });
+                setEnableNotification(newStatus);
+    
+                // Realizar suscripción o desuscripción solo si es necesario
+                if (newStatus === true) {
+                    await subscribeUser(userToken.idUser);
+                } else {
+                    await unsubscribeUser(userToken.idUser);
+                }
+    
+                toast.current.show({
+                    severity: 'success',
+                    summary: 'Notificaciones actualizadas',
+                    detail: `Notificaciones ${newStatus ? 'activadas' : 'desactivadas'}`,
+                    life: 3000,
+                });
+            } catch (error) {
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'No se pudieron actualizar las notificaciones',
+                    life: 3000,
+                });
+            }
+        } else {
+            // Si el estado no ha cambiado, no hacer nada
+           return ;
+        }
+    };
+    
+
+    async function subscribeUser(id_user) {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+          const subscription = await registration.pushManager.getSubscription();
+    
+          if (subscription) {
+            await axios.post(`${URLConnection}/subscription/associate`, {
+              subscription,
+              id_user,
+            });
+            console.log("Suscripción del usuario actualizada exitosamente");
+          }
+        } catch (error) {
+          console.error("Error al suscribir al usuario:", error);
+        } 
+      };
+
     return (
         <div className='min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 py-12 px-4 sm:px-6 lg:px-8'>
-            
+
             <Toast ref={toast} />
             <div className='max-w-6xl mx-auto bg-white rounded-lg shadow-2xl overflow-hidden'>
                 <div className='md:flex'>
-                {loadingCamera &&(<><i className="fa-solid fa-spinner animate-spin text-green-600"></i> Cargando Imagen...</>)}
+                    {loadingCamera && (<><i className="fa-solid fa-spinner animate-spin text-green-600"></i> Cargando Imagen...</>)}
                     {cameraEnabled && (
                         <div>
                             <video className=' m-4 rounded-lg object-cover' ref={videoRef} autoPlay></video>
@@ -196,7 +248,7 @@ const Perfil = () => {
                         </div>
                     )}
                     <div className='md:flex shrink-0 bg-purple-600 md:w-48 flex flex-col items-center justify-center p-6'>
-                        <img className='w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg' src={user.image} alt={user.name} />
+                        <img className='w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg' src={user.image || Avatar} alt={user.name} />
                         <h2 className='mt-4 text-xl font-semibold text-white'>{user.name} {user.last_name1}</h2>
                         <p className='mt-2 text-purple-200'>Cliente Frecuente</p>
                         {!cameraEnabled && (
@@ -212,7 +264,7 @@ const Perfil = () => {
                             name="image"
                             accept="image/*"
                             style={{ display: 'none' }}
-                            onChange={handleChangeImage}
+                            onChange={(e) => customBase64Uploader(e.target.files[0])}
                         />
                     </div>
                     <div className='p-8 w-full'>
@@ -272,10 +324,15 @@ const Perfil = () => {
                             </div>
                         </div>
                         <div className='mt-8'>
+                        <div className="flex flex-col justify-center items-end">
+                        <h2 className='font-semibold'>Recibir Notificaciones</h2>
+                        <SelectButton value={enableNotification ? 'On' : 'Off'} onChange={handleNotificationChange} options={options} />
+                    </div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-4">Mis citas Proximas</h3>
                         </div>
                     </div>
                 </div>
+                
             </div>
             <div className='max-w-6xl mx-auto bg-white rounded-lg shadow-2xl overflow-hidden mt-4'>
 
@@ -285,10 +342,12 @@ const Perfil = () => {
                 )}
             </div>
             <ConfirmDialog group="declarative" visible={visible} onHide={() => setVisible(false)}
-                message="¿Deseas tomar una foto ó elegir una del dispositivo?"
+                message="Eliga como quiere cargar la imagen..."
                 header="Actualizar Foto Perfil" icon="pi pi-exclamation-triangle"
                 acceptLabel='Usar la Camara'
                 rejectLabel='Subir desde el dispositivo'
+                style={{ width: '50vw' }}
+                breakpoints={{ '1100px': '75vw', '960px': '100vw' }}
                 accept={() => handleSelection('camera')}
                 reject={() => handleSelection('uploadFile')}
             />

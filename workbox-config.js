@@ -33,7 +33,7 @@ module.exports = {
       },
       {
           urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/products/,
-          handler: 'NetworkFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
+          handler: 'CacheFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
           options: {
               cacheName: 'products',
               expiration: {
@@ -45,7 +45,7 @@ module.exports = {
       },
       {
           urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/services/,
-          handler: 'NetworkFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
+          handler: 'CacheFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
           options: {
               cacheName: 'services',
               expiration: {
@@ -57,7 +57,7 @@ module.exports = {
       },
       {
           urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/users\/\d+/,
-          handler: 'NetworkFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
+          handler: 'CacheFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
           options: {
               cacheName: 'user-detail',
               expiration: {
@@ -69,7 +69,7 @@ module.exports = {
       },
       {
         urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/dates\/\d+/,
-        handler: 'NetworkFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
+        handler: 'CacheFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
         options: {
             cacheName: 'dates-user',
             expiration: {
@@ -81,7 +81,7 @@ module.exports = {
     },
     {
         urlPattern: /https:\/\/back-estetica-production-e475\.up\.railway\.app\/api\/v1\/sales\/\d+/,
-        handler: 'NetworkFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
+        handler: 'CacheFirst', // Cambia esto a CacheFirst si quieres acceso offline más confiable
         options: {
             cacheName: 'sales-user',
             expiration: {

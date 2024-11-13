@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ApiConnection from '../../../Componentes/Api/ApiConfig.js';
+import ApiConnection from '../../../Components/Api/ApiConfig.js';
 import { toast } from 'react-toastify';
 const URLConnetion = ApiConnection();
 
@@ -195,6 +195,7 @@ const ProductForm = ({ product, onSave, onCancel }) => {
                                         type="file"
                                         className="form-control"
                                         name="image"
+                                        accept="image/*"
                                         onChange={handleChangeImage}
                                     />
                                 </div>

@@ -13,22 +13,20 @@ function urlBase64ToUint8Array(base64String) {
 
   return uint8Array;
 }
-
 export async function requestNotificationPermission() {
   const permission = await Notification.requestPermission();
   if (permission === 'granted') {
-    const existing = await checkSubscription()
-    if(existing){
+  const existing = await checkSubscription()
+  if(existing){
       console.log('El usuario ya esta suscrito')
-    }else{
+  }else{
       console.log('El usuario no esta suscrito')
       await subscribeUser();
-    }
+  }
   } else {
-    console.log('Permiso de notificación denegado');
+  console.log('Permiso de notificación denegado');
   }
 }
-
 
 const checkSubscription = async () => {
   const registration = await navigator.serviceWorker.ready;
@@ -52,6 +50,7 @@ async function subscribeUser() {
     applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
   });
   await fetch("https://back-estetica-production-e475.up.railway.app/api/v1/subscription/create", {
+ //await fetch("http://localhost:5000/api/v1/subscription/create", {
     method: "POST",
     body: JSON.stringify(subscription),
     headers: {
@@ -60,4 +59,27 @@ async function subscribeUser() {
   });
 
   console.log("Usuario suscrito exitosamente");
-}  
+}
+
+
+
+
+export async function unsubscribeUser(id_user) {
+  const registration = await navigator.serviceWorker.ready;
+  const subscription = await registration.pushManager.getSubscription();
+  
+  if (subscription) {
+    // Notifica al backend para eliminar la suscripción del usuario
+    //await fetch("http://localhost:5000/api/v1/subscription/delete", {
+    await fetch("https://back-estetica-production-e475.up.railway.app/api/v1/subscription/delete", {
+      method: "POST",
+      body: JSON.stringify({ id_user}),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    console.log("Suscripción eliminada en el servidor.");
+  } else {
+    console.log("No hay suscripción activa para eliminar.");
+  }
+}

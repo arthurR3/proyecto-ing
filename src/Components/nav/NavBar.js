@@ -1,5 +1,5 @@
 import { MenuItems, MenuItemsPrivate, AdminMenuItemsPrivate } from './MenuItems.js';
-import '../../css/NavBar.css';
+import '../../CSS/NavBar.css';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -17,7 +17,6 @@ const NavBar = () => {
   const dropdownRef = useRef(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
 
   useEffect(() => {
     const fetchCustomer = async () => {

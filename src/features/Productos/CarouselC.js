@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import '../../css/Carrusel.css'
+import '../../CSS/Carrusel.css'
 import ProductCard from '../../Components/ProductsCard.js';
 import LoadingSpinner from '../../Components/Loading/Loading.js';
 import axios from 'axios';

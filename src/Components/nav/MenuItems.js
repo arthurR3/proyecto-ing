@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import '../../css/NavBar.css'
+import '../../CSS/NavBar.css'
 
 export const MenuItems = [
     {

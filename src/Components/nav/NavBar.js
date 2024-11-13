@@ -1,5 +1,5 @@
 import { MenuItems, MenuItemsPrivate, AdminMenuItemsPrivate } from './MenuItems.js';
-import '../../css/NavBar.css';
+import '../../CSS/NavBar.css';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';

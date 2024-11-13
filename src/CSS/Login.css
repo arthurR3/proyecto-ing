@@ -1,0 +1,94 @@
+.wrapper {
+    margin-top:15vh;
+    margin-bottom: 10vh;
+    background-color: #f4f4f4;
+    border-radius: 20px;
+    box-shadow:black;
+    color: blueviolet;
+
+    
+}
+.login{
+    width: 80vh;
+    margin-bottom: 10vh;
+    margin-top: 15vh;
+    border-radius: 5px;
+    color: blueviolet;
+    background-color: #ffff;
+    padding: 30px;
+    box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75);
+    border-radius:8px ;
+}
+.record{
+    width: 110vh;
+    height: min-content;
+    border-radius: 5px;
+    background-color: #ffff;
+    padding: 30px;
+    box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75);
+    border-radius:8px ;}
+/* Agrega estas reglas a tu archivo de estilos CSS */
+.password-strength {
+    position: relative;
+  }
+  
+  .password-strength::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease-in-out;
+  }
+  .password-requirements {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px; /* Ajusta el tamaño del texto según sea necesario */
+  }
+  
+  .password-requirements p {
+    margin: 0; /* Elimina el margen predeterminado de los párrafos */
+  }
+  
+  .password-requirements .valid {
+    color: green; /* Color verde para los elementos válidos */
+  }
+  
+  .password-requirements .invalid {
+    color: red; /* Color rojo para los elementos no válidos */
+  }
+  .password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.formulario{
+  justify-content: center;
+  width: 80vh;
+  margin-bottom: 10vh;
+  margin-top: 15vh;
+  border-radius: 5px;
+  color: blueviolet;
+  padding: 30px;
+  border-radius:8px ;
+}
+.formulario input{
+  font-size: 18px;
+  width: 90%;
+}
+.btn-custom-success {
+  background-color: #28a745 !important; /* Un verde más fuerte */
+  border-color: #28a745 !important;
+  color: white !important;
+}
+
+.btn-custom-secondary {
+  background-color: #6c757d !important; /* Un gris más fuerte */
+  border-color: #6c757d !important;
+  color: white !important;
+}

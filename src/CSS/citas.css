@@ -1,0 +1,43 @@
+.citas-container {
+  margin-top: 15vh;
+  height: 600px;
+  /* Ajusta este valor según sea necesario */
+  background-color: #fff;
+  justify-content: center;
+  align-self: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.img-cita {
+  height: 500px;
+  width: 500px;
+  margin-left: 40px;
+  border-radius: 20px;
+  box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75);
+  border-radius: 8px;
+
+}
+
+.formulario-cita {
+  box-shadow: -9px 8px 35px -12px rgba(0, 0, 0, 0.75);
+  border-radius: 8px;
+  color: blueviolet;
+}
+
+.modal-open {
+  position: fixed;
+  /* Fija el formulario en la pantalla */
+
+  z-index: 1000;
+  /* Asegura que el formulario esté por encima del resto del contenido */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra suave para el formulario */
+} 
+
+/* SERVICIOS CSS */
+.title{
+  justify-content: center;
+  color: rgb(68, 15, 117);
+  font-weight: 700;
+}

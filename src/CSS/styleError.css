@@ -1,0 +1,16 @@
+/* Estilos CSS */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f8f9fa; /* Color de fondo opcional */
+}
+
+.error-image {
+  width: 100%;
+  height: auto;
+  max-width: 500px; /* Tamaño máximo de la imagen */
+  margin-bottom: 20px;
+}

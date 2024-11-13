@@ -18,7 +18,6 @@ const NavBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-
   useEffect(() => {
     const fetchCustomer = async () => {
       try {

@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../../css/config.css'
 function Terminos() {
     return (
         <div className='container'>

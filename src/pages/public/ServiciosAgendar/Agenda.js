@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import '../../../css/agenda_cart.css'
 import LoadingSpinner from '../../../Components/Loading/Loading.js';
 import { parseDuration } from '../../../Components/Servicios/format_utilsTime.js';
 import { fetchBookedSlots, fethService, generateTimes } from '../../../Components/Servicios/ServiciosTime.js';

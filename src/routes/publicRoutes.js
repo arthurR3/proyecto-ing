@@ -4,6 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import PublicLayout from "../layouts/PublicLayout";
 import ProtectedLayout from "../layouts/ProtectedLayout.js";
 
+const Encuesta = lazy(() => import('../features/Encuesta/Encuesta.js'))
+
 const Home = lazy(() => import('../pages/public/Home'))
 const CatalogoProductos = lazy(() => import('../pages/public/Products.js'))
 const CatalogoServicios = lazy(() => import('../pages/public/Servicios.js'))
@@ -29,6 +31,7 @@ const PublicRoutes = () =>(
     <Suspense fallback={<LoadingSpinner/>}>
         <Routes>
             <Route path="/" element={<PublicLayout><Home/></PublicLayout>}/>
+            <Route path = '/encuesta' element={<PublicLayout><Encuesta/></PublicLayout>}/>
             <Route path="/productos" element={<PublicLayout><CatalogoProductos/></PublicLayout>}/>
             <Route path="/servicios" element={<PublicLayout><CatalogoServicios/></PublicLayout>}/>
             <Route path="/servicios-agendar" element={<PublicLayout><AgendarCita/></PublicLayout>}/>

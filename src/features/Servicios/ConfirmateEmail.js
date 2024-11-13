@@ -6,8 +6,6 @@ import { Link, useNavigate } from 'react-router-dom';
 const URLConnection = ApiConnection();
 
 const ConfirmateEmail = ({ data, verification, metodo, resendVerification, onBack }) => {
-    console.log(metodo)
-    console.log(data)
     const [verificationCode, setVerificationCode] = useState(['', '', '', '', ''])
     const navigation = useNavigate()
     const [error, setError] = useState(null)

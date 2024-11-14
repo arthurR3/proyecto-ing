@@ -1,6 +1,6 @@
 // src/components/LoadingSpinner.js
 import React from 'react';
-
+import '../../CSS/LoadingSpinner.css'
 const LoadingSpinner = () => {
   return (
     <div className="h-screen bg-white">

@@ -8,6 +8,7 @@
     margin: 5px; /* Ajusta el tamaño según sea necesario */
   }
   
+  
   .slick-prev, .slick-next {
     z-index: 2; /* Asegura que las flechas estén por encima del contenido */
   }

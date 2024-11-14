@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# Estética Principal - Aplicación Web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Descripción del Proyecto
+La aplicación web de la **"Estética Principal"** permite a los usuarios comprar productos de belleza y agendar citas para servicios estéticos de manera rápida y eficiente. La plataforma está diseñada para mejorar la experiencia de los clientes mediante una interfaz amigable y un flujo de navegación sencillo. El proyecto incluye funcionalidades como registro de usuario, inicio de sesión, carrito de compras, historial de compras, agendamiento de citas, y perfil de usuario.
 
-## Available Scripts
+## Objetivos
+- **Facilitar la compra de productos de belleza:** A través de un catálogo online, los usuarios pueden explorar y comprar productos con facilidad.
+- **Agendar citas para servicios estéticos:** Los clientes pueden programar y gestionar sus citas directamente desde la plataforma.
+- **Optimizar la gestión de usuarios:** La aplicación incluye funcionalidades de inicio de sesión, registro, recuperación de contraseña y gestión del perfil.
+- **Mejorar la eficiencia en la administración de la estética:** La plataforma integra un sistema de administración de citas y compras para los dueños del negocio.
 
-In the project directory, you can run:
+## Metodología de Trabajo
+Se utiliza la metodología ágil **Scrum**, que permite realizar entregas incrementales y una retroalimentación constante para garantizar el progreso continuo del proyecto. Cada sprint tiene una duración de dos semanas y está enfocado en entregar funcionalidades clave.
 
-### `npm start`
+## Control de Versiones
+El proyecto utiliza Git como herramienta de control de versiones, alojado en **GitHub**. El flujo de trabajo está basado en la estrategia **Git Flow**, que permite una estructura clara y organizada de las ramas para el desarrollo y la implementación del proyecto.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Flujo de Trabajo
+1.- La rama principal del repositorio es `main`, que contiene el código listo para producción.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2.- La rama `develop` se utiliza para la integración de nuevas funcionalidades.
 
-### `npm test`
+3.- Cada nueva característica o corrección de error se desarrolla en una rama feature separada. Una vez completada, la rama feature se fusiona en `develop`.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4.- Al finalizar cada sprint, el código de `develop` se fusiona con `main`, y se realiza una nueva versión de la aplicación.
 
-### `npm run build`
+## Estrategia de Versionamiento
+El proyecto sigue la estrategia de **Git Flow**, que organiza el ciclo de vida de las ramas de la siguiente manera:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Rama** `main`: Contiene el código que está listo para ser desplegado en producción.
+- **Rama** `develop`: Es la rama donde se integran todas las nuevas funcionalidades antes de fusionarlas en `main`.
+- **Feature** `branches`: Cada nueva funcionalidad se desarrolla en su propia rama a partir de `develop` y se fusiona en `develop` tras la revisión y pruebas.
+- **Hotfix** `branches`: En caso de errores críticos en producción, se crean ramas temporales a partir de `main` para realizar correcciones rápidas.
+Esta estructura asegura que el desarrollo sea seguro y que el código en `main` siempre esté listo para su despliegue.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Estrategia de Despliegue
+El proyecto utiliza la estrategia de despliegue **Rolling (Progresivo)**, lo que nos permite lanzar la aplicación de forma gradual. Esto nos ayuda a monitorear el comportamiento de la aplicación en un pequeño porcentaje de usuarios antes de liberar la versión final para todos.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Entornos de Despliegue
+- **Desarrollo:** Ambiente local para pruebas y desarrollo continuo.
+- **Staging:** Un entorno de pruebas que emula el ambiente de producción. Aquí se realizan pruebas exhaustivas antes del despliegue.
+- **Producción:** La versión estable y final de la aplicación que es accesible por los usuarios.
 
-### `npm run eject`
+## CI/CD (Integración Continua/Despliegue Continuo)
+El proyecto utiliza **GitHub Actions** para automatizar los flujos de trabajo de CI/CD:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1.- Cuando el código se fusiona en `develop`, se ejecutan pruebas automáticas.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2.- Si las pruebas son exitosas, el código se despliega en el entorno de **staging**.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3.- Después de la aprobación en **staging**, el código se despliega en producción.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Instrucciones para Clonar el Repositorio e Instalar Dependencias
+Sigue los siguientes pasos para clonar el proyecto, instalar las dependencias y ejecutar la aplicación en tu entorno local.
 
-## Learn More
+## Clonar el Repositorio
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+git clone https://github.com/arthurR3/proyecto-ing.git
+cd proyecto-ing
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Instalar Dependencias
+Utiliza **npm** para instalar todas las dependencias necesarias:
 
-### Code Splitting
+`npm install`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Ejecutar el Proyecto en Desarrollo
+Para ejecutar la aplicación en modo desarrollo, utiliza el siguiente comando:
 
-### Analyzing the Bundle Size
+`npm start`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Compilar el Proyecto para Producción
+Para crear una versión optimizada de la aplicación lista para producción, utiliza:
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+`npm run build`

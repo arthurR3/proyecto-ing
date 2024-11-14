@@ -7,7 +7,8 @@ import { useAuth } from './Context/AuthContext';
 import { CartContext } from './Context/CarritoContext';
 
 const ProductCard = ({ product, showAditional = false }) => {
-  const [quantity, setQuantity] = useState(1);
+  const [quantity] = useState(1)
+  //const quantity = 1;
    const toast = useRef(null)
   const context = useContext(CartContext);
 
@@ -29,7 +30,7 @@ const ProductCard = ({ product, showAditional = false }) => {
     <div className="w-full max-w-sm overflow-hidden rounded-lg border-2 border-slate-200 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
     <img
         src={product.image}
-        /* alt={product.name} */
+        alt={product.name}
         className="w-32 h-32 object-cover"
         style={{ aspectRatio: "500/400", objectFit: "cover" }}
       />

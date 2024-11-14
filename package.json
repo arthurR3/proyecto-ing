@@ -44,7 +44,7 @@
     "homepage": ".",
     "scripts": {
         "start": "react-scripts start",
-        "build": "DISABLE_ESLINT=true react-scripts build && workbox generateSW workbox-config.js",
+        "build": "CI=false react-scripts build && workbox generateSW workbox-config.js",
         "precache": "npm run build && npm run precache",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
@@ -62,7 +62,7 @@
                 "warn"
             ],
             "react/prop-types": [
-                "warn"
+                "off"
             ]
         }
     },

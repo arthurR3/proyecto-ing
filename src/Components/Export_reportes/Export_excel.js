@@ -1,4 +1,3 @@
-import React from 'react'
 import * as FileSaver from 'file-saver';
 import XLSX from 'sheetjs-style';
 import { toast } from 'react-toastify';

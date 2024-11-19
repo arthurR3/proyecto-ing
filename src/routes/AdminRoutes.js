@@ -9,6 +9,8 @@ const AdminHome = lazy(() => import('../Screens/admin/DashboardAdmin.js'))
 const Promociones = lazy(() => import('../Screens/admin/Promociones/PromotionList.js'))
 const AddPromociones = lazy(() => import('../Screens/admin/Promociones/Promociones.js'))
 const ProductsList = lazy(() => import('../Screens/admin/Productos/ListProductos.js'))
+const Encuesta = lazy(() => import('../Screens/admin/Encuesta/encuesta.js'))
+
 const PrivateRoute = ({ children }) => {
     const { token } = useAdminAuth();
     return token ? children : <Navigate to="/admin" />;
@@ -38,6 +40,11 @@ const AdminRoutes = () => (
                 <Route path="/productos/lista" element={
                     <PrivateRoute>
                         <PrivateLayout><ProductsList /></PrivateLayout>
+                    </PrivateRoute>
+                } />
+                <Route path="/feedback" element={
+                    <PrivateRoute>
+                        <PrivateLayout><Encuesta /></PrivateLayout>
                     </PrivateRoute>
                 } />
             </Routes>

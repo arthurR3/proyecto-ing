@@ -112,9 +112,9 @@ function Agenda() {
                 ))}
               </div>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow">
+            <div className="bg-white p-6 rounded-lg  shadow">
               <h3 className="text-xl font-semibold text-gray-800">Elegir fecha:</h3>
-              <div className="mt-4">
+              <div className="mt-4 ">
                 <DatePicker
                   id="fecha"
                   selected={selectedDate}
@@ -122,7 +122,9 @@ function Agenda() {
                   minDate={new Date()}
                   showDisabledMonthNavigation
                   dateFormat="dd/MM/yyyy"
-                  filterDate={isWorkDay} // Aquí aplicas el filtro para deshabilitar
+                  filterDate={isWorkDay} 
+                  className="w-full p-2 rounded-md border border-gray-300" // Añadir estilos al input
+                  // Aquí aplicas el filtro para deshabilitar
                 />
               </div>
             </div>

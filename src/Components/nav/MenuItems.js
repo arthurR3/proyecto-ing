@@ -88,8 +88,8 @@ export const AdminMenuItems = [
         icons: <i className="fa-solid fa-hands-helping"></i>,
     },
     {
-        title: 'Promociones',
-        url: '/admin/promociones',
+        title: 'FeedBack',
+        url: '/admin/feedback',
     }
 ];
 

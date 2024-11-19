@@ -394,7 +394,7 @@ function ServicesPay({ onBack, data }) {
                                     />
                                     <label htmlFor='pay-full'>Pagar al Momento</label>
                                 </div>
-                                <div className='flex items-center'>
+                               {/*  <div className='flex items-center'>
                                     <input
                                         type='radio'
                                         id='pay-deposit'
@@ -405,7 +405,7 @@ function ServicesPay({ onBack, data }) {
                                         className='mr-2'
                                     />
                                     <label htmlFor='pay-deposit'>Realizar anticipo del 50%</label>
-                                </div>
+                                </div> */}
 
                                 <button
                                     className='bg-green-600 hover:bg-green-600/90 text-white text-sm rounded p-3'
@@ -418,7 +418,7 @@ function ServicesPay({ onBack, data }) {
                     </div>
                 </div>
             </div>
-            {showVerification && <ConfirmateEmail data={info} verification={verifcationState} metodo={paymentOption}  resendVerification={handleSubmit} onBack={() => setShowVerification(false)}/>}
+            {showVerification && <ConfirmateEmail data={info} idUser={userToken.idUser} verification={verifcationState} metodo={paymentOption}  resendVerification={handleSubmit} onBack={() => setShowVerification(false)}/>}
         </div>
     );
 }

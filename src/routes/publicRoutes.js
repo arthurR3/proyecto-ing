@@ -31,8 +31,8 @@ const PublicRoutes = () =>(
     <Suspense fallback={<LoadingSpinner/>}>
         <Routes>
             <Route path="/" element={<PublicLayout><Home/></PublicLayout>}/>
-            <Route path = '/encuesta' element={<PublicLayout><Encuesta/></PublicLayout>}/>
             <Route path="/productos" element={<PublicLayout><CatalogoProductos/></PublicLayout>}/>
+            <Route path="/encuesta" element={<PublicLayout><Encuesta/></PublicLayout>}/>
             <Route path="/servicios" element={<PublicLayout><CatalogoServicios/></PublicLayout>}/>
             <Route path="/servicios-agendar" element={<PublicLayout><AgendarCita/></PublicLayout>}/>
             <Route path="/login" element={<PublicLayout><Login/></PublicLayout>}/>

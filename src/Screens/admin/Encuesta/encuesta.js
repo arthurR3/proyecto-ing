@@ -98,14 +98,14 @@ const DashboardEncuestas = () => {
       </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
             <div className="bg-white p-4 rounded shadow">
-                <h3 className="text-lg font-bold text-gray-700 mb-4">¿Qué tan fácil te resultó seleccionar el servicio?</h3>
+                <h3 className="text-lg font-bold text-gray-700 mb-4">¿Qué tan fácil y claro te resultó seleccionar el servicio y elegir el horario para tu cita?</h3>
                 <div style={{ width: "300px", height: "300px", margin: "0 auto" }}>
                     <Pie data={createChartData(question1Data, "Claridad del proceso")} options={chartOptions} />
                 </div>
             </div>
 
             <div className="bg-white p-4 rounded shadow">
-                <h3 className="text-lg font-bold text-gray-700 mb-4">¿Qué tan claro y fácil te resultó elegir el horario para tu cita?</h3>
+                <h3 className="text-lg font-bold text-gray-700 mb-4">¿Qué tan útiles y claras fueron las notificaciones enviadas durante el proceso de reserva?</h3>
                 <div style={{ width: "300px", height: "300px", margin: "0 auto" }}>
 
                     <Pie data={createChartData(question2Data, "Confirmación rápida")} options={chartOptions} />

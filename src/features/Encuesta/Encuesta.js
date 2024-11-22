@@ -53,12 +53,12 @@ const Encuesta = ({ id_user, onComplete }) => {
                 </p>
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <h3 className="text-md font-semibold">
-                        ¿Qué tan fácil te resultó seleccionar el servicio?
+                    ¿Qué tan fácil y claro te resultó seleccionar el servicio y elegir el horario para tu cita?
                     </h3>
                     <div className="flex justify-center">
                         <Rating value={value} onChange={(e) => setValue(e.value)} cancel={false} style={{ gap: 20 }} />
                     </div>
-                    <h3 className="text-md font-semibold">¿Qué tan claro y fácil te resultó elegir el horario para tu cita??</h3>
+                    <h3 className="text-md font-semibold">¿Qué tan útiles y claras fueron las notificaciones enviadas durante el proceso de reserva?</h3>
                     <div className="flex justify-center">
                         <Rating value={value2} onChange={(e) => setValue2(e.value)} cancel={false} style={{ gap: 20 }} />
                     </div>

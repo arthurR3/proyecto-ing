@@ -15,7 +15,7 @@ import * as notification from './notification.js';
 // Condicional para importar Analytics si está en Vercel
 let AnalyticsComponent = () => null;
 if (process.env.VERCEL) {
-  const { Analytics } = require("@vercel/analytics/react");
+  import { Analytics } from "@vercel/analytics/react"
   AnalyticsComponent = Analytics;
 }
 

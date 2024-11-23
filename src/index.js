@@ -16,7 +16,7 @@ import { Analytics } from "@vercel/analytics/react"
 // Condicional para importar Analytics si está en Vercel
 let AnalyticsComponent = () => null;
 if (process.env.VERCEL) {
-    AnalyticsComponent = Analytics;
+  AnalyticsComponent = Analytics;
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

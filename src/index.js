@@ -12,6 +12,7 @@ import CarritoContext from './Components/Context/CarritoContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration.js';
 import * as notification from './notification.js';
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -22,6 +23,7 @@ root.render(
         <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
           <App />
           <Analytics /> {/* Solo se renderiza en Vercel */}
+          <SpeedInsights />
         </PrimeReactProvider>
       </CarritoContext>
     </AuthProvider>

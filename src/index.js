@@ -13,7 +13,6 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration.js';
 import * as notification from './notification.js';
 import { Analytics } from "@vercel/analytics/react"
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(

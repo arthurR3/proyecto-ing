@@ -13,12 +13,6 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration.js';
 import * as notification from './notification.js';
 import { Analytics } from "@vercel/analytics/react"
 
-// Condicional para importar Analytics si está en Vercel
-let AnalyticsComponent = () => null;
-if (process.env.VERCEL) {
-  AnalyticsComponent = Analytics;
-}
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
@@ -27,7 +21,7 @@ root.render(
       <CarritoContext>
         <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
           <App />
-          <AnalyticsComponent /> {/* Solo se renderiza en Vercel */}
+          <Analytics /> {/* Solo se renderiza en Vercel */}
         </PrimeReactProvider>
       </CarritoContext>
     </AuthProvider>

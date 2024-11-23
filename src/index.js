@@ -11,12 +11,12 @@ import { AdminAuthProvider } from './Components/Context/AdminAuthContext';
 import CarritoContext from './Components/Context/CarritoContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration.js';
 import * as notification from './notification.js';
+import { Analytics } from "@vercel/analytics/react"
 
 // Condicional para importar Analytics si está en Vercel
 let AnalyticsComponent = () => null;
 if (process.env.VERCEL) {
-  const { Analytics } = require("@vercel/analytics/react");
-  AnalyticsComponent = Analytics;
+    AnalyticsComponent = Analytics;
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

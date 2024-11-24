@@ -8,6 +8,7 @@ import useLoginForm from '../../../hooks/useLoginForm.js'
 import { useAuth } from '../../../Components/Context/AuthContext.js';
 import ForgetedPass from '../../../features/Login/ForgetPassword.js';
 import { jwtDecode } from 'jwt-decode';
+import Encuesta from '../../../features/Encuesta/Encuesta.js';
 const URLConnection = ApiConnection();
 
 const Login = () => {
@@ -18,7 +19,8 @@ const Login = () => {
   const [isRecaptcha, setRecaptcha] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [showSurveyModal, setShowSurveyModal] = useState(false);
+  const [customerId, setCustomerId] = useState(null);
   const initialState = {
     email: { value: '', hasError: false },
     password: { value: '', hasError: false },
@@ -34,6 +36,13 @@ const Login = () => {
       isMounted.current = false;
     };
   }, []);
+
+  const handleSurveyComplete = () => {
+    setShowSurveyModal(false);
+    toast.current.show({ severity: 'success', summary: 'Encuesta contestada!', detail: 'Gracias por su participación!', life: 2500 });
+    setTimeout(() => navigate('/'), 1000);
+
+  };
 
 
   const handleSubmit = async (e) => {
@@ -58,8 +67,12 @@ const Login = () => {
         const decodedToken = jwtDecode(response.data.data);
     
         // Asegúrate de que `id` existe en `decodedToken`
-        const customerId = decodedToken.user.idUser;
-    
+        const customer_id = decodedToken.user.idUser;
+        const showSurvey = decodedToken.user.showSurvey
+        if(showSurvey){
+          setShowSurveyModal(true);
+          setCustomerId(customer_id);
+        }
         if (customerId) {
           await subscribeUser(customerId);
         } else {
@@ -67,7 +80,9 @@ const Login = () => {
         }
     
         toast.current.show({ severity: 'success', summary: 'Inicio Exitoso!', detail: 'Bienvenido! Inicio correctamente', life: 2500 });
-        setTimeout(() => navigate('/'), 3000);
+        if(!showSurvey){
+          setTimeout(() => navigate('/'), 3000);
+        }
       } else {
         toast.current.show({ severity: 'error', summary: 'Error', detail: 'Ingreso Fallido ' + response.data.message, life: 3000 });
       }
@@ -116,7 +131,7 @@ const Login = () => {
 
   };
   return (
-    <div>
+    <>
       <div className=' flex flex-col h-auto'>
         <div className='flex items-center justify-center w-full mt-4'>
           <Toast ref={toast} />
@@ -214,7 +229,10 @@ const Login = () => {
           {isModalOpen && <ForgetedPass onClose={() => setIsModalOpen(false)} />}
         </div>
       </div>
-    </div>
+      {showSurveyModal && (
+        <Encuesta id_user={customerId} onComplete={handleSurveyComplete} />
+      )}
+    </>
   );
 };
 

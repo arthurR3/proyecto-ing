@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ApiConnection from '../../Components/Api/ApiConfig.js'
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,12 +9,28 @@ const URLConnection = ApiConnection();
 const ConfirmateEmail = ({ data, idUser, verification, metodo, resendVerification, onBack }) => {
     const [verificationCode, setVerificationCode] = useState(['', '', '', '', ''])
     const navigation = useNavigate()
-    console.log(idUser)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const [isRegistering, setIsRegistering] = useState(false) // Estado para el proceso de registro
     const [registerError, setRegisterError] = useState(null);
     const [showSurvey, setShowSurvey] = useState(false);
+    const [completeSurvey, setCompleteSurvey] = useState(false);
+
+    useEffect(() =>{
+        const checkStatus = async () =>{
+            try {
+                const response = await axios.get(`${URLConnection}/survey/${idUser}`)
+                if(response.data.success && response.data.data.length === 0){
+                    setCompleteSurvey(false)
+                }else{
+                    setCompleteSurvey(true)
+                }
+            } catch (error) {
+                console.log('Error al obtener el estado de la encuesta', error)
+            }
+        };
+        checkStatus();
+    },[idUser])
 
     const handleCodeChange = (index, value) => {
         const newCode = [...verificationCode]
@@ -47,8 +63,13 @@ const ConfirmateEmail = ({ data, idUser, verification, metodo, resendVerificatio
                 if (response.status) {
                     verification({ status: true, message: 'Cita registrada con éxito' })
                     setTimeout(() => {
-                        setShowSurvey(true);
-                        setIsRegistering(false);
+                        if(!completeSurvey){
+                            setShowSurvey(true);
+                            setIsRegistering(false);
+                        }else{
+                            setIsRegistering(false)
+                            navigation(-2)
+                        } 
                     }, 1000)
 
                 } else {

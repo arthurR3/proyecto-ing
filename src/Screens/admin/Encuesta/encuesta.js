@@ -12,6 +12,7 @@ const URLConnection = ApiConnection();
 
 const DashboardEncuestas = () => {
     const [surveyData, setSurveyData] = useState([]);
+    const [totales, setTotales] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -19,8 +20,10 @@ const DashboardEncuestas = () => {
         const fetchSurveyData = async () => {
             try {
                 const response = await axios.get(`${URLConnection}/survey/`);
+                const response2 = await axios.get(`${URLConnection}/survey/total/survey`)
                 console.log("Datos recibidos:", response.data);
                 setSurveyData(response.data.data || []);
+                setTotales(response2.data.data || 0);
                 setLoading(false);
             } catch (err) {
                 console.error("Error al cargar los datos de la encuesta:", err);
@@ -91,8 +94,9 @@ const DashboardEncuestas = () => {
             <i className="fa-solid fa-user-tie"></i>
           </div>
           <div>
-            <span className="block text-xl font-bold">Evaluación del proceso</span>
-            <span className="block text-gray-500">Para Reservar citas</span>
+            <span className="block text-2xl font-bold">Evaluación del proceso</span>
+            <span className="block text-xl text-gray-500">Para Reservar citas</span>
+            <span className="block font-bold text-sm">No. usuarios:</span><span className="">{totales} usuarios han realizado la encuesta</span>
           </div>
         </div>
       </div>

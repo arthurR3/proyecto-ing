@@ -1,10 +1,14 @@
 name: Run Jest Tests
 
+# Disparadores para el workflow
 on:
-  pull_request:
   push:
     branches:
-      - main
+      - '*'    # Ejecutar las pruebas en cualquier rama en cada push
+  pull_request:
+    branches:
+      - master   # Ejecutar las pruebas antes de fusionar a master
+
 
 permissions: write-all
 

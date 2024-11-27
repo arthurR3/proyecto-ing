@@ -10,14 +10,14 @@ const ProductCard = ({ product, showAditional = false }) => {
   const [quantity] = useState(1)
   //const quantity = 1;
    const toast = useRef(null)
-  const context = useContext(CartContext);
+/*   const context = useContext(CartContext);
 
   const { addToCart } = context;
-  const { token } = useAuth();
+  const { token } = useAuth(); */
   const handleToCart = (product) =>{
     console.log(product)
-    if(token){
-        addToCart(product, quantity)
+    if(null){
+        //addToCart(product, quantity)
         toast.current.show({ severity: 'success', summary: 'Producto en Carrito', detail: 'Se agrego correctamente al carrito', life: 3000 });
     }else{
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Necesitas iniciar sesión.', life: 3000 });

@@ -10,10 +10,10 @@ const ProductCard = ({ product, showAditional = false }) => {
   const [quantity] = useState(1)
   //const quantity = 1;
    const toast = useRef(null)
-  const context = useContext(CartContext);
+/*   const context = useContext(CartContext);
 
   const { addToCart } = context;
-  const { token } = useAuth();
+  const { token } = useAuth(); */
   const handleToCart = (product) =>{
     console.log(product)
     if(token){

@@ -128,6 +128,6 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel
       - name: Deploy to Production Vercel
-      run: |
-        echo "Desplegando aplicación a producción..."
-        npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          echo "Desplegando aplicación a producción..."
+          npx vercel --prod --token ${{ secrets.TOKEN_VERCEL }}
